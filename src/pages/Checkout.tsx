@@ -192,7 +192,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
       setOrderId(savedOrder.id);
       setConfirmed(true);
     } catch (error) {
-      setFormError('Unable to place order. Please try again.');
+      setFormError(error instanceof Error ? error.message : 'Unable to place order. Please try again.');
     } finally {
       setSubmitting(false);
     }

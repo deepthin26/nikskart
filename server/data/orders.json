@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "942c8033-2010-467a-b9d7-de65100d6082",
+    "userEmail": "deepthikasa8@gmail.com",
+    "userName": "deepthikasa8",
+    "items": [
+      {
+        "id": "5",
+        "name": "Handblock Print Kurti",
+        "category": "Kurtis",
+        "price": 1799,
+        "discount": "30% off",
+        "image": "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80",
+        "rating": 4.4,
+        "description": "Breathable cotton kurti with traditional handblock print for everyday wear.",
+        "badge": "Top Rated",
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 1799,
+    "shipping": 99,
+    "grandTotal": 1898,
+    "paymentMethod": "Cash on Delivery",
+    "address": {
+      "id": "7cb4a73c-d14b-44ef-ada4-c75081aa47cb",
+      "fullName": "sad",
+      "phone": "asdasdsadsad",
+      "pincode": "sadsad",
+      "city": "sad",
+      "state": "d",
+      "locality": "sadsa",
+      "addressLine": "sad",
+      "landmark": "",
+      "addressType": "Home"
+    },
+    "status": "Processing",
+    "createdAt": "2026-05-19T13:37:18.593Z",
+    "updatedAt": "2026-05-19T13:37:18.593Z"
+  }
+]

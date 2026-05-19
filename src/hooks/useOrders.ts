@@ -74,7 +74,8 @@ export function useOrders(userEmail: string | null, userName: string) {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to save order to the database.');
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.error || `Server error ${response.status} – is the backend running on port 4000?`);
     }
 
     const createdOrder: Order = await response.json();
