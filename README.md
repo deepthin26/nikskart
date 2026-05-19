@@ -1,6 +1,6 @@
 # Nikskart
 
-A modern React + Vite e-commerce storefront inspired by Amazon, Flipkart, and Myntra.
+A modern React + Vite e-commerce website.
 
 ## Setup
 
