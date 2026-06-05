@@ -24,13 +24,13 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
         </Link>
         <p className="product-category">{product.category}</p>
         <div className="card-footer">
-          <span>{product.rating} ★</span>
+          <span className="rating">{product.rating} ★</span>
           <div className="card-actions">
             <button className="secondary-button" onClick={() => addItem(product)}>
               Add to Bag
             </button>
             <button className="text-button" onClick={() => toggleWishlist(product)}>
-              {isWishlisted ? 'Saved' : 'Save for later'}
+              {isWishlisted ? 'Saved' : 'Save'}
             </button>
           </div>
         </div>

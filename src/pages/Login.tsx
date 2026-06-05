@@ -2,38 +2,64 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
-  onLogin: (email: string, password: string) => boolean;
+  onLogin: (email: string, password: string) => Promise<string | null>;
+  onSignup: (email: string, password: string) => Promise<string | null>;
 }
 
-export default function Login({ onLogin }: LoginProps) {
+export default function Login({ onLogin, onSignup }: LoginProps) {
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!onLogin(email, password)) {
-      setError('Please enter a valid email and password.');
-      return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setInfo('');
+    setLoading(true);
+
+    if (mode === 'login') {
+      const err = await onLogin(email, password);
+      setLoading(false);
+      if (err) {
+        setError(err);
+      } else {
+        navigate('/');
+      }
+    } else {
+      const err = await onSignup(email, password);
+      setLoading(false);
+      if (err) {
+        setError(err);
+      } else {
+        setInfo('Account created! Check your email to confirm, then sign in.');
+        setMode('login');
+      }
     }
-    navigate('/checkout');
   };
 
   return (
     <main className="page-content auth-page">
       <div className="auth-panel">
-        <h1>Sign in to Nikskart</h1>
-        <p>Use your email and password to continue shopping with confidence.</p>
+        <h1>{mode === 'login' ? 'Sign in to Nikskart' : 'Create your account'}</h1>
+        <p style={{ color: '#888', fontSize: '0.88rem', marginTop: '0.25rem' }}>
+          {mode === 'login'
+            ? 'Welcome back. Sign in to continue shopping.'
+            : 'Join Nikskart — save addresses, track orders and more.'}
+        </p>
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
             Email address
             <input
               type="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
+              autoComplete="email"
             />
           </label>
           <label>
@@ -41,16 +67,36 @@ export default function Login({ onLogin }: LoginProps) {
             <input
               type="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={mode === 'signup' ? 'Min. 6 characters' : 'Enter your password'}
               required
+              minLength={6}
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
             />
           </label>
           {error && <p className="form-error">{error}</p>}
-          <button type="submit" className="primary-button">
-            Sign in
+          {info && <p style={{ color: '#15803d', fontSize: '0.88rem', fontWeight: 500 }}>{info}</p>}
+          <button type="submit" className="primary-button" disabled={loading}>
+            {loading ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}
           </button>
         </form>
+        <p style={{ marginTop: '1.25rem', fontSize: '0.85rem', color: '#888', textAlign: 'center' }}>
+          {mode === 'login' ? (
+            <>
+              Don&apos;t have an account?{' '}
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('signup'); setError(''); setInfo(''); }}>
+                Sign up
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{' '}
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('login'); setError(''); setInfo(''); }}>
+                Sign in
+              </button>
+            </>
+          )}
+        </p>
       </div>
     </main>
   );

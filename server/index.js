@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import Stripe from 'stripe';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
 import { findOrders, createOrder, findAllOrders, updateOrderStatus, aggregateCustomers } from './db.js';
 
 dotenv.config();
@@ -14,12 +15,16 @@ const origin = process.env.NODE_ENV === 'production' ? envOrigin : /^http:\/\/lo
 app.use(cors({ origin, credentials: true }));
 app.use(express.json());
 
-const stripeSecret = process.env.STRIPE_SECRET_KEY;
-if (!stripeSecret) {
-  console.warn('STRIPE_SECRET_KEY not set – card payments will be unavailable');
+const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
+const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
+
+if (!razorpayKeyId || !razorpayKeySecret) {
+  console.warn('RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET not set – payments will be unavailable');
 }
 
-const stripe = stripeSecret ? new Stripe(stripeSecret, { apiVersion: '2023-11-15' }) : null;
+const razorpay = razorpayKeyId && razorpayKeySecret
+  ? new Razorpay({ key_id: razorpayKeyId, key_secret: razorpayKeySecret })
+  : null;
 
 const adminKey = process.env.ADMIN_KEY || '';
 
@@ -33,17 +38,53 @@ function requireAdmin(req, res, next) {
   return res.status(401).json({ error: 'Admin key required' });
 }
 
-app.get('/api/orders', (req, res) => {
+function verifyRazorpaySignature(orderId, paymentId, signature) {
+  if (!razorpayKeySecret) return false;
+  const body = `${orderId}|${paymentId}`;
+  const expected = crypto.createHmac('sha256', razorpayKeySecret).update(body).digest('hex');
+  return expected === signature;
+}
+
+app.post('/api/create-razorpay-order', async (req, res) => {
+  if (!razorpay) {
+    return res.status(503).json({ error: 'Razorpay is not configured on this server.' });
+  }
+  const { amount } = req.body;
+  if (!amount || typeof amount !== 'number' || amount <= 0) {
+    return res.status(400).json({ error: 'Amount must be a positive number (in INR).' });
+  }
+  try {
+    const order = await razorpay.orders.create({
+      amount: Math.round(amount * 100),
+      currency: 'INR',
+      receipt: `receipt_${Date.now()}`
+    });
+    return res.json({ id: order.id, amount: order.amount, currency: order.currency });
+  } catch (error) {
+    console.error('Razorpay order creation error:', error);
+    return res.status(500).json({ error: 'Unable to create payment order.' });
+  }
+});
+
+app.get('/api/orders', async (req, res) => {
   const { userEmail } = req.query;
   if (!userEmail || typeof userEmail !== 'string') {
     return res.status(400).json({ error: 'userEmail query parameter is required' });
   }
-  const orders = findOrders({ userEmail });
-  return res.json(orders.map(normalizeOrder));
+  try {
+    const orders = await findOrders({ userEmail });
+    return res.json(orders.map(normalizeOrder));
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 app.post('/api/orders', (req, res) => {
-  const { userEmail, userName, items, totalPrice, shipping, grandTotal, paymentMethod, address } = req.body;
+  const {
+    userEmail, userName, items, totalPrice, shipping, grandTotal,
+    paymentMethod, address,
+    razorpayOrderId, razorpayPaymentId, razorpaySignature
+  } = req.body;
 
   if (!userEmail || !userName) {
     return res.status(400).json({ error: 'userEmail and userName are required' });
@@ -54,9 +95,21 @@ app.post('/api/orders', (req, res) => {
   if (!address || !address.fullName || !address.phone || !address.pincode) {
     return res.status(400).json({ error: 'Valid shipping address is required' });
   }
+  if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+    return res.status(400).json({ error: 'Razorpay payment verification data is required' });
+  }
+
+  if (!verifyRazorpaySignature(razorpayOrderId, razorpayPaymentId, razorpaySignature)) {
+    return res.status(400).json({ error: 'Payment signature verification failed.' });
+  }
 
   try {
-    const order = createOrder({ userEmail, userName, items, totalPrice, shipping, grandTotal, paymentMethod, address });
+    const order = await createOrder({
+      userEmail, userName, items, totalPrice, shipping, grandTotal,
+      paymentMethod: paymentMethod || 'Razorpay',
+      address,
+      razorpayOrderId, razorpayPaymentId
+    });
     return res.status(201).json(normalizeOrder(order));
   } catch (error) {
     console.error('Order save error:', error);
@@ -64,47 +117,31 @@ app.post('/api/orders', (req, res) => {
   }
 });
 
-app.post('/api/create-payment-intent', async (req, res) => {
-  if (!stripe) {
-    return res.status(503).json({ error: 'Card payments are not configured on this server.' });
-  }
-  const { amount, currency = 'INR' } = req.body;
-  if (!amount || typeof amount !== 'number') {
-    return res.status(400).json({ error: 'Amount must be a number' });
-  }
+app.get('/api/orders/all', requireAdmin, async (req, res) => {
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      payment_method_types: ['card']
-    });
-    return res.json({ clientSecret: paymentIntent.client_secret });
+    const orders = await findAllOrders();
+    return res.json(orders.map(normalizeOrder));
   } catch (error) {
-    console.error('Stripe error:', error);
-    return res.status(500).json({ error: 'Unable to create payment intent' });
+    return res.status(500).json({ error: error.message });
   }
 });
 
-app.get('/api/orders/all', requireAdmin, (req, res) => {
-  return res.json(findAllOrders().map(normalizeOrder));
-});
-
-app.get('/api/customers', requireAdmin, (req, res) => {
+app.get('/api/customers', requireAdmin, async (req, res) => {
   try {
-    return res.json(aggregateCustomers());
+    return res.json(await aggregateCustomers());
   } catch (error) {
     console.error('Error fetching customers:', error);
     return res.status(500).json({ error: 'Unable to fetch customers' });
   }
 });
 
-app.put('/api/orders/:id/status', requireAdmin, (req, res) => {
+app.put('/api/orders/:id/status', requireAdmin, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   if (!status || typeof status !== 'string') {
     return res.status(400).json({ error: 'status is required' });
   }
-  const order = updateOrderStatus(id, status);
+  const order = await updateOrderStatus(id, status);
   if (!order) return res.status(404).json({ error: 'Order not found' });
   return res.json(normalizeOrder(order));
 });

@@ -5,11 +5,13 @@ interface WishlistProps {
   wishlist: {
     items: Product[];
     removeItem: (id: string) => void;
+  };
+  cart: {
     addItem: (product: Product) => void;
   };
 }
 
-export default function Wishlist({ wishlist }: WishlistProps) {
+export default function Wishlist({ wishlist, cart }: WishlistProps) {
   return (
     <main className="page-content wishlist-page">
       <div className="wishlist-header">
@@ -19,9 +21,7 @@ export default function Wishlist({ wishlist }: WishlistProps) {
       {wishlist.items.length === 0 ? (
         <div className="empty-cart">
           <p>Your wishlist is empty.</p>
-          <Link className="primary-button" to="/">
-            Continue Shopping
-          </Link>
+          <Link className="primary-button" to="/">Continue Shopping</Link>
         </div>
       ) : (
         <div className="cart-items">
@@ -33,7 +33,13 @@ export default function Wishlist({ wishlist }: WishlistProps) {
                 <p>{product.category}</p>
                 <span className="price">₹{product.price}</span>
                 <div className="product-actions">
-                  <button className="primary-button" onClick={() => wishlist.addItem(product)}>
+                  <button
+                    className="primary-button"
+                    onClick={() => {
+                      cart.addItem(product);
+                      wishlist.removeItem(product.id);
+                    }}
+                  >
                     Add to Bag
                   </button>
                   <button className="text-button" onClick={() => wishlist.removeItem(product.id)}>

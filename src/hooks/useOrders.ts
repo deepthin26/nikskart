@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Address } from './useAuth';
 import type { Product } from '../data/products';
+import { apiUrl } from '../lib/api';
 
 export interface OrderItem extends Product {
   quantity: number;
@@ -35,14 +36,13 @@ export function useOrders(userEmail: string | null, userName: string) {
     async function loadOrders() {
       try {
         const encoded = encodeURIComponent(email);
-        const response = await fetch(`/api/orders?userEmail=${encoded}`, {
+        const response = await fetch(apiUrl(`/api/orders?userEmail=${encoded}`), {
           signal: controller.signal
         });
         if (!response.ok) {
           setOrders([]);
           return;
         }
-
         const data: Order[] = await response.json();
         setOrders(data);
       } catch {
@@ -55,22 +55,20 @@ export function useOrders(userEmail: string | null, userName: string) {
   }, [userEmail]);
 
   const addOrder = async (
-    order: Omit<Order, 'id' | 'createdAt' | 'status' | 'userEmail' | 'userName'>
+    order: Omit<Order, 'id' | 'createdAt' | 'status' | 'userEmail' | 'userName'> & {
+      razorpayOrderId: string;
+      razorpayPaymentId: string;
+      razorpaySignature: string;
+    }
   ): Promise<Order> => {
     if (!userEmail || !userName) {
       throw new Error('User must be signed in to place an order.');
     }
 
-    const response = await fetch('/api/orders', {
+    const response = await fetch(apiUrl('/api/orders'), {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...order,
-        userEmail,
-        userName
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...order, userEmail, userName })
     });
 
     if (!response.ok) {

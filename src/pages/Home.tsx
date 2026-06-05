@@ -13,45 +13,93 @@ interface HomeProps {
   };
 }
 
-const categories = [
-  { title: 'Sarees', subtitle: 'Silk, chiffon & festive prints' },
-  { title: 'Kurtis', subtitle: 'Comfort meets ethnic style' }
+const categoryCards = [
+  {
+    title: 'Sarees',
+    subtitle: 'Silk, chiffon & festive drapes',
+    gradient: 'linear-gradient(160deg, #1a0e0e 0%, #3d1a1a 50%, #2a1010 100%)',
+  },
+  {
+    title: 'Kurtis',
+    subtitle: 'Comfort meets ethnic elegance',
+    gradient: 'linear-gradient(160deg, #0e1320 0%, #1a2540 50%, #111828 100%)',
+  },
+  {
+    title: 'Lehengas',
+    subtitle: 'Bridal & festive collections',
+    gradient: 'linear-gradient(160deg, #14100a 0%, #35220d 50%, #1e1408 100%)',
+  },
+  {
+    title: 'Jewellery',
+    subtitle: 'Kundan, Polki & temple gold',
+    gradient: 'linear-gradient(160deg, #100e1a 0%, #231a35 50%, #150e20 100%)',
+  },
 ];
 
 const promoCollections = [
   {
     title: 'Saree Collection',
-    description: 'Timeless sarees for festivals, weddings, and special occasions.',
-    badge: 'Best seller'
+    description: 'Timeless sarees for festivals, weddings and special occasions.',
+    badge: 'Best Seller',
   },
   {
     title: 'Kurti Range',
     description: 'Everyday kurtis with premium fabrics and elegant embroidery.',
-    badge: 'New arrivals'
+    badge: 'New Arrivals',
   },
   {
-    title: 'Festive Ensembles',
-    description: 'Complete ethnic looks for traditional celebrations.',
-    badge: 'Trending'
-  }
+    title: 'Fine Jewellery',
+    description: 'Handcrafted Kundan, Polki and temple gold pieces for every occasion.',
+    badge: 'Trending',
+  },
 ];
+
+const filterTabs = ['All', 'Sarees', 'Kurtis', 'Jewellery'];
 
 export default function Home({ cart, wishlist }: HomeProps) {
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
+  const [activeTab, setActiveTab] = useState('All');
 
-  const filtered = useMemo(() => {
-    return products.filter((product) => {
-      const matchSearch = product.name.toLowerCase().includes(search.toLowerCase());
-      const matchCategory = category === 'All' || product.category === category;
-      return matchSearch && matchCategory;
-    });
-  }, [search, category]);
+  const filtered = useMemo(
+    () =>
+      products.filter((p) => {
+        const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+        const matchTab = activeTab === 'All' || p.category === activeTab;
+        return matchSearch && matchTab;
+      }),
+    [search, activeTab]
+  );
 
   return (
     <main>
       <Hero search={search} setSearch={setSearch} />
 
+      {/* Service strip */}
+      <div className="promo-strip">
+        <div className="promo-strip-item">
+          <span className="promo-strip-icon">🚚</span>
+          <div>
+            <strong>Free Delivery</strong>
+            <span>On orders above ₹2,999</span>
+          </div>
+        </div>
+        <div className="promo-strip-item">
+          <span className="promo-strip-icon">↩</span>
+          <div>
+            <strong>Easy Returns</strong>
+            <span>15-day hassle-free returns</span>
+          </div>
+        </div>
+        <div className="promo-strip-item">
+          <span className="promo-strip-icon">🛡</span>
+          <div>
+            <strong>Secure Payments</strong>
+            <span>UPI, cards & net banking</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Collections */}
       <section className="section promo-banners">
         <div className="promo-grid">
           {promoCollections.map((promo) => (
@@ -64,34 +112,52 @@ export default function Home({ cart, wishlist }: HomeProps) {
         </div>
       </section>
 
+      {/* Category showcase */}
       <section className="section category-showcase">
-        <div className="section-header alt-header">
+        <div className="section-header">
           <div>
             <h2>Shop by Category</h2>
-            <p>Discover handpicked collections made for Indian wardrobes and homes.</p>
+            <p>Women's wear & fine jewellery</p>
           </div>
-          <p className="section-note">Traditional fabrics, modern designs.</p>
         </div>
         <div className="category-cards">
-          {categories.map((item) => (
-            <article key={item.title} className="category-card">
-              <div>
+          {categoryCards.map((item) => (
+            <article
+              key={item.title}
+              className="category-card"
+              onClick={() => setActiveTab(item.title === 'Lehengas' ? 'All' : item.title)}
+            >
+              <div className="category-card-bg" style={{ background: item.gradient }} />
+              <div className="category-card-overlay" />
+              <div className="category-card-content">
                 <span className="category-chip">{item.title}</span>
                 <h3>{item.subtitle}</h3>
+                <button className="category-shop-btn">Shop now</button>
               </div>
-              <button className="secondary-button">Shop now</button>
             </article>
           ))}
         </div>
       </section>
 
+      {/* Featured products */}
       <section className="section featured">
         <div className="section-header">
           <div>
             <h2>Featured Products</h2>
-            <p>Latest arrivals, festive essentials and best-selling picks.</p>
+            <p>Latest arrivals and best-selling picks</p>
           </div>
-          <p>{filtered.length} products</p>
+          <span style={{ fontSize: '0.82rem', color: '#888' }}>{filtered.length} products</span>
+        </div>
+        <div className="category-list" style={{ marginBottom: '1.5rem' }}>
+          {filterTabs.map((tab) => (
+            <button
+              key={tab}
+              className={`category-button${activeTab === tab ? ' active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
         <ProductGrid products={filtered} cart={cart} wishlist={wishlist} />
       </section>

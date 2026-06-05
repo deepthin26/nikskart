@@ -1,12 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Product } from '../data/products';
 
 interface CartItem extends Product {
   quantity: number;
 }
 
+const STORAGE_KEY = 'nikskart-cart';
+
+function loadFromStorage(): CartItem[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
 export function useCart() {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadFromStorage);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addItem = (product: Product) => {
     setItems((current) => {
@@ -36,6 +51,10 @@ export function useCart() {
     );
   };
 
+  const clearCart = () => {
+    setItems([]);
+  };
+
   const totalCount = useMemo(() => items.reduce((sum, item) => sum + item.quantity, 0), [items]);
   const totalPrice = useMemo(
     () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -44,5 +63,5 @@ export function useCart() {
 
   const uniqueItems = useMemo(() => items, [items]);
 
-  return { uniqueItems, totalCount, totalPrice, addItem, removeItem, updateQuantity };
+  return { uniqueItems, totalCount, totalPrice, addItem, removeItem, updateQuantity, clearCart };
 }

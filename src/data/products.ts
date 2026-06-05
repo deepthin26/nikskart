@@ -50,7 +50,7 @@ export const products: Product[] = [
     category: 'Kurtis',
     price: 2599,
     discount: '25% off',
-    image: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
     rating: 4.5,
     description: 'Elegant kurti set in brocade fabric with embroidered detailing.',
     badge: 'Trending'
@@ -61,7 +61,7 @@ export const products: Product[] = [
     category: 'Kurtis',
     price: 1799,
     discount: '30% off',
-    image: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=800&q=80',
     rating: 4.4,
     description: 'Breathable cotton kurti with traditional handblock print for everyday wear.',
     badge: 'Top Rated'
@@ -83,7 +83,7 @@ export const products: Product[] = [
     category: 'Sarees',
     price: 4799,
     discount: '28% off',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?auto=format&fit=crop&w=800&q=80',
     rating: 4.9,
     description: 'Soft Mysore silk saree with subtle shine and graceful fall.',
     badge: 'Editor Pick'
@@ -97,7 +97,7 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1522136911466-8c1657e5098d?auto=format&fit=crop&w=800&q=80',
     rating: 4.7,
     description: 'Trendy georgette saree with vibrant prints and easy drape.',
-    badge: 'Family Favorite'
+    badge: 'Family Favourite'
   },
   {
     id: '9',
@@ -116,7 +116,7 @@ export const products: Product[] = [
     category: 'Kurtis',
     price: 1999,
     discount: '30% off',
-    image: 'https://images.unsplash.com/photo-1503342433215-3e8fb20c0760?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1566753323558-f4e73543a495?auto=format&fit=crop&w=800&q=80',
     rating: 4.3,
     description: 'Comfortable silk blend kurti with subtle embroidery and modern cut.',
     badge: 'Deal'
@@ -138,9 +138,75 @@ export const products: Product[] = [
     category: 'Kurtis',
     price: 1699,
     discount: '35% off',
-    image: 'https://images.unsplash.com/photo-1495121605193-b116b5b09a3d?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=800&q=80',
     rating: 4.5,
     description: 'Classic salwar kameez set with soft cotton kurti and matching bottoms.',
     badge: 'Limited Stock'
+  },
+  {
+    id: '13',
+    name: 'Kundan Necklace Set',
+    category: 'Jewellery',
+    price: 3499,
+    discount: '20% off',
+    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80',
+    rating: 4.8,
+    description: 'Handcrafted Kundan necklace with matching earrings for bridal and festive occasions.',
+    badge: 'Best Seller'
+  },
+  {
+    id: '14',
+    name: 'Temple Gold Earrings',
+    category: 'Jewellery',
+    price: 1299,
+    discount: '15% off',
+    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
+    rating: 4.7,
+    description: 'Traditional temple-style gold-plated earrings with intricate deity motifs.',
+    badge: 'New'
+  },
+  {
+    id: '15',
+    name: 'Lac Bangle Set',
+    category: 'Jewellery',
+    price: 899,
+    discount: '25% off',
+    image: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=800&q=80',
+    rating: 4.5,
+    description: 'Vibrant lac bangles with mirror work, perfect for festive and bridal wear.',
+    badge: 'Trending'
+  },
+  {
+    id: '16',
+    name: 'Polki Diamond Maang Tikka',
+    category: 'Jewellery',
+    price: 2199,
+    discount: '18% off',
+    image: 'https://images.unsplash.com/photo-1611085583191-a3b181a88552?auto=format&fit=crop&w=800&q=80',
+    rating: 4.9,
+    description: 'Stunning Polki-style maang tikka with uncut stones and gold-plated finish.',
+    badge: 'Premium'
+  },
+  {
+    id: '17',
+    name: 'Oxidised Silver Jhumkas',
+    category: 'Jewellery',
+    price: 749,
+    discount: '30% off',
+    image: 'https://images.unsplash.com/photo-1630018548696-e22d66d62cde?auto=format&fit=crop&w=800&q=80',
+    rating: 4.6,
+    description: 'Classic oxidised silver jhumka earrings with floral detailing for everyday ethnic looks.',
+    badge: 'Top Rated'
+  },
+  {
+    id: '18',
+    name: 'Jadau Choker Necklace',
+    category: 'Jewellery',
+    price: 4299,
+    discount: '22% off',
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80',
+    rating: 4.8,
+    description: 'Royal Jadau choker with emerald and ruby stones set in gold-plated brass.',
+    badge: 'Editor Pick'
   }
 ];

@@ -3,19 +3,17 @@ import { Product } from '../data/products';
 
 const storageKey = 'nikskart-wishlist';
 
-export function useWishlist() {
-  const [items, setItems] = useState<Product[]>([]);
-
-  useEffect(() => {
+function loadWishlist(): Product[] {
+  try {
     const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      try {
-        setItems(JSON.parse(stored));
-      } catch {
-        setItems([]);
-      }
-    }
-  }, []);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function useWishlist() {
+  const [items, setItems] = useState<Product[]>(loadWishlist);
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(items));

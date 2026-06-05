@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
 
 export interface Address {
   id: string;
@@ -13,82 +14,106 @@ export interface Address {
   addressType: string;
 }
 
-interface AuthState {
+interface UserState {
+  authenticated: boolean;
   name: string;
   email: string;
-  authenticated: boolean;
   addresses: Address[];
   selectedAddressId: string | null;
 }
 
-const initialState: AuthState = {
+const initialState: UserState = {
+  authenticated: false,
   name: '',
   email: '',
-  authenticated: false,
   addresses: [],
-  selectedAddressId: null
+  selectedAddressId: null,
 };
 
+function addrKey(email: string) {
+  return `nikskart-addr-${email}`;
+}
+
+function loadAddresses(email: string): { addresses: Address[]; selectedAddressId: string | null } {
+  try {
+    const raw = localStorage.getItem(addrKey(email));
+    return raw ? JSON.parse(raw) : { addresses: [], selectedAddressId: null };
+  } catch {
+    return { addresses: [], selectedAddressId: null };
+  }
+}
+
+function saveAddresses(email: string, data: { addresses: Address[]; selectedAddressId: string | null }) {
+  localStorage.setItem(addrKey(email), JSON.stringify(data));
+}
+
 export function useAuth() {
-  const [user, setUser] = useState<AuthState>(initialState);
+  const [user, setUser] = useState<UserState>(initialState);
 
   useEffect(() => {
-    const stored = localStorage.getItem('nikskart-user');
-    if (stored) {
-      setUser(JSON.parse(stored));
-    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const email = session.user.email ?? '';
+        const name = session.user.user_metadata?.name || email.split('@')[0];
+        const { addresses, selectedAddressId } = loadAddresses(email);
+        setUser({ authenticated: true, name, email, addresses, selectedAddressId });
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        const email = session.user.email ?? '';
+        const name = session.user.user_metadata?.name || email.split('@')[0];
+        const { addresses, selectedAddressId } = loadAddresses(email);
+        setUser({ authenticated: true, name, email, addresses, selectedAddressId });
+      } else {
+        setUser(initialState);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('nikskart-user', JSON.stringify(user));
-  }, [user]);
+  const login = async (email: string, password: string): Promise<string | null> => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    return error?.message ?? null;
+  };
 
-  const login = (email: string, password: string) => {
-    if (!email || !password) {
-      return false;
-    }
-    const name = email.split('@')[0];
-    setUser((current) => ({
-      ...current,
-      name,
-      email,
-      authenticated: true
-    }));
-    return true;
+  const signup = async (email: string, password: string): Promise<string | null> => {
+    const { error } = await supabase.auth.signUp({ email, password });
+    return error?.message ?? null;
   };
 
   const logout = () => {
-    setUser(initialState);
+    supabase.auth.signOut();
   };
 
-  const addAddress = (address: Omit<Address, 'id'>) => {
-    const newId = typeof crypto !== 'undefined' && 'randomUUID' in crypto
-      ? crypto.randomUUID()
-      : `${Date.now()}`;
-
-    const newAddress: Address = { id: newId, ...address };
-    setUser((current) => ({
-      ...current,
-      addresses: [...current.addresses, newAddress],
-      selectedAddressId: newAddress.id
-    }));
-    return newId;
+  const addAddress = (address: Omit<Address, 'id'>): string => {
+    const id = crypto.randomUUID?.() ?? `${Date.now()}`;
+    const newAddr: Address = { id, ...address };
+    setUser((cur) => {
+      const addresses = [...cur.addresses, newAddr];
+      saveAddresses(cur.email, { addresses, selectedAddressId: id });
+      return { ...cur, addresses, selectedAddressId: id };
+    });
+    return id;
   };
 
   const selectAddress = (id: string) => {
-    setUser((current) => ({
-      ...current,
-      selectedAddressId: id
-    }));
+    setUser((cur) => {
+      saveAddresses(cur.email, { addresses: cur.addresses, selectedAddressId: id });
+      return { ...cur, selectedAddressId: id };
+    });
   };
 
   const removeAddress = (id: string) => {
-    setUser((current) => ({
-      ...current,
-      addresses: current.addresses.filter((address) => address.id !== id),
-      selectedAddressId: current.selectedAddressId === id ? null : current.selectedAddressId
-    }));
+    setUser((cur) => {
+      const addresses = cur.addresses.filter((a) => a.id !== id);
+      const selectedAddressId = cur.selectedAddressId === id ? null : cur.selectedAddressId;
+      saveAddresses(cur.email, { addresses, selectedAddressId });
+      return { ...cur, addresses, selectedAddressId };
+    });
   };
 
-  return { user, login, logout, addAddress, selectAddress, removeAddress };
+  return { user, login, signup, logout, addAddress, selectAddress, removeAddress };
 }

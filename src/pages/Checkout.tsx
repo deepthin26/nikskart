@@ -1,8 +1,37 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { Product } from '../data/products';
 import type { Address } from '../hooks/useAuth';
+import { apiUrl } from '../lib/api';
+
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
+  }
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: { name: string; email: string; contact: string };
+  theme: { color: string };
+  handler: (response: RazorpayResponse) => void;
+  modal: { ondismiss: () => void };
+}
+
+interface RazorpayInstance {
+  open(): void;
+}
+
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
 
 interface CheckoutProps {
   cart: {
@@ -26,22 +55,40 @@ interface CheckoutProps {
     grandTotal: number;
     paymentMethod: string;
     address: Address;
-  }) => Promise<{
-    id: string;
-  }>;
+    razorpayOrderId: string;
+    razorpayPaymentId: string;
+    razorpaySignature: string;
+  }) => Promise<{ id: string }>;
+  clearCart: () => void;
 }
 
-const methods = ['Stripe', 'UPI', 'Net Banking', 'Cash on Delivery'];
-const banks = ['State Bank', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra'];
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
 
-export default function Checkout({ cart, user, addAddress, selectAddress, addOrder }: CheckoutProps) {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [selectedMethod, setSelectedMethod] = useState(methods[0]);
+function getBackendErrorMessage(error: unknown) {
+  if (error instanceof Error && error.message === 'Failed to fetch') {
+    return 'Unable to reach the backend server. Start it with `npm run server` and reload the page.';
+  }
+  return error instanceof Error ? error.message : 'Unable to place order. Please try again.';
+}
+
+export default function Checkout({ cart, user, addAddress, selectAddress, addOrder, clearCart }: CheckoutProps) {
   const [confirmed, setConfirmed] = useState(false);
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [orderId, setOrderId] = useState('');
   const [contact, setContact] = useState({
     fullName: '',
     phone: '',
@@ -53,8 +100,6 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
     landmark: '',
     addressType: 'Home'
   });
-  const [upiId, setUpiId] = useState('');
-  const [bankName, setBankName] = useState(banks[0]);
 
   const shippingCharge = cart.totalPrice >= 3000 ? 0 : 99;
   const grandTotal = cart.totalPrice + shippingCharge;
@@ -64,22 +109,6 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
     [user.addresses, user.selectedAddressId]
   );
 
-  const addressValid = selectedAddress !== null;
-  const paymentValid = (() => {
-    if (selectedMethod === 'Stripe') {
-      return !!stripe && !!elements;
-    }
-    if (selectedMethod === 'UPI') {
-      return upiId.trim().includes('@');
-    }
-    if (selectedMethod === 'Net Banking') {
-      return bankName.trim().length > 0;
-    }
-    return selectedMethod === 'Cash on Delivery';
-  })();
-
-  const [orderId, setOrderId] = useState('');
-
   const handleAddAddress = () => {
     const requiredFields = ['fullName', 'phone', 'pincode', 'city', 'state', 'addressLine'];
     for (const field of requiredFields) {
@@ -88,7 +117,6 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
         return;
       }
     }
-
     addAddress({
       fullName: contact.fullName.trim(),
       phone: contact.phone.trim(),
@@ -102,98 +130,84 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
     });
     setFormError('');
     setIsAddingAddress(false);
-    setContact({
-      fullName: '',
-      phone: '',
-      pincode: '',
-      city: '',
-      state: '',
-      locality: '',
-      addressLine: '',
-      landmark: '',
-      addressType: 'Home'
-    });
+    setContact({ fullName: '', phone: '', pincode: '', city: '', state: '', locality: '', addressLine: '', landmark: '', addressType: 'Home' });
   };
 
-  const handlePlaceOrder = async () => {
-    if (!addressValid) {
+  const handlePayWithRazorpay = async () => {
+    if (!selectedAddress) {
       setFormError('Select a delivery address or add a new one.');
       return;
     }
-    if (!paymentValid) {
-      setFormError('Enter valid payment details before placing your order.');
-      return;
-    }
     setFormError('');
-    if (!selectedAddress) {
-      return;
-    }
     setSubmitting(true);
 
     try {
-      if (selectedMethod === 'Stripe') {
-        if (!stripe || !elements) {
-          setFormError('Stripe is not ready. Please refresh the page.');
-          setSubmitting(false);
-          return;
-        }
-
-        const response = await fetch('/api/create-payment-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: Math.round(grandTotal * 100), currency: 'INR' })
-        });
-
-        const data = await response.json();
-        if (!response.ok || !data.clientSecret) {
-          setFormError(data.error || 'Unable to initialize payment.');
-          setSubmitting(false);
-          return;
-        }
-
-        const card = elements.getElement(CardElement);
-        if (!card) {
-          setFormError('Card input is not available.');
-          setSubmitting(false);
-          return;
-        }
-
-        const result = await stripe.confirmCardPayment(data.clientSecret, {
-          payment_method: {
-            card,
-            billing_details: {
-              email: user.email,
-              name: selectedAddress.fullName || user.name
-            }
-          }
-        });
-
-        if (result.error) {
-          setFormError(result.error.message || 'Payment failed.');
-          setSubmitting(false);
-          return;
-        }
-
-        if (result.paymentIntent?.status !== 'succeeded') {
-          setFormError('Payment was not completed.');
-          setSubmitting(false);
-          return;
-        }
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        setFormError('Failed to load Razorpay. Check your internet connection.');
+        setSubmitting(false);
+        return;
       }
 
-      const savedOrder = await addOrder({
-        items: cart.uniqueItems,
-        totalPrice: cart.totalPrice,
-        shipping: shippingCharge,
-        grandTotal,
-        paymentMethod: selectedMethod,
-        address: selectedAddress
+      const orderRes = await fetch(apiUrl('/api/create-razorpay-order'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: grandTotal })
       });
-      setOrderId(savedOrder.id);
-      setConfirmed(true);
+      const orderData = await orderRes.json();
+      if (!orderRes.ok || !orderData.id) {
+        setFormError(orderData.error || 'Unable to initialize payment.');
+        setSubmitting(false);
+        return;
+      }
+
+      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID as string;
+
+      const rzp = new window.Razorpay({
+        key: razorpayKey,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Nikskart',
+        description: `Order – ${cart.uniqueItems.length} item(s)`,
+        order_id: orderData.id,
+        prefill: {
+          name: selectedAddress.fullName || user.name,
+          email: user.email,
+          contact: selectedAddress.phone
+        },
+        theme: { color: '#c9a46e' },
+        handler: async (response: RazorpayResponse) => {
+          try {
+            const saved = await addOrder({
+              items: cart.uniqueItems,
+              totalPrice: cart.totalPrice,
+              shipping: shippingCharge,
+              grandTotal,
+              paymentMethod: 'Razorpay',
+              address: selectedAddress,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature
+            });
+            clearCart();
+            setOrderId(saved.id);
+            setConfirmed(true);
+          } catch (err) {
+            setFormError(getBackendErrorMessage(err));
+          } finally {
+            setSubmitting(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setSubmitting(false);
+          }
+        }
+      });
+
+      rzp.open();
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : 'Unable to place order. Please try again.');
-    } finally {
+      setFormError(getBackendErrorMessage(error));
       setSubmitting(false);
     }
   };
@@ -203,9 +217,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
       <main className="page-content empty-cart">
         <h1>Please sign in to checkout</h1>
         <p>We need your account details to complete your order and secure payment.</p>
-        <Link className="primary-button" to="/login">
-          Sign in
-        </Link>
+        <Link className="primary-button" to="/login">Sign in</Link>
       </main>
     );
   }
@@ -215,9 +227,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
       <main className="page-content empty-cart">
         <h1>Your cart is empty</h1>
         <p>Add some great finds to your bag before checkout.</p>
-        <Link className="primary-button" to="/">
-          Shop now
-        </Link>
+        <Link className="primary-button" to="/">Shop now</Link>
       </main>
     );
   }
@@ -229,7 +239,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
           <h1>Order Confirmed!</h1>
           <p>Hi {user.name}, your order has been placed successfully.</p>
           <p>Order ID: <strong>{orderId}</strong></p>
-          <p>Payment method: <strong>{selectedMethod}</strong></p>
+          <p>Payment: <strong>Razorpay</strong></p>
           <p>Delivering to:</p>
           {selectedAddress && (
             <address className="confirmation-address">
@@ -239,10 +249,8 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
               <br />Phone: {selectedAddress.phone}
             </address>
           )}
-          <p>We will send an order confirmation to <strong>{user.email}</strong>.</p>
-          <Link className="primary-button" to="/">
-            Continue Shopping
-          </Link>
+          <p>Confirmation will be sent to <strong>{user.email}</strong>.</p>
+          <Link className="primary-button" to="/">Continue Shopping</Link>
         </div>
       </main>
     );
@@ -260,7 +268,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
           <div className="address-panel">
             <div className="panel-header">
               <h2>Shipping Address</h2>
-              <button className="secondary-button" onClick={() => setIsAddingAddress((value) => !value)}>
+              <button className="secondary-button" onClick={() => setIsAddingAddress((v) => !v)}>
                 {isAddingAddress ? 'Cancel' : 'Add New Address'}
               </button>
             </div>
@@ -278,7 +286,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                       <strong>{address.fullName}</strong>
                       <p>{address.addressLine}, {address.locality}</p>
                       <p>{address.city}, {address.state} - {address.pincode}</p>
-                      <p>{address.phone} • {address.addressType}</p>
+                      <p>{address.phone} · {address.addressType}</p>
                     </div>
                   </label>
                 ))}
@@ -302,10 +310,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                       <input
                         type={type}
                         value={contact[key as keyof typeof contact]}
-                        onChange={(event) => setContact((current) => ({
-                          ...current,
-                          [key]: event.target.value
-                        }))}
+                        onChange={(e) => setContact((c) => ({ ...c, [key]: e.target.value }))}
                       />
                     </label>
                   ))}
@@ -314,10 +319,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                     <textarea
                       rows={3}
                       value={contact.addressLine}
-                      onChange={(event) => setContact((current) => ({
-                        ...current,
-                        addressLine: event.target.value
-                      }))}
+                      onChange={(e) => setContact((c) => ({ ...c, addressLine: e.target.value }))}
                     />
                   </label>
                   <label>
@@ -325,20 +327,14 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                     <input
                       type="text"
                       value={contact.landmark}
-                      onChange={(event) => setContact((current) => ({
-                        ...current,
-                        landmark: event.target.value
-                      }))}
+                      onChange={(e) => setContact((c) => ({ ...c, landmark: e.target.value }))}
                     />
                   </label>
                   <label>
                     Address Type
                     <select
                       value={contact.addressType}
-                      onChange={(event) => setContact((current) => ({
-                        ...current,
-                        addressType: event.target.value
-                      }))}
+                      onChange={(e) => setContact((c) => ({ ...c, addressType: e.target.value }))}
                     >
                       <option>Home</option>
                       <option>Work</option>
@@ -354,72 +350,29 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
           </div>
 
           <div className="payment-panel">
-            <h2>Payment Method</h2>
-            <div className="payment-options">
-              {methods.map((method) => (
-                <label key={method} className={selectedMethod === method ? 'option selected' : 'option'}>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value={method}
-                    checked={selectedMethod === method}
-                    onChange={() => setSelectedMethod(method)}
-                  />
-                  {method}
-                </label>
-              ))}
-            </div>
-            <div className="payment-details">
-              {selectedMethod === 'Stripe' && (
-                <div className="form-grid">
-                  <label>
-                    Card Details
-                    <div className="stripe-card-element">
-                      <CardElement options={{ hidePostalCode: true }} />
-                    </div>
-                  </label>
-                </div>
-              )}
-              {selectedMethod === 'UPI' && (
-                <label>
-                  UPI ID
-                  <input
-                    type="text"
-                    placeholder="example@bank"
-                    value={upiId}
-                    onChange={(event) => setUpiId(event.target.value)}
-                  />
-                </label>
-              )}
-              {selectedMethod === 'Net Banking' && (
-                <label>
-                  Select Bank
-                  <select value={bankName} onChange={(event) => setBankName(event.target.value)}>
-                    {banks.map((bank) => (
-                      <option key={bank} value={bank}>{bank}</option>
-                    ))}
-                  </select>
-                </label>
-              )}
-              {selectedMethod === 'Cash on Delivery' && (
-                <div className="cod-note">
-                  Pay securely when your parcel arrives. COD orders are accepted on selected products.
-                </div>
-              )}
-            </div>
+            <h2>Payment</h2>
+            <p style={{ color: '#888', fontSize: '0.88rem', marginTop: '0.5rem' }}>
+              Pay securely with UPI, Credit/Debit card, Net Banking, or Wallets via Razorpay.
+            </p>
           </div>
 
           {formError && <p className="form-error">{formError}</p>}
-          <button className="primary-button checkout-action" onClick={handlePlaceOrder} type="button" disabled={submitting}>
-            {submitting ? 'Placing order...' : 'Place Order'}
+          <button
+            className="primary-button checkout-action"
+            onClick={handlePayWithRazorpay}
+            type="button"
+            disabled={submitting || !selectedAddress}
+          >
+            {submitting ? 'Processing...' : `Pay ₹${grandTotal} with Razorpay`}
           </button>
         </section>
+
         <aside className="order-summary-card">
           <h2>Order Summary</h2>
           <div className="summary-list">
             {cart.uniqueItems.map((item) => (
               <div key={item.id} className="summary-item">
-                <span>{item.name} x{item.quantity}</span>
+                <span>{item.name} ×{item.quantity}</span>
                 <strong>₹{item.price * item.quantity}</strong>
               </div>
             ))}
@@ -436,7 +389,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
             <span>Grand Total</span>
             <strong>₹{grandTotal}</strong>
           </div>
-          <p className="summary-note">Order will be processed using secure checkout and delivery tracking.</p>
+          <p className="summary-note">Secured by Razorpay · 256-bit SSL encryption</p>
         </aside>
       </div>
     </main>
