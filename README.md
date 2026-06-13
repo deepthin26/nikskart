@@ -14,12 +14,12 @@ A modern React + Vite e-commerce website.
    npm run dev
    ```
 
-4. Run the backend server:
+3. Run the backend server in a second terminal:
    ```bash
    npm run server
    ```
 
-5. Build for production:
+4. Build for production:
    ```bash
    npm run build
    ```
