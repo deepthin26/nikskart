@@ -79,7 +79,7 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', async (req, res) => {
   const {
     userEmail, userName, items, totalPrice, shipping, grandTotal,
     paymentMethod, address,
