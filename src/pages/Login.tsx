@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
-  onLogin: (email: string, password: string) => Promise<string | null>;
-  onSignup: (email: string, password: string, phone?: string) => Promise<string | null>;
+  onLogin: (phone: string, password: string) => Promise<string | null>;
+  onSignup: (phone: string, password: string) => Promise<string | null>;
 }
 
 export default function Login({ onLogin, onSignup }: LoginProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +22,7 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
     setLoading(true);
 
     if (mode === 'login') {
-      const err = await onLogin(email, password);
+      const err = await onLogin(phone, password);
       setLoading(false);
       if (err) {
         setError(err);
@@ -31,15 +30,25 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
         navigate('/');
       }
     } else {
-      const err = await onSignup(email, password, phone);
+      const err = await onSignup(phone, password);
       setLoading(false);
       if (err) {
         setError(err);
       } else {
         setInfo('Account created! You can now sign in.');
         setMode('login');
+        setPhone('');
+        setPassword('');
       }
     }
+  };
+
+  const switchMode = (next: 'login' | 'signup') => {
+    setMode(next);
+    setError('');
+    setInfo('');
+    setPhone('');
+    setPassword('');
   };
 
   return (
@@ -49,32 +58,20 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
         <p style={{ color: '#888', fontSize: '0.88rem', marginTop: '0.25rem' }}>
           {mode === 'login'
             ? 'Welcome back. Sign in to continue shopping.'
-            : 'Join Nikskart — save addresses, track orders and more.'}
+            : 'Join Nikskart — save your addresses, track orders and more.'}
         </p>
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
-            Email address
+            Phone number
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="e.g. 9876543210"
               required
-              autoComplete="email"
+              autoComplete="tel"
             />
           </label>
-          {mode === 'signup' && (
-            <label>
-              Phone number
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                autoComplete="tel"
-              />
-            </label>
-          )}
           <label>
             Password
             <input
@@ -97,14 +94,14 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
           {mode === 'login' ? (
             <>
               Don&apos;t have an account?{' '}
-              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('signup'); setError(''); setInfo(''); setPhone(''); }}>
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => switchMode('signup')}>
                 Sign up
               </button>
             </>
           ) : (
             <>
               Already have an account?{' '}
-              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('login'); setError(''); setInfo(''); setPhone(''); }}>
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => switchMode('login')}>
                 Sign in
               </button>
             </>

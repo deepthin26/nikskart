@@ -42,6 +42,7 @@ interface CheckoutProps {
   user: {
     name: string;
     email: string;
+    phone: string;
     authenticated: boolean;
     addresses: Address[];
     selectedAddressId: string | null;
@@ -249,7 +250,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
               <br />Phone: {selectedAddress.phone}
             </address>
           )}
-          <p>Confirmation will be sent to <strong>{user.email}</strong>.</p>
+          <p>Phone: <strong>{user.phone}</strong></p>
           <Link className="primary-button" to="/">Continue Shopping</Link>
         </div>
       </main>
@@ -262,7 +263,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
         <section className="checkout-form">
           <div className="section-title">
             <h1>Secure Checkout</h1>
-            <p>Delivering to <strong>{user.name}</strong> ({user.email})</p>
+            <p>Delivering to <strong>{user.name}</strong> ({user.phone})</p>
           </div>
 
           <div className="address-panel">

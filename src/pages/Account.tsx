@@ -7,6 +7,7 @@ interface AccountProps {
     authenticated: boolean;
     name: string;
     email: string;
+    phone: string;
     addresses: Address[];
     selectedAddressId: string | null;
   };
@@ -79,7 +80,7 @@ export default function Account({ user, addAddress, selectAddress, removeAddress
               <strong>Name:</strong> {user.name}
             </p>
             <p>
-              <strong>Email:</strong> {user.email}
+              <strong>Phone:</strong> {user.phone}
             </p>
           </div>
 
