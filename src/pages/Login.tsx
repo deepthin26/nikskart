@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
   onLogin: (email: string, password: string) => Promise<string | null>;
-  onSignup: (email: string, password: string) => Promise<string | null>;
+  onSignup: (email: string, password: string, phone?: string) => Promise<string | null>;
 }
 
 export default function Login({ onLogin, onSignup }: LoginProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,12 +31,12 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
         navigate('/');
       }
     } else {
-      const err = await onSignup(email, password);
+      const err = await onSignup(email, password, phone);
       setLoading(false);
       if (err) {
         setError(err);
       } else {
-        setInfo('Account created! Check your email to confirm, then sign in.');
+        setInfo('Account created! You can now sign in.');
         setMode('login');
       }
     }
@@ -62,6 +63,18 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
               autoComplete="email"
             />
           </label>
+          {mode === 'signup' && (
+            <label>
+              Phone number
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+91 98765 43210"
+                autoComplete="tel"
+              />
+            </label>
+          )}
           <label>
             Password
             <input
@@ -84,14 +97,14 @@ export default function Login({ onLogin, onSignup }: LoginProps) {
           {mode === 'login' ? (
             <>
               Don&apos;t have an account?{' '}
-              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('signup'); setError(''); setInfo(''); }}>
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('signup'); setError(''); setInfo(''); setPhone(''); }}>
                 Sign up
               </button>
             </>
           ) : (
             <>
               Already have an account?{' '}
-              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('login'); setError(''); setInfo(''); }}>
+              <button className="text-button" style={{ display: 'inline', padding: 0 }} onClick={() => { setMode('login'); setError(''); setInfo(''); setPhone(''); }}>
                 Sign in
               </button>
             </>

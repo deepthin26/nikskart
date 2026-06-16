@@ -79,8 +79,12 @@ export function useAuth() {
     return error?.message ?? null;
   };
 
-  const signup = async (email: string, password: string): Promise<string | null> => {
-    const { error } = await supabase.auth.signUp({ email, password });
+  const signup = async (email: string, password: string, phone?: string): Promise<string | null> => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { phone: phone ?? '' } },
+    });
     return error?.message ?? null;
   };
 
