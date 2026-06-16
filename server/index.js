@@ -149,6 +149,7 @@ app.put('/api/orders/:id/status', requireAdmin, async (req, res) => {
 });
 
 app.get('/', (_req, res) => res.json({ status: 'Nikskart backend is running' }));
+app.get('/api/health', (_req, res) => res.json({ status: 'ok', razorpay: !!razorpay }));
 
 function normalizeOrder(order) {
   const { _id, ...rest } = order;

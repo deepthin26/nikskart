@@ -78,10 +78,7 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 function getBackendErrorMessage(error: unknown) {
-  if (error instanceof Error && error.message === 'Failed to fetch') {
-    return 'Payment server is starting up. Please wait a moment and try again.';
-  }
-  return error instanceof Error ? error.message : 'Unable to place order. Please try again.';
+  return error instanceof Error ? `Error: ${error.message}` : 'Unable to place order. Please try again.';
 }
 
 export default function Checkout({ cart, user, addAddress, selectAddress, addOrder, clearCart }: CheckoutProps) {
