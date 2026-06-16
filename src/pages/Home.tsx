@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { products, Product } from '../data/products';
+import { Product } from '../data/products';
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
+import { useProducts } from '../hooks/useProducts';
 
 interface HomeProps {
   cart: {
@@ -59,15 +60,16 @@ const filterTabs = ['All', 'Sarees', 'Kurtis', 'Jewellery'];
 export default function Home({ cart, wishlist }: HomeProps) {
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('All');
+  const { products } = useProducts();
 
   const filtered = useMemo(
     () =>
-      products.filter((p) => {
+      products.filter((p: Product) => {
         const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
         const matchTab = activeTab === 'All' || p.category === activeTab;
         return matchSearch && matchTab;
       }),
-    [search, activeTab]
+    [products, search, activeTab]
   );
 
   return (
