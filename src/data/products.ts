@@ -15,7 +15,7 @@ export const products: Product[] = [
     id: '1',
     name: 'Banarasi Silk Saree',
     category: 'Sarees',
-    price: 5499,
+    price: 1,
     discount: '35% off',
     image: 'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=800&q=80',
     rating: 4.8,
