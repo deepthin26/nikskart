@@ -155,4 +155,12 @@ function normalizeOrder(order) {
 
 app.listen(port, () => {
   console.log(`Nikskart backend listening on http://localhost:${port}`);
+
+  // Keep Render free tier awake by self-pinging every 14 minutes
+  if (process.env.NODE_ENV === 'production') {
+    const selfUrl = process.env.RENDER_EXTERNAL_URL || 'https://nikskart.onrender.com';
+    setInterval(() => {
+      fetch(selfUrl).catch(() => {});
+    }, 14 * 60 * 1000);
+  }
 });
