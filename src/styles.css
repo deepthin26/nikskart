@@ -1049,12 +1049,12 @@ button {
 }
 
 .payment-method-card.selected {
-  border-color: #c9a46e;
-  background: #fdf8f2;
+  border-color: #2563eb;
+  background: #eff6ff;
 }
 
 .payment-method-card input[type="radio"] {
-  accent-color: #c9a46e;
+  accent-color: #2563eb;
   width: 16px;
   height: 16px;
   flex-shrink: 0;
