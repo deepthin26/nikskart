@@ -6,6 +6,13 @@ interface HeroProps {
 export default function Hero({ search, setSearch }: HeroProps) {
   return (
     <section className="hero-banner home-hero">
+      <img
+        className="hero-bg-img"
+        src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1920&q=80"
+        alt=""
+        aria-hidden="true"
+      />
+      <div className="hero-bg-overlay" />
       <div className="hero-copy">
         <span className="eyebrow">New Season · 2026 Collection</span>
         <h1>Timeless festive fashion for every occasion</h1>
