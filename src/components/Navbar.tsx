@@ -13,9 +13,9 @@ interface NavbarProps {
 }
 
 const womenCategories = [
-  { label: 'Sarees', value: 'Sarees' },
-  { label: 'Kurtis', value: 'Kurtis' },
-  { label: 'Artificial Jewellery', value: 'Artificial Jewellery' },
+  { label: 'Sarees', to: '/sarees' },
+  { label: 'Kurtis', to: '/kurtis' },
+  { label: 'Artificial Jewellery', to: '/artificial-jewellery' },
 ];
 
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
@@ -59,8 +59,8 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
                 <div className="dropdown-menu">
                   {womenCategories.map((cat) => (
                     <Link
-                      key={cat.value}
-                      to={`/?category=${encodeURIComponent(cat.value)}`}
+                      key={cat.to}
+                      to={cat.to}
                       onClick={() => setWomenOpen(false)}
                     >
                       {cat.label}

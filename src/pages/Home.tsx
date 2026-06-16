@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Product } from '../data/products';
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
@@ -20,16 +20,19 @@ const categoryCards = [
     title: 'Sarees',
     subtitle: 'Silk, chiffon & festive drapes',
     image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80',
+    to: '/sarees',
   },
   {
     title: 'Kurtis',
     subtitle: 'Comfort meets ethnic elegance',
     image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80',
+    to: '/kurtis',
   },
   {
     title: 'Artificial Jewellery',
     subtitle: 'Kundan, Polki & temple gold',
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80',
+    to: '/artificial-jewellery',
   },
 ];
 
@@ -57,6 +60,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
   const [search, setSearch] = useState('');
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState('All');
+  const navigate = useNavigate();
   const { products } = useProducts();
 
   useEffect(() => {
@@ -129,7 +133,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
             <article
               key={item.title}
               className="category-card"
-              onClick={() => setActiveTab(item.title)}
+              onClick={() => navigate(item.to)}
             >
               <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" />
               <div className="category-card-overlay" />

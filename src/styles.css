@@ -1947,6 +1947,128 @@ button {
   }
 }
 
+/* ── Category Pages (Sarees / Kurtis / Jewellery) ───── */
+.category-page {
+  padding-bottom: 4rem;
+}
+
+.category-page-hero {
+  padding: 4rem 2rem 3rem;
+  color: #ffffff;
+}
+
+.category-page-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.category-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 1.25rem;
+}
+
+.category-breadcrumb a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.category-breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.category-breadcrumb span {
+  color: rgba(255,255,255,0.5);
+}
+
+.category-page-hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+  color: #ffffff;
+}
+
+.category-page-hero p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+  max-width: 540px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.category-page-count {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+}
+
+.category-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid #efefef;
+}
+
+.category-toolbar-count {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.category-toolbar-count strong {
+  color: #0a0a0a;
+}
+
+.category-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: #666;
+}
+
+.category-sort select {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+  color: #0a0a0a;
+  background: #fafafa;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.category-sort select:focus {
+  outline: none;
+  border-color: #c9a46e;
+}
+
+@media (max-width: 640px) {
+  .category-page-hero {
+    padding: 2.5rem 1.25rem 2rem;
+  }
+
+  .category-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+}
+
 /* ── Contact Page ────────────────────────────────────── */
 .contact-page {
   padding-top: 2rem;

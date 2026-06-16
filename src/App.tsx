@@ -16,8 +16,11 @@ const Orders          = lazy(() => import('./pages/Orders'));
 const Wishlist        = lazy(() => import('./pages/Wishlist'));
 const Account         = lazy(() => import('./pages/Account'));
 const Dashboard       = lazy(() => import('./pages/Dashboard'));
-const AdminDashboard  = lazy(() => import('./pages/AdminDashboard'));
-const Contact         = lazy(() => import('./pages/Contact'));
+const AdminDashboard       = lazy(() => import('./pages/AdminDashboard'));
+const Contact              = lazy(() => import('./pages/Contact'));
+const Sarees               = lazy(() => import('./pages/Sarees'));
+const Kurtis               = lazy(() => import('./pages/Kurtis'));
+const ArtificialJewellery  = lazy(() => import('./pages/ArtificialJewellery'));
 
 function PageLoader() {
   return <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c9a46e' }}>Loading…</div>;
@@ -53,6 +56,9 @@ function App() {
             <Account user={auth.user} addAddress={auth.addAddress}
               selectAddress={auth.selectAddress} removeAddress={auth.removeAddress} />
           } />
+          <Route path="/sarees" element={<Sarees cart={cart} wishlist={wishlist} />} />
+          <Route path="/kurtis" element={<Kurtis cart={cart} wishlist={wishlist} />} />
+          <Route path="/artificial-jewellery" element={<ArtificialJewellery cart={cart} wishlist={wishlist} />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/contact" element={<Contact />} />

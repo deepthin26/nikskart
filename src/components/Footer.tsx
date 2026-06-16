@@ -54,10 +54,9 @@ export default function Footer() {
           <h4 className="footer-col-heading">Shop</h4>
           <ul className="footer-links">
             <li><Link to="/">New Arrivals</Link></li>
-            <li><Link to="/">Sarees</Link></li>
-            <li><Link to="/">Kurtis</Link></li>
-            <li><Link to="/">Lehengas</Link></li>
-            <li><Link to="/">Jewellery</Link></li>
+            <li><Link to="/sarees">Sarees</Link></li>
+            <li><Link to="/kurtis">Kurtis</Link></li>
+            <li><Link to="/artificial-jewellery">Artificial Jewellery</Link></li>
             <li><Link to="/">Festive Picks</Link></li>
           </ul>
         </div>
