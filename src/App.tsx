@@ -17,6 +17,7 @@ const Wishlist        = lazy(() => import('./pages/Wishlist'));
 const Account         = lazy(() => import('./pages/Account'));
 const Dashboard       = lazy(() => import('./pages/Dashboard'));
 const AdminDashboard  = lazy(() => import('./pages/AdminDashboard'));
+const Contact         = lazy(() => import('./pages/Contact'));
 
 function PageLoader() {
   return <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c9a46e' }}>Loading…</div>;
@@ -54,6 +55,7 @@ function App() {
           } />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Suspense>
       <Footer />

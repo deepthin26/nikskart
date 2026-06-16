@@ -1947,6 +1947,248 @@ button {
   }
 }
 
+/* ── Contact Page ────────────────────────────────────── */
+.contact-page {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.contact-hero {
+  text-align: center;
+  padding: 3rem 1rem 2.5rem;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.contact-hero-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a46e;
+  margin-bottom: 0.75rem;
+}
+
+.contact-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 0.75rem;
+}
+
+.contact-hero p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.contact-card:hover {
+  box-shadow: 0 4px 16px rgba(201,164,110,0.12);
+  border-color: #e5d2b8;
+}
+
+.contact-card-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.contact-card h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.02em;
+}
+
+.contact-card p {
+  font-size: 0.82rem;
+  color: #777;
+  margin-bottom: 0.35rem;
+  line-height: 1.5;
+}
+
+.contact-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #c9a46e;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.contact-link:hover {
+  color: #a8813f;
+  text-decoration: underline;
+}
+
+.whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #25d366;
+  color: #ffffff !important;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  margin-top: 0.2rem;
+  transition: background 0.15s;
+}
+
+.whatsapp-link:hover {
+  background: #1ebe5d;
+  color: #fff !important;
+}
+
+.contact-form-panel {
+  background: #ffffff;
+  border: 1px solid #efefef;
+  border-radius: 12px;
+  padding: 2rem 2rem 2.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.contact-form-panel h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 0.35rem;
+}
+
+.contact-form-sub {
+  font-size: 0.84rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+  color: #0a0a0a;
+  background: #fafafa;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #c9a46e;
+  background: #fff;
+}
+
+.contact-form .primary-button {
+  margin-top: 0.25rem;
+  width: 100%;
+}
+
+.contact-form-note {
+  font-size: 0.75rem;
+  color: #aaa;
+  text-align: center;
+  margin-top: -0.25rem;
+}
+
+.contact-success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.contact-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.contact-success h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 0.5rem;
+}
+
+.contact-success p {
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-hero {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .contact-form-panel {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .contact-grid {
+    padding: 0 1rem;
+  }
+}
+
 /* ── Admin Dashboard ─────────────────────────────────── */
 .admin-tabs {
   display: flex;

@@ -72,6 +72,7 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             <Link to="/cart">Cart</Link>
             {user.authenticated && <Link to="/orders">My Orders</Link>}
             {user.authenticated && <Link to="/account">My Account</Link>}
+            <Link to="/contact">Contact</Link>
             <Link to="/checkout">Checkout</Link>
             {user.authenticated && <Link to="/admin">Admin</Link>}
           </nav>
