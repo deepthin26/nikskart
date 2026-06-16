@@ -19,5 +19,16 @@ export default defineConfig({
   preview: {
     port: 4173,
     proxy: apiProxy
+  },
+  build: {
+    target: 'es2015',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        }
+      }
+    }
   }
 });

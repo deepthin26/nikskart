@@ -12,7 +12,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
   return (
     <article className="product-card">
       <Link to={`/product/${product.id}`} className="product-image-link">
-        <img src={product.image} alt={product.name} />
+        <img src={product.image} alt={product.name} loading="lazy" decoding="async" width="400" height="500" />
       </Link>
       <div className="product-card-body">
         <div className="product-card-top">
