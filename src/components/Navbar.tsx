@@ -14,9 +14,6 @@ interface NavbarProps {
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
   return (
     <>
-      <div className="announcement-bar">
-        Free shipping on orders above ₹2,999 &nbsp;·&nbsp; Easy 15-day returns &nbsp;·&nbsp; Secure online payments
-      </div>
       <header className="navbar">
         <div className="brand-bar">
           <Link className="brand" to="/">
