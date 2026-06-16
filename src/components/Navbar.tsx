@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface NavbarProps {
@@ -11,7 +12,15 @@ interface NavbarProps {
   onLogout: () => void;
 }
 
+const womenCategories = [
+  { label: 'Sarees', value: 'Sarees' },
+  { label: 'Kurtis', value: 'Kurtis' },
+  { label: 'Artificial Jewellery', value: 'Artificial Jewellery' },
+];
+
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
+  const [womenOpen, setWomenOpen] = useState(false);
+
   return (
     <>
       <header className="navbar">
@@ -38,6 +47,28 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
           </Link>
           <nav className="nav-links">
             <Link to="/">Home</Link>
+            <div
+              className="nav-dropdown"
+              onMouseEnter={() => setWomenOpen(true)}
+              onMouseLeave={() => setWomenOpen(false)}
+            >
+              <button className="nav-dropdown-trigger">
+                Women <span className="dropdown-chevron">▾</span>
+              </button>
+              {womenOpen && (
+                <div className="dropdown-menu">
+                  {womenCategories.map((cat) => (
+                    <Link
+                      key={cat.value}
+                      to={`/?category=${encodeURIComponent(cat.value)}`}
+                      onClick={() => setWomenOpen(false)}
+                    >
+                      {cat.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link to="/cart">Cart</Link>
             {user.authenticated && <Link to="/orders">My Orders</Link>}
             {user.authenticated && <Link to="/account">My Account</Link>}

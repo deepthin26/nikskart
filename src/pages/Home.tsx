@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Product } from '../data/products';
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
@@ -54,8 +55,14 @@ const filterTabs = ['All', 'Sarees', 'Kurtis', 'Artificial Jewellery'];
 
 export default function Home({ cart, wishlist }: HomeProps) {
   const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState('All');
   const { products } = useProducts();
+
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    setActiveTab(cat || 'All');
+  }, [searchParams]);
 
   const filtered = useMemo(
     () =>
