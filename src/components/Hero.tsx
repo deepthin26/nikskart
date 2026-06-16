@@ -7,13 +7,13 @@ interface HeroProps {
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1920&q=80',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1920&q=80',
     eyebrow: 'New Season · 2026 Collection',
     heading: 'Timeless festive fashion for every occasion',
     sub: 'Shop premium sarees, kurtis, lehengas and fine jewellery — curated exclusively for women.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1596451190630-186aff535bf2?auto=format&fit=crop&w=1920&q=80',
+    image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1920&q=80',
     eyebrow: 'Bridal & Wedding',
     heading: 'Dress your dream wedding in pure elegance',
     sub: 'Exclusive lehengas, bridal sarees and temple jewellery for your most special day.',
@@ -39,11 +39,10 @@ export default function Hero({ search, setSearch }: HeroProps) {
   return (
     <section className="hero-banner home-hero">
       {slides.map((slide, i) => (
-        <img
+        <div
           key={i}
-          className={`hero-bg-img${active === i ? ' hero-bg-img--active' : ''}`}
-          src={slide.image}
-          alt=""
+          className={`hero-bg-slide${active === i ? ' active' : ''}`}
+          style={{ backgroundImage: `url(${slide.image})` }}
           aria-hidden="true"
         />
       ))}
@@ -69,7 +68,6 @@ export default function Hero({ search, setSearch }: HeroProps) {
         </div>
       </div>
 
-      {/* Slide dots */}
       <div className="hero-dots">
         {slides.map((_, i) => (
           <button

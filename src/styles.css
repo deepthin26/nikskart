@@ -218,18 +218,17 @@ button {
   align-items: center;
 }
 
-.hero-bg-img {
+.hero-bg-slide {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: opacity 1.2s ease;
 }
 
-.hero-bg-img--active {
+.hero-bg-slide.active {
   opacity: 1;
 }
 
