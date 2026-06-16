@@ -90,7 +90,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [orderId, setOrderId] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | 'netbanking'>('upi');
   const [contact, setContact] = useState({
     fullName: '',
     phone: '',
@@ -363,7 +363,6 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                 { id: 'upi', label: 'UPI', sub: 'GPay, PhonePe, Paytm', icon: '📲' },
                 { id: 'card', label: 'Credit / Debit Card', sub: 'Visa, Mastercard, RuPay', icon: '💳' },
                 { id: 'netbanking', label: 'Net Banking', sub: 'All major banks', icon: '🏦' },
-                { id: 'wallet', label: 'Wallets', sub: 'Paytm, Amazon Pay', icon: '👛' },
               ] as const).map((m) => (
                 <label
                   key={m.id}
@@ -399,7 +398,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
           >
             {submitting
               ? 'Processing...'
-              : `Pay ₹${grandTotal} via ${paymentMethod === 'upi' ? 'UPI' : paymentMethod === 'card' ? 'Card' : paymentMethod === 'netbanking' ? 'Net Banking' : 'Wallet'}`}
+              : `Pay ₹${grandTotal} via ${paymentMethod === 'upi' ? 'UPI' : paymentMethod === 'card' ? 'Card' : 'Net Banking'}`}
           </button>
         </section>
 
