@@ -68,9 +68,9 @@ export default function Footer() {
             <li><Link to="/orders">My Orders</Link></li>
             <li><Link to="/account">My Account</Link></li>
             <li><Link to="/wishlist">Wishlist</Link></li>
-            <li><a href="#">Returns & Exchanges</a></li>
-            <li><a href="#">Shipping Policy</a></li>
-            <li><a href="#">Size Guide</a></li>
+            <li><Link to="/returns">Returns & Exchanges</Link></li>
+            <li><Link to="/shipping-policy">Shipping Policy</Link></li>
+            <li><Link to="/size-guide">Size Guide</Link></li>
           </ul>
         </div>
 
@@ -78,10 +78,10 @@ export default function Footer() {
         <div className="footer-col">
           <h4 className="footer-col-heading">Company</h4>
           <ul className="footer-links">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Our Artisans</a></li>
-            <li><a href="#">Sustainability</a></li>
-            <li><a href="#">Press</a></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link to="/terms">Terms of Use</Link></li>
             <li><a href="tel:+918885700227">📞 +91 88857 00227</a></li>
             <li><a href="https://nikskart.com">nikskart.com</a></li>
           </ul>
@@ -119,8 +119,8 @@ export default function Footer() {
           <span className="footer-pay-chip">Net Banking</span>
         </div>
         <div className="footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to="/terms">Terms of Use</Link>
         </div>
       </div>
     </footer>

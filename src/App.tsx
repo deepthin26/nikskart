@@ -21,6 +21,12 @@ const Contact              = lazy(() => import('./pages/Contact'));
 const Sarees               = lazy(() => import('./pages/Sarees'));
 const Kurtis               = lazy(() => import('./pages/Kurtis'));
 const ArtificialJewellery  = lazy(() => import('./pages/ArtificialJewellery'));
+const About                = lazy(() => import('./pages/About'));
+const ShippingPolicy       = lazy(() => import('./pages/ShippingPolicy'));
+const Returns              = lazy(() => import('./pages/Returns'));
+const SizeGuide            = lazy(() => import('./pages/SizeGuide'));
+const PrivacyPolicy        = lazy(() => import('./pages/PrivacyPolicy'));
+const Terms                = lazy(() => import('./pages/Terms'));
 
 function PageLoader() {
   return <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c9a46e' }}>Loading…</div>;
@@ -59,6 +65,12 @@ function App() {
           <Route path="/sarees" element={<Sarees cart={cart} wishlist={wishlist} />} />
           <Route path="/kurtis" element={<Kurtis cart={cart} wishlist={wishlist} />} />
           <Route path="/artificial-jewellery" element={<ArtificialJewellery cart={cart} wishlist={wishlist} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/contact" element={<Contact />} />
