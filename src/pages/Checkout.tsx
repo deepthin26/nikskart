@@ -79,7 +79,7 @@ function loadRazorpayScript(): Promise<boolean> {
 
 function getBackendErrorMessage(error: unknown) {
   if (error instanceof Error && error.message === 'Failed to fetch') {
-    return 'Unable to reach the backend server. Start it with `npm run server` and reload the page.';
+    return 'Payment server is starting up. Please wait a moment and try again.';
   }
   return error instanceof Error ? error.message : 'Unable to place order. Please try again.';
 }
@@ -90,6 +90,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');
   const [contact, setContact] = useState({
     fullName: '',
     phone: '',
@@ -352,8 +353,35 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
 
           <div className="payment-panel">
             <h2>Payment</h2>
-            <p style={{ color: '#888', fontSize: '0.88rem', marginTop: '0.5rem' }}>
-              Pay securely with UPI, Credit/Debit card, Net Banking, or Wallets via Razorpay.
+            <div className="payment-methods">
+              {([
+                { id: 'upi', label: 'UPI', sub: 'GPay, PhonePe, Paytm', icon: '📲' },
+                { id: 'card', label: 'Credit / Debit Card', sub: 'Visa, Mastercard, RuPay', icon: '💳' },
+                { id: 'netbanking', label: 'Net Banking', sub: 'All major banks', icon: '🏦' },
+                { id: 'wallet', label: 'Wallets', sub: 'Paytm, Amazon Pay', icon: '👛' },
+              ] as const).map((m) => (
+                <label
+                  key={m.id}
+                  className={`payment-method-card${paymentMethod === m.id ? ' selected' : ''}`}
+                  onClick={() => setPaymentMethod(m.id)}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={m.id}
+                    checked={paymentMethod === m.id}
+                    onChange={() => setPaymentMethod(m.id)}
+                  />
+                  <span className="pm-icon">{m.icon}</span>
+                  <div>
+                    <strong>{m.label}</strong>
+                    <span className="pm-sub">{m.sub}</span>
+                  </div>
+                </label>
+              ))}
+            </div>
+            <p style={{ color: '#aaa', fontSize: '0.8rem', marginTop: '0.75rem' }}>
+              🔒 Secured by Razorpay · 256-bit SSL encryption
             </p>
           </div>
 
@@ -364,7 +392,9 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
             type="button"
             disabled={submitting || !selectedAddress}
           >
-            {submitting ? 'Processing...' : `Pay ₹${grandTotal} with Razorpay`}
+            {submitting
+              ? 'Processing...'
+              : `Pay ₹${grandTotal} via ${paymentMethod === 'upi' ? 'UPI' : paymentMethod === 'card' ? 'Card' : paymentMethod === 'netbanking' ? 'Net Banking' : 'Wallet'}`}
           </button>
         </section>
 
