@@ -10,7 +10,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 const envOrigin = process.env.FRONTEND_ORIGIN || 'http://localhost:4173';
-const origin = process.env.NODE_ENV === 'production' ? envOrigin : /^http:\/\/localhost(:\d+)?$/;
+const origin = process.env.NODE_ENV === 'production'
+  ? [envOrigin, 'https://nikskart.vercel.app']
+  : /^http:\/\/localhost(:\d+)?$/;
 
 app.use(cors({ origin, credentials: true }));
 app.use(express.json());
@@ -153,14 +155,12 @@ function normalizeOrder(order) {
   return { id: _id, ...rest };
 }
 
-app.listen(port, () => {
-  console.log(`Nikskart backend listening on http://localhost:${port}`);
+// Export app for Vercel serverless
+export default app;
 
-  // Keep Render free tier awake by self-pinging every 14 minutes
-  if (process.env.NODE_ENV === 'production') {
-    const selfUrl = process.env.RENDER_EXTERNAL_URL || 'https://nikskart.onrender.com';
-    setInterval(() => {
-      fetch(selfUrl).catch(() => {});
-    }, 14 * 60 * 1000);
-  }
-});
+// Only start HTTP server when running locally / on Render (not Vercel)
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Nikskart backend listening on http://localhost:${port}`);
+  });
+}
