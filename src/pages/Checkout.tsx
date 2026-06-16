@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import type { Address } from '../hooks/useAuth';
@@ -102,6 +102,11 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
     landmark: '',
     addressType: 'Home'
   });
+
+  // Wake up the backend as soon as checkout page opens
+  useEffect(() => {
+    fetch(apiUrl('/')).catch(() => {});
+  }, []);
 
   const shippingCharge = cart.totalPrice >= 3000 ? 0 : 99;
   const grandTotal = cart.totalPrice + shippingCharge;
