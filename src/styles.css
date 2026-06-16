@@ -214,8 +214,14 @@ button {
 }
 
 /* ── Hero ──────────────────────────────────────────── */
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.15) 100%);
+}
+
 .hero-banner {
-  background: linear-gradient(135deg, #0f0a05 0%, #1a1008 40%, #2a1a0a 70%, #1a1008 100%);
+  background: #0f0a05;
   color: white;
   padding: 5.5rem 4rem;
   position: relative;

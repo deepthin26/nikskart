@@ -5,7 +5,8 @@ interface HeroProps {
 
 export default function Hero({ search, setSearch }: HeroProps) {
   return (
-    <section className="hero-banner home-hero">
+    <section className="hero-banner home-hero" style={{ backgroundImage: 'url(/images/home-banner.webp)', backgroundSize: 'cover', backgroundPosition: 'center top' }}>
+      <div className="hero-bg-overlay" />
       <div className="hero-copy">
         <span className="eyebrow">New Season · 2026 Collection</span>
         <h1>Timeless festive fashion for every occasion</h1>
