@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Order } from '../hooks/useOrders';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface OrdersProps {
   orders: Order[];
@@ -11,6 +12,7 @@ interface OrdersProps {
 }
 
 export default function Orders({ orders, user }: OrdersProps) {
+  useSeoMeta('My Orders – Nikskart | Track Your Ethnic Wear Orders', 'View and track all your Nikskart orders — sarees, kurtis, lehengas and jewellery delivered to your door.');
   if (!user.authenticated) {
     return (
       <main className="page-content empty-cart">

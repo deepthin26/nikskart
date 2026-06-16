@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Address } from '../hooks/useAuth';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface AccountProps {
   user: {
@@ -29,6 +30,7 @@ const emptyAddress = {
 };
 
 export default function Account({ user, addAddress, selectAddress, removeAddress }: AccountProps) {
+  useSeoMeta('My Account – Nikskart | Manage Your Profile & Addresses', 'Manage your Nikskart account — update addresses, view profile and track your ethnic wear orders.');
   const [isAdding, setIsAdding] = useState(false);
   const [formError, setFormError] = useState('');
   const [address, setAddress] = useState<Omit<Address, 'id'>>(emptyAddress);

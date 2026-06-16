@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface LoginProps {
   onLogin: (phone: string, password: string) => Promise<string | null>;
@@ -7,6 +8,7 @@ interface LoginProps {
 }
 
 export default function Login({ onLogin, onSignup }: LoginProps) {
+  useSeoMeta('Login or Sign Up – Nikskart | Ethnic Fashion Store', 'Sign in to your Nikskart account to track orders, manage addresses and shop premium ethnic wear.');
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');

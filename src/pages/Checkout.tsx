@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import type { Address } from '../hooks/useAuth';
@@ -82,6 +83,7 @@ function getBackendErrorMessage(error: unknown) {
 }
 
 export default function Checkout({ cart, user, addAddress, selectAddress, addOrder, clearCart }: CheckoutProps) {
+  useSeoMeta('Secure Checkout – Nikskart | Pay Safely Online', 'Complete your Nikskart order securely. Pay via UPI, Credit/Debit Card or Net Banking. Free delivery above ₹2999.');
   const [confirmed, setConfirmed] = useState(false);
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [formError, setFormError] = useState('');

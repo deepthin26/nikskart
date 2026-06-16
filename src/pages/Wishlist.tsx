@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface WishlistProps {
   wishlist: {
@@ -12,6 +13,7 @@ interface WishlistProps {
 }
 
 export default function Wishlist({ wishlist, cart }: WishlistProps) {
+  useSeoMeta('My Wishlist – Nikskart | Saved Ethnic Wear', 'Your saved ethnic wear at Nikskart — sarees, kurtis, lehengas and jewellery you love.');
   return (
     <main className="page-content wishlist-page">
       <div className="wishlist-header">

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface CartProps {
   cart: {
@@ -15,6 +16,7 @@ interface CartProps {
 }
 
 export default function Cart({ cart, wishlist }: CartProps) {
+  useSeoMeta('Your Cart – Nikskart | Ethnic Sarees & Kurtis', 'Review your selected ethnic wear items — sarees, kurtis, lehengas and jewellery. Free delivery above ₹2999 at Nikskart.');
   return (
     <main className="page-content cart-page">
       <div className="cart-header">
