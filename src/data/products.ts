@@ -15,7 +15,7 @@ export const products: Product[] = [
     id: '1',
     name: 'Banarasi Silk Saree',
     category: 'Sarees',
-    price: 1,
+    price: 5499,
     discount: '35% off',
     image: 'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=800&q=80',
     rating: 4.8,
@@ -146,7 +146,7 @@ export const products: Product[] = [
   {
     id: '13',
     name: 'Kundan Necklace Set',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 3499,
     discount: '20% off',
     image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80',
@@ -157,7 +157,7 @@ export const products: Product[] = [
   {
     id: '14',
     name: 'Temple Gold Earrings',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 1299,
     discount: '15% off',
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
@@ -168,7 +168,7 @@ export const products: Product[] = [
   {
     id: '15',
     name: 'Lac Bangle Set',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 899,
     discount: '25% off',
     image: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=800&q=80',
@@ -179,7 +179,7 @@ export const products: Product[] = [
   {
     id: '16',
     name: 'Polki Diamond Maang Tikka',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 2199,
     discount: '18% off',
     image: 'https://images.unsplash.com/photo-1611085583191-a3b181a88552?auto=format&fit=crop&w=800&q=80',
@@ -190,7 +190,7 @@ export const products: Product[] = [
   {
     id: '17',
     name: 'Oxidised Silver Jhumkas',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 749,
     discount: '30% off',
     image: 'https://images.unsplash.com/photo-1630018548696-e22d66d62cde?auto=format&fit=crop&w=800&q=80',
@@ -201,7 +201,7 @@ export const products: Product[] = [
   {
     id: '18',
     name: 'Jadau Choker Necklace',
-    category: 'Jewellery',
+    category: 'Artificial Jewellery',
     price: 4299,
     discount: '22% off',
     image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80',

@@ -26,12 +26,7 @@ const categoryCards = [
     image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80',
   },
   {
-    title: 'Lehengas',
-    subtitle: 'Bridal & festive collections',
-    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    title: 'Jewellery',
+    title: 'Artificial Jewellery',
     subtitle: 'Kundan, Polki & temple gold',
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80',
   },
@@ -49,13 +44,13 @@ const promoCollections = [
     badge: 'New Arrivals',
   },
   {
-    title: 'Fine Jewellery',
+    title: 'Artificial Jewellery',
     description: 'Handcrafted Kundan, Polki and temple gold pieces for every occasion.',
     badge: 'Trending',
   },
 ];
 
-const filterTabs = ['All', 'Sarees', 'Kurtis', 'Jewellery'];
+const filterTabs = ['All', 'Sarees', 'Kurtis', 'Artificial Jewellery'];
 
 export default function Home({ cart, wishlist }: HomeProps) {
   const [search, setSearch] = useState('');
@@ -127,7 +122,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
             <article
               key={item.title}
               className="category-card"
-              onClick={() => setActiveTab(item.title === 'Lehengas' ? 'All' : item.title)}
+              onClick={() => setActiveTab(item.title)}
             >
               <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" />
               <div className="category-card-overlay" />
