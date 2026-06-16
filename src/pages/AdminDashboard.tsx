@@ -31,7 +31,8 @@ interface ProductRow {
   badge: string;
 }
 
-const CATEGORIES = ['Sarees', 'Kurtis', 'Lehengas', 'Jewellery'];
+const CATEGORIES = ['Sarees', 'Kurtis', 'Artificial Jewellery'] as const;
+type Category = typeof CATEGORIES[number];
 
 export default function AdminDashboard() {
   const [customers, setCustomers]   = useState<Customer[]>([]);
@@ -45,8 +46,11 @@ export default function AdminDashboard() {
   const [inputKey, setInputKey] = useState('');
   const [error, setError]       = useState('');
 
+  // product category sub-tab
+  const [productCategory, setProductCategory] = useState<Category>('Sarees');
+
   // product form state
-  const [form, setForm] = useState({ name: '', category: 'Sarees', price: '', discount: '', badge: '', description: '', rating: '4.5' });
+  const [form, setForm] = useState({ name: '', price: '', discount: '', badge: '', description: '', rating: '4.5' });
   const [imageFile, setImageFile]   = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState('');
   const [uploading, setUploading]   = useState(false);
@@ -129,7 +133,6 @@ export default function AdminDashboard() {
     setUploading(true);
     setUploadMsg('');
     try {
-      // 1. Upload image to Supabase Storage
       const ext  = imageFile.name.split('.').pop();
       const path = `products/${Date.now()}.${ext}`;
       const { error: uploadErr } = await supabase.storage.from('product-images').upload(path, imageFile, { upsert: true });
@@ -137,10 +140,9 @@ export default function AdminDashboard() {
 
       const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
 
-      // 2. Save product row to Supabase
       const { error: insertErr } = await supabase.from('products').insert({
         name: form.name.trim(),
-        category: form.category,
+        category: productCategory,
         price: Number(form.price),
         discount: form.discount.trim(),
         image: publicUrl,
@@ -151,7 +153,7 @@ export default function AdminDashboard() {
       if (insertErr) throw new Error(`DB error: ${insertErr.message}`);
 
       setUploadMsg('✅ Product added successfully!');
-      setForm({ name: '', category: 'Sarees', price: '', discount: '', badge: '', description: '', rating: '4.5' });
+      setForm({ name: '', price: '', discount: '', badge: '', description: '', rating: '4.5' });
       setImageFile(null);
       setImagePreview('');
       if (fileRef.current) fileRef.current.value = '';
@@ -258,62 +260,87 @@ export default function AdminDashboard() {
       {/* Products tab */}
       {activeTab === 'products' && (
         <section className="panel products-panel">
-          <h2>Add New Product</h2>
-          <div className="product-upload-form">
-            {/* Image upload */}
-            <div className="image-upload-box" onClick={() => fileRef.current?.click()}>
-              {imagePreview
-                ? <img src={imagePreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
-                : <div className="image-upload-placeholder"><span>📷</span><p>Click to upload image</p></div>
-              }
-              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} />
-            </div>
-
-            <div className="product-form-fields">
-              <label>Product Name *
-                <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder="e.g. Banarasi Silk Saree" />
-              </label>
-              <label>Category
-                <select value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}>
-                  {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-                </select>
-              </label>
-              <label>Price (₹) *
-                <input type="number" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} placeholder="e.g. 2499" />
-              </label>
-              <label>Discount label
-                <input value={form.discount} onChange={(e) => setForm((f) => ({ ...f, discount: e.target.value }))} placeholder="e.g. 30% off" />
-              </label>
-              <label>Badge
-                <input value={form.badge} onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))} placeholder="e.g. New Arrival" />
-              </label>
-              <label>Rating (1–5)
-                <input type="number" min="1" max="5" step="0.1" value={form.rating} onChange={(e) => setForm((f) => ({ ...f, rating: e.target.value }))} />
-              </label>
-              <label style={{ gridColumn: '1/-1' }}>Description
-                <textarea rows={2} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} placeholder="Short product description" />
-              </label>
-              <button className="primary-button" onClick={handleAddProduct} disabled={uploading} style={{ gridColumn: '1/-1' }}>
-                {uploading ? 'Uploading…' : 'Add Product'}
-              </button>
-              {uploadMsg && <p style={{ gridColumn: '1/-1', color: uploadMsg.startsWith('✅') ? '#16a34a' : '#dc2626' }}>{uploadMsg}</p>}
-            </div>
+          {/* Category sub-tabs */}
+          <div className="product-category-tabs">
+            {CATEGORIES.map((cat) => {
+              const count = dbProducts.filter((p) => p.category === cat).length;
+              return (
+                <button
+                  key={cat}
+                  className={`product-cat-tab${productCategory === cat ? ' active' : ''}`}
+                  onClick={() => {
+                    setProductCategory(cat);
+                    setForm({ name: '', price: '', discount: '', badge: '', description: '', rating: '4.5' });
+                    setImageFile(null);
+                    setImagePreview('');
+                    setUploadMsg('');
+                    if (fileRef.current) fileRef.current.value = '';
+                  }}
+                >
+                  {cat}
+                  <span className="product-cat-tab-count">{count}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Existing products */}
-          <h2 style={{ marginTop: '2rem' }}>Live Products ({dbProducts.length})</h2>
-          <div className="admin-product-list">
-            {dbProducts.map((p) => (
-              <div key={p.id} className="admin-product-row">
-                {p.image && <img src={p.image} alt={p.name} width={60} height={60} style={{ objectFit: 'cover', borderRadius: '6px' }} />}
-                <div style={{ flex: 1 }}>
-                  <strong>{p.name}</strong>
-                  <div style={{ fontSize: '0.8rem', color: '#888' }}>{p.category} · ₹{p.price}</div>
-                </div>
-                <button className="text-button" style={{ color: '#dc2626' }} onClick={() => handleDeleteProduct(p.id)}>Delete</button>
+          {/* Upload form for active category */}
+          <div className="product-category-section">
+            <h2>Add {productCategory}</h2>
+            <div className="product-upload-form">
+              <div className="image-upload-box" onClick={() => fileRef.current?.click()}>
+                {imagePreview
+                  ? <img src={imagePreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
+                  : <div className="image-upload-placeholder"><span>📷</span><p>Click to upload image</p></div>
+                }
+                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} />
               </div>
-            ))}
-            {dbProducts.length === 0 && <p style={{ color: '#888' }}>No products added yet. Add your first product above.</p>}
+
+              <div className="product-form-fields">
+                <label>Product Name *
+                  <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={`e.g. ${productCategory === 'Sarees' ? 'Banarasi Silk Saree' : productCategory === 'Kurtis' ? 'Handblock Print Kurti' : 'Kundan Necklace Set'}`} />
+                </label>
+                <label>Price (₹) *
+                  <input type="number" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} placeholder="e.g. 2499" />
+                </label>
+                <label>Discount label
+                  <input value={form.discount} onChange={(e) => setForm((f) => ({ ...f, discount: e.target.value }))} placeholder="e.g. 30% off" />
+                </label>
+                <label>Badge
+                  <input value={form.badge} onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))} placeholder="e.g. New Arrival" />
+                </label>
+                <label>Rating (1–5)
+                  <input type="number" min="1" max="5" step="0.1" value={form.rating} onChange={(e) => setForm((f) => ({ ...f, rating: e.target.value }))} />
+                </label>
+                <label style={{ gridColumn: '1/-1' }}>Description
+                  <textarea rows={2} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} placeholder="Short product description" />
+                </label>
+                <button className="primary-button" onClick={handleAddProduct} disabled={uploading} style={{ gridColumn: '1/-1' }}>
+                  {uploading ? 'Uploading…' : `Add to ${productCategory}`}
+                </button>
+                {uploadMsg && <p style={{ gridColumn: '1/-1', color: uploadMsg.startsWith('✅') ? '#16a34a' : '#dc2626' }}>{uploadMsg}</p>}
+              </div>
+            </div>
+
+            {/* Products in this category */}
+            <h3 style={{ marginTop: '2rem', marginBottom: '0.75rem' }}>
+              {productCategory} ({dbProducts.filter((p) => p.category === productCategory).length})
+            </h3>
+            <div className="admin-product-list">
+              {dbProducts.filter((p) => p.category === productCategory).map((p) => (
+                <div key={p.id} className="admin-product-row">
+                  {p.image && <img src={p.image} alt={p.name} width={60} height={60} style={{ objectFit: 'cover', borderRadius: '6px' }} />}
+                  <div style={{ flex: 1 }}>
+                    <strong>{p.name}</strong>
+                    <div style={{ fontSize: '0.8rem', color: '#888' }}>₹{p.price} · {p.badge}</div>
+                  </div>
+                  <button className="text-button" style={{ color: '#dc2626' }} onClick={() => handleDeleteProduct(p.id)}>Delete</button>
+                </div>
+              ))}
+              {dbProducts.filter((p) => p.category === productCategory).length === 0 && (
+                <p style={{ color: '#888', padding: '1rem 0' }}>No {productCategory} added yet. Upload your first one above.</p>
+              )}
+            </div>
           </div>
         </section>
       )}
