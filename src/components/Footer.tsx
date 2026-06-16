@@ -83,8 +83,8 @@ export default function Footer() {
             <li><a href="#">Our Artisans</a></li>
             <li><a href="#">Sustainability</a></li>
             <li><a href="#">Press</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Store Locator</a></li>
+            <li><a href="tel:+918885700227">📞 +91 88857 00227</a></li>
+            <li><a href="https://nikskart.com">nikskart.com</a></li>
           </ul>
         </div>
       </div>
