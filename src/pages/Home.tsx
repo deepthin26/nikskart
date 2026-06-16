@@ -17,22 +17,22 @@ const categoryCards = [
   {
     title: 'Sarees',
     subtitle: 'Silk, chiffon & festive drapes',
-    gradient: 'linear-gradient(160deg, #1a0e0e 0%, #3d1a1a 50%, #2a1010 100%)',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Kurtis',
     subtitle: 'Comfort meets ethnic elegance',
-    gradient: 'linear-gradient(160deg, #0e1320 0%, #1a2540 50%, #111828 100%)',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Lehengas',
     subtitle: 'Bridal & festive collections',
-    gradient: 'linear-gradient(160deg, #14100a 0%, #35220d 50%, #1e1408 100%)',
+    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80',
   },
   {
     title: 'Jewellery',
     subtitle: 'Kundan, Polki & temple gold',
-    gradient: 'linear-gradient(160deg, #100e1a 0%, #231a35 50%, #150e20 100%)',
+    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80',
   },
 ];
 
@@ -127,7 +127,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
               className="category-card"
               onClick={() => setActiveTab(item.title === 'Lehengas' ? 'All' : item.title)}
             >
-              <div className="category-card-bg" style={{ background: item.gradient }} />
+              <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" />
               <div className="category-card-overlay" />
               <div className="category-card-content">
                 <span className="category-chip">{item.title}</span>
