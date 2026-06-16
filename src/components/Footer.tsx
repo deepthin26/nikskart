@@ -22,8 +22,21 @@ export default function Footer() {
         {/* Brand */}
         <div className="footer-brand-col">
           <div className="footer-brand">
-            <span className="footer-brand-icon">N</span>
-            <strong>Nikskart</strong>
+            <svg width="36" height="36" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="42" height="42" rx="4" fill="#c9a46e"/>
+              <rect x="1" y="1" width="42" height="42" rx="4" stroke="#0a0a0a" strokeWidth="1.5"/>
+              <line x1="7" y1="7.5" x2="37" y2="7.5" stroke="#0a0a0a" strokeWidth="0.7" strokeOpacity="0.4"/>
+              <line x1="7" y1="36.5" x2="37" y2="36.5" stroke="#0a0a0a" strokeWidth="0.7" strokeOpacity="0.4"/>
+              <rect x="5.5" y="5.5" width="3" height="3" rx="0.5" fill="#0a0a0a" opacity="0.6" transform="rotate(45 7 7)"/>
+              <rect x="34.5" y="5.5" width="3" height="3" rx="0.5" fill="#0a0a0a" opacity="0.6" transform="rotate(45 36 7)"/>
+              <rect x="5.5" y="34.5" width="3" height="3" rx="0.5" fill="#0a0a0a" opacity="0.6" transform="rotate(45 7 36)"/>
+              <rect x="34.5" y="34.5" width="3" height="3" rx="0.5" fill="#0a0a0a" opacity="0.6" transform="rotate(45 36 36)"/>
+              <text x="22" y="29" fontFamily="Georgia, 'Times New Roman', serif" fontSize="22" fontWeight="700" fill="#0a0a0a" textAnchor="middle">N</text>
+            </svg>
+            <div className="brand-text">
+              <strong>Nikskart</strong>
+              <span style={{ fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a46e', fontWeight: 600 }}>Ethnic Fashion</span>
+            </div>
           </div>
           <p className="footer-tagline">
             India's curated destination for women's ethnic wear and fine jewellery — sarees, kurtis, lehengas and handcrafted accessories.
