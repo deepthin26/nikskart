@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Address } from './useAuth';
 import type { Product } from '../data/products';
 import { apiUrl } from '../lib/api';
+import { supabase } from '../lib/supabase';
 
 export interface OrderItem extends Product {
   quantity: number;
@@ -51,7 +52,26 @@ export function useOrders(userEmail: string | null, userName: string) {
     }
 
     loadOrders();
-    return () => controller.abort();
+
+    // Live status updates via Supabase Realtime
+    const channel = supabase
+      .channel(`orders-${email}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'orders', filter: `user_email=eq.${email}` },
+        (payload) => {
+          const updated = payload.new as { id: string; status: string };
+          setOrders((cur) =>
+            cur.map((o) => (o.id === updated.id ? { ...o, status: updated.status } : o))
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      controller.abort();
+      supabase.removeChannel(channel);
+    };
   }, [userEmail]);
 
   const addOrder = async (

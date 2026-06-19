@@ -6,7 +6,7 @@
     <title>Nikskart – Ethnic Sarees, Kurtis & Jewellery Online Shopping</title>
 
     <!-- Primary SEO -->
-    <meta name="description" content="Shop ethnic wear online at Nikskart — premium sarees, kurtis, lehengas, salwar suits and handcrafted jewellery. Free delivery above ₹2999. Easy 15-day returns." />
+    <meta name="description" content="Shop ethnic wear online at Nikskart — premium sarees, kurtis, lehengas, salwar suits and handcrafted jewellery. Easy 15-day returns." />
     <meta name="keywords" content="sarees online, buy sarees, ethnic wear, kurtis online, lehengas, salwar suits, women ethnic fashion, silk sarees, banarasi sarees, cotton sarees, bridal lehenga, jewellery online, kundan jewellery, temple jewellery, Indian ethnic wear, festive wear, wedding sarees, designer kurtis, ethnic fashion India, Nikskart" />
     <meta name="author" content="Nikskart" />
     <meta name="robots" content="index, follow" />
@@ -15,17 +15,41 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
+    <!-- Google Search Console verification — replace content value -->
+    <meta name="google-site-verification" content="PASTE_YOUR_GSC_CODE_HERE" />
+
     <!-- Preconnect to speed up external requests -->
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://checkout.razorpay.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
     <link rel="dns-prefetch" href="https://lkqzfnjxadztqaznbksl.supabase.co" />
+
+    <!-- Preload LCP image (above-the-fold hero) -->
+    <link rel="preload" href="/images/home-banner.webp" as="image" type="image/webp" />
+
     <link rel="canonical" href="https://www.nikskart.com/" />
+
+    <!-- Google Analytics 4 — set VITE_GA4_ID in Vercel env vars -->
+    <script>
+      var _GA = '%VITE_GA4_ID%';
+      if (_GA && _GA !== '%VITE_GA4_ID%') {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        var _s = document.createElement('script');
+        _s.async = true;
+        _s.src = 'https://www.googletagmanager.com/gtag/js?id=' + _GA;
+        document.head.appendChild(_s);
+        _s.onload = function(){ gtag('config', _GA, { send_page_view: false }); };
+      }
+    </script>
 
     <!-- Open Graph (WhatsApp, Facebook preview) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Nikskart" />
     <meta property="og:title" content="Nikskart – Ethnic Sarees, Kurtis & Jewellery Online" />
-    <meta property="og:description" content="Shop premium ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery. Free delivery above ₹2999." />
+    <meta property="og:description" content="Shop premium ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery. Easy 15-day returns." />
     <meta property="og:url" content="https://www.nikskart.com/" />
     <meta property="og:image" content="https://www.nikskart.com/images/home-banner.webp" />
     <meta property="og:image:width" content="1200" />
@@ -34,20 +58,61 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Nikskart – Ethnic Sarees, Kurtis & Jewellery Online" />
-    <meta name="twitter:description" content="Shop premium ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery. Free delivery above ₹2999." />
+    <meta name="twitter:description" content="Shop premium ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery. Easy 15-day returns." />
     <meta name="twitter:image" content="https://www.nikskart.com/images/home-banner.webp" />
 
     <!-- Structured Data (Google rich results) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ClothingStore",
-      "name": "Nikskart",
-      "url": "https://www.nikskart.com",
-      "description": "India's curated destination for women's ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery.",
-      "currenciesAccepted": "INR",
-      "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
-      "areaServed": "IN"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Nikskart",
+          "url": "https://www.nikskart.com",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://www.nikskart.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "Nikskart",
+          "url": "https://www.nikskart.com",
+          "logo": "https://www.nikskart.com/images/home-banner.webp",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-88857-00227",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi"]
+          }
+        },
+        {
+          "@type": "ClothingStore",
+          "name": "Nikskart",
+          "url": "https://www.nikskart.com",
+          "description": "India's curated destination for women's ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery.",
+          "telephone": "+91-88857-00227",
+          "priceRange": "₹₹",
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
+          "areaServed": "IN",
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Ethnic Wear",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Sarees" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Kurtis" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Artificial Jewellery" } }
+            ]
+          }
+        }
+      ]
     }
     </script>
   </head>

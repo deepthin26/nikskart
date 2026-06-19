@@ -83,7 +83,7 @@ function getBackendErrorMessage(error: unknown) {
 }
 
 export default function Checkout({ cart, user, addAddress, selectAddress, addOrder, clearCart }: CheckoutProps) {
-  useSeoMeta('Secure Checkout – Nikskart | Pay Safely Online', 'Complete your Nikskart order securely. Pay via UPI, Credit/Debit Card or Net Banking. Free delivery above ₹2999.');
+  useSeoMeta('Checkout – Nikskart', 'Complete your order securely.', true);
   const [confirmed, setConfirmed] = useState(false);
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [formError, setFormError] = useState('');

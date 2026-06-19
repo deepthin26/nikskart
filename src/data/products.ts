@@ -208,5 +208,16 @@ export const products: Product[] = [
     rating: 4.8,
     description: 'Royal Jadau choker with emerald and ruby stones set in gold-plated brass.',
     badge: 'Editor Pick'
+  },
+  {
+    id: '19',
+    name: 'Chanderi Silk Kurti Set',
+    category: 'Kurtis',
+    price: 2399,
+    discount: '28% off',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+    rating: 4.6,
+    description: 'Elegant Chanderi silk kurti with delicate block print, lightweight fabric and a relaxed festive silhouette.',
+    badge: 'New'
   }
 ];

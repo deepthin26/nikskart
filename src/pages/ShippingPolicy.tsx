@@ -2,8 +2,8 @@ import { useSeoMeta } from '../hooks/useSeoMeta';
 
 export default function ShippingPolicy() {
   useSeoMeta(
-    'Shipping Policy – Nikskart | Free Delivery above ₹2,999',
-    'Nikskart shipping policy — free delivery on orders above ₹2,999, delivery timelines, pin code availability and more.'
+    'Shipping Policy – Nikskart',
+    'Nikskart shipping policy — delivery timelines, pin code availability, order tracking and more.'
   );
 
   return (
@@ -16,8 +16,8 @@ export default function ShippingPolicy() {
 
       <div className="static-body">
         <section className="static-section">
-          <h2>Free Delivery</h2>
-          <p>We offer <strong>free shipping on all orders above ₹2,999</strong> across India. For orders below ₹2,999, a flat shipping charge of ₹99 applies.</p>
+          <h2>Delivery</h2>
+          <p>We deliver across India — to metros, Tier-2 &amp; Tier-3 cities, and most remote areas. Shipping charges, if applicable, are shown at checkout before you pay.</p>
         </section>
 
         <section className="static-section">

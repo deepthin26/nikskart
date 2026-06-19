@@ -13,6 +13,8 @@ export function useSeoMeta(title: string, description: string, noindex = false) 
     setMeta('meta[property="og:title"]', title);
     setMeta('meta[property="og:description"]', description);
     setMeta('meta[property="og:url"]', window.location.href);
+    setMeta('meta[name="twitter:title"]', title);
+    setMeta('meta[name="twitter:description"]', description);
     setLink('link[rel="canonical"]', window.location.href);
 
     // noindex for private/transactional pages

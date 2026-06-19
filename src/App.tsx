@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { usePageTracking } from './hooks/useAnalytics';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -33,6 +34,7 @@ function PageLoader() {
 }
 
 function App() {
+  usePageTracking();
   const cart    = useCart();
   const auth    = useAuth();
   const orders  = useOrders(auth.user.authenticated ? auth.user.email : null, auth.user.name);

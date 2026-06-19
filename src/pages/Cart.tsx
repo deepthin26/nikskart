@@ -16,7 +16,7 @@ interface CartProps {
 }
 
 export default function Cart({ cart, wishlist }: CartProps) {
-  useSeoMeta('Your Cart – Nikskart | Ethnic Sarees & Kurtis', 'Review your selected ethnic wear items — sarees, kurtis, lehengas and jewellery. Free delivery above ₹2999 at Nikskart.');
+  useSeoMeta('Your Cart – Nikskart', 'Review your selected items.', true);
   return (
     <main className="page-content cart-page">
       <div className="cart-header">

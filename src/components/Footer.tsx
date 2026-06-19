@@ -41,12 +41,6 @@ export default function Footer() {
           <p className="footer-tagline">
             India's curated destination for women's ethnic wear and fine jewellery — sarees, kurtis, lehengas and handcrafted accessories.
           </p>
-          <div className="footer-social">
-            <a href="#" aria-label="Instagram" className="footer-social-link">IG</a>
-            <a href="#" aria-label="Facebook" className="footer-social-link">FB</a>
-            <a href="#" aria-label="Pinterest" className="footer-social-link">PT</a>
-            <a href="#" aria-label="YouTube" className="footer-social-link">YT</a>
-          </div>
         </div>
 
         {/* Quick Links */}
@@ -90,10 +84,7 @@ export default function Footer() {
 
       {/* Trust badges */}
       <div className="footer-trust">
-        <div className="footer-trust-item">
-          <span className="footer-trust-icon">🚚</span>
-          <span>Free delivery above ₹2,999</span>
-        </div>
+
         <div className="footer-trust-item">
           <span className="footer-trust-icon">↩</span>
           <span>15-day easy returns</span>

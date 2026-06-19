@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { findOrders, createOrder, findAllOrders, updateOrderStatus, aggregateCustomers } from './db.js';
+import { sendStatusEmail } from './mailer.js';
 
 dotenv.config();
 
@@ -145,6 +146,16 @@ app.put('/api/orders/:id/status', requireAdmin, async (req, res) => {
   }
   const order = await updateOrderStatus(id, status);
   if (!order) return res.status(404).json({ error: 'Order not found' });
+
+  sendStatusEmail({
+    toEmail: order.userEmail,
+    toName: order.userName,
+    orderId: order._id,
+    status,
+    items: order.items,
+    grandTotal: order.grandTotal,
+  }).catch((err) => console.error('[mailer] Email failed:', err.message));
+
   return res.json(normalizeOrder(order));
 });
 

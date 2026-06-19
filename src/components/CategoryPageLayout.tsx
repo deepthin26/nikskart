@@ -8,6 +8,11 @@ import ProductGrid from './ProductGrid';
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'rating';
 type PriceFilter = 'all' | 'under-1000' | '1000-3000' | '3000-6000' | 'over-6000';
 
+interface RelatedCategory {
+  label: string;
+  to: string;
+}
+
 interface CategoryPageLayoutProps {
   category: string;
   seoTitle: string;
@@ -17,6 +22,8 @@ interface CategoryPageLayoutProps {
   heroGradient: string;
   breadcrumbLabel: string;
   schemaDescription: string;
+  categoryIntro: string;
+  relatedCategories: RelatedCategory[];
   cart: { addItem: (p: Product) => void };
   wishlist: { toggleItem: (p: Product) => void; hasItem: (id: string) => boolean };
 }
@@ -38,7 +45,7 @@ const priceFilterLabels: Record<PriceFilter, string> = {
 
 export default function CategoryPageLayout({
   category, seoTitle, seoDescription, heroTitle, heroSubtitle,
-  heroGradient, breadcrumbLabel, schemaDescription, cart, wishlist,
+  heroGradient, breadcrumbLabel, schemaDescription, categoryIntro, relatedCategories, cart, wishlist,
 }: CategoryPageLayoutProps) {
   useSeoMeta(seoTitle, seoDescription);
   const { products } = useProducts();
@@ -167,8 +174,13 @@ export default function CategoryPageLayout({
         </div>
       </div>
 
+      {/* Keyword-rich intro */}
+      <div className="page-content" style={{ paddingTop: '1.5rem', paddingBottom: 0 }}>
+        <p className="category-intro-text">{categoryIntro}</p>
+      </div>
+
       {/* Grid */}
-      <div className="page-content" style={{ paddingTop: 0 }}>
+      <div className="page-content" style={{ paddingTop: '1rem' }}>
         {categoryProducts.length === 0 ? (
           <div className="empty-cart">
             <p>No products found in this category yet.</p>
@@ -178,6 +190,20 @@ export default function CategoryPageLayout({
           <ProductGrid products={categoryProducts} cart={cart} wishlist={wishlist} />
         )}
       </div>
+
+      {/* Internal links — Explore more */}
+      {relatedCategories.length > 0 && (
+        <div className="page-content">
+          <div className="category-related">
+            <h2 className="category-related-heading">Explore More</h2>
+            <div className="category-related-links">
+              {relatedCategories.map((r) => (
+                <Link key={r.to} className="category-related-link" to={r.to}>{r.label} →</Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

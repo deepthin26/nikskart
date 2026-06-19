@@ -25,7 +25,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
   return (
     <article className="product-card">
       <Link to={`/product/${product.id}`} className="product-image-link">
-        <img src={product.image} alt={product.name} loading="lazy" decoding="async" width="400" height="500" />
+        <img src={product.image} alt={`${product.name} – ${product.category} | Nikskart`} loading="lazy" decoding="async" width="400" height="500" />
         <div className="product-image-overlay">
           <span className="product-overlay-btn">View Details</span>
         </div>

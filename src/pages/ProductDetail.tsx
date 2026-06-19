@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { products, Product } from '../data/products';
+import { Product } from '../data/products';
+import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
 
 interface ProductDetailProps {
@@ -14,7 +15,6 @@ function StarRating({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((s) => (
         <span key={s} className={s <= Math.round(rating) ? 'star filled' : 'star'}>★</span>
       ))}
-      <span className="pd-rating-val">{rating} / 5</span>
     </span>
   );
 }
@@ -22,7 +22,19 @@ function StarRating({ rating }: { rating: number }) {
 export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
   const { productId } = useParams();
   const { addToast } = useToast();
+  const { products, loading } = useProducts();
+  const imgRef = useRef<HTMLImageElement>(null);
+
   const product = products.find((item) => item.id === productId);
+
+  // Mouse-tracking zoom — updates transform-origin in real time
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imgRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    imgRef.current.style.transformOrigin = `${x}% ${y}%`;
+  };
 
   useEffect(() => {
     if (!product) return;
@@ -33,7 +45,7 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
       document.querySelector(sel)?.setAttribute('content', val);
 
     setMeta('meta[name="description"]',
-      `Buy ${product.name} at ₹${product.price}. ${product.description} Shop ethnic wear at Nikskart with free delivery above ₹2,999.`);
+      `Buy ${product.name} at ₹${product.price}. ${product.description} Shop ethnic wear at Nikskart.`);
     setMeta('meta[property="og:title"]', `${product.name} – Nikskart`);
     setMeta('meta[property="og:description"]', `${product.description} ₹${product.price} only at Nikskart.`);
     setMeta('meta[property="og:image"]', product.image);
@@ -76,6 +88,21 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
     };
   }, [product]);
 
+  if (loading && !product) {
+    return (
+      <main className="page-content product-detail-page">
+        <div className="pd-skeleton">
+          <div className="pd-skeleton-img" />
+          <div className="pd-skeleton-info">
+            <div className="pd-skeleton-line wide" />
+            <div className="pd-skeleton-line" />
+            <div className="pd-skeleton-line narrow" />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   if (!product) {
     return (
       <main className="page-content empty-cart">
@@ -93,6 +120,12 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
 
   const isWishlisted = wishlist.hasItem(product.id);
 
+  // Calculate original/MRP price from discount string e.g. "30% off"
+  const discountPct = parseInt(product.discount || '0');
+  const originalPrice = discountPct > 0
+    ? Math.round(product.price / (1 - discountPct / 100))
+    : null;
+
   return (
     <main className="page-content product-detail-page">
       {/* Breadcrumb */}
@@ -105,44 +138,60 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
       </nav>
 
       <div className="pd-card">
-        {/* Image panel */}
-        <div className="pd-image-wrap">
+
+        {/* ── Image panel ── */}
+        <div
+          className="pd-image-wrap"
+          onMouseMove={handleMouseMove}
+        >
           <img
+            ref={imgRef}
             src={product.image}
             alt={`${product.name} – Buy ${product.category} online at Nikskart`}
             className="pd-image"
-            loading="lazy"
+            loading="eager"
           />
           {product.badge && <span className="pd-image-badge">{product.badge}</span>}
+          <span className="pd-zoom-hint">Hover to zoom</span>
         </div>
 
-        {/* Info panel */}
+        {/* ── Info panel ── */}
         <div className="pd-info">
           <p className="pd-category">{product.category}</p>
           <h1 className="pd-title">{product.name}</h1>
 
+          {/* Rating */}
           <div className="pd-rating-row">
-            <StarRating rating={product.rating} />
-            <span className="pd-review-count">42 reviews</span>
-          </div>
-
-          <div className="pd-price-row">
-            <span className="pd-price">₹{product.price.toLocaleString('en-IN')}</span>
-            <span className="pd-discount">{product.discount}</span>
-            <span className="pd-tax-note">Inclusive of all taxes</span>
-          </div>
-
-          <p className="pd-description">{product.description}</p>
-
-          {/* Delivery info */}
-          <div className="pd-delivery-strip">
-            <div className="pd-delivery-item">
-              <span className="pd-delivery-icon">🚚</span>
-              <div>
-                <strong>Free Delivery</strong>
-                <span>On orders above ₹2,999</span>
-              </div>
+            <div className="pd-rating-chip">
+              <span className="pd-rating-num">{product.rating}</span>
+              <StarRating rating={product.rating} />
             </div>
+            <span className="pd-review-sep">|</span>
+            <span className="pd-review-count">42 Ratings &amp; Reviews</span>
+          </div>
+
+          {/* Price */}
+          <div className="pd-price-block">
+            <div className="pd-price-row">
+              <span className="pd-price">₹{product.price.toLocaleString('en-IN')}</span>
+              {originalPrice && (
+                <span className="pd-original-price">₹{originalPrice.toLocaleString('en-IN')}</span>
+              )}
+              {product.discount && (
+                <span className="pd-discount">{product.discount}</span>
+              )}
+            </div>
+            <p className="pd-tax-note">inclusive of all taxes</p>
+          </div>
+
+          {/* Product details */}
+          <div className="pd-details-box">
+            <h3 className="pd-details-title">Product Details</h3>
+            <p className="pd-description">{product.description}</p>
+          </div>
+
+          {/* Delivery strip */}
+          <div className="pd-delivery-strip">
             <div className="pd-delivery-item">
               <span className="pd-delivery-icon">↩</span>
               <div>
@@ -159,22 +208,27 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="pd-actions">
-            <button className="primary-button pd-add-btn" onClick={() => { cart.addItem(product); addToast(`Added to bag — ${product.name}`); }}>
-              Add to Bag
+          {/* CTA buttons */}
+          <div className="pd-cta-row">
+            <button
+              className="pd-wishlist-btn"
+              onClick={() => {
+                wishlist.toggleItem(product);
+                addToast(isWishlisted ? 'Removed from wishlist' : `Saved — ${product.name}`);
+              }}
+            >
+              {isWishlisted ? '♥ Wishlisted' : '♡ Wishlist'}
             </button>
             <button
-              className={`pd-wishlist-btn${isWishlisted ? ' saved' : ''}`}
-              onClick={() => { wishlist.toggleItem(product); addToast(isWishlisted ? 'Removed from wishlist' : `Saved — ${product.name}`); }}
+              className="pd-add-btn"
+              onClick={() => { cart.addItem(product); addToast(`Added to bag — ${product.name}`); }}
             >
-              {isWishlisted ? '♥ Saved' : '♡ Wishlist'}
+              Add to Bag
             </button>
+            <Link className="pd-buy-now" to="/checkout">
+              Buy Now
+            </Link>
           </div>
-
-          <Link className="pd-checkout-link" to="/checkout">
-            Buy Now →
-          </Link>
         </div>
       </div>
     </main>

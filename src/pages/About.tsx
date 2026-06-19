@@ -54,10 +54,7 @@ export default function About() {
               <strong>100% Authentic</strong>
               <p>Every product is carefully sourced and quality-checked before it reaches you.</p>
             </div>
-            <div className="about-promise-item">
-              <strong>Free Delivery</strong>
-              <p>Complimentary shipping on all orders above ₹2,999 across India.</p>
-            </div>
+
             <div className="about-promise-item">
               <strong>Easy Returns</strong>
               <p>15-day hassle-free return policy — no questions asked.</p>

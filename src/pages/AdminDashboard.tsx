@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiUrl } from '../lib/api';
 import { supabase } from '../lib/supabase';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface Customer {
   email: string;
@@ -38,6 +39,7 @@ const CATEGORIES = ['Sarees', 'Kurtis', 'Artificial Jewellery'] as const;
 type Category = typeof CATEGORIES[number];
 
 export default function AdminDashboard() {
+  useSeoMeta('Admin – Nikskart', 'Admin dashboard', true);
   const [customers, setCustomers]   = useState<Customer[]>([]);
   const [orders, setOrders]         = useState<OrderData[]>([]);
   const [dbProducts, setDbProducts] = useState<ProductRow[]>([]);

@@ -13,7 +13,7 @@ interface WishlistProps {
 }
 
 export default function Wishlist({ wishlist, cart }: WishlistProps) {
-  useSeoMeta('My Wishlist – Nikskart | Saved Ethnic Wear', 'Your saved ethnic wear at Nikskart — sarees, kurtis, lehengas and jewellery you love.');
+  useSeoMeta('My Wishlist – Nikskart', 'Your saved items.', true);
   return (
     <main className="page-content wishlist-page">
       <div className="wishlist-header">
