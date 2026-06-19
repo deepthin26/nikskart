@@ -305,6 +305,11 @@ button {
   align-items: center;
 }
 
+/* Desktop: show top-centre of image (models + fabric at top) */
+.home-hero {
+  background-position: center top;
+}
+
 .hero-banner::after {
   content: '';
   position: absolute;
@@ -2207,14 +2212,14 @@ button {
 
 @media (max-width: 640px) {
   .hero-banner {
-    padding: 3rem 1.25rem 2.5rem;
-    min-height: 480px;
-    background-position: center top !important;
-    align-items: flex-end;
+    padding: 2.25rem 1.25rem 2rem;
+    min-height: 300px;
+    background-position: center 25%;
+    align-items: center;
   }
 
   .hero-bg-overlay {
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%);
+    background: linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.48) 60%, rgba(0,0,0,0.25) 100%);
   }
 
   .hero-copy {
@@ -2223,12 +2228,15 @@ button {
   }
 
   .hero-copy h1 {
-    font-size: 1.7rem;
-    line-height: 1.25;
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+    line-height: 1.22;
+    margin-bottom: 0.6rem;
   }
 
   .hero-text {
-    font-size: 0.9rem;
+    font-size: 0.86rem;
+    margin: 0.6rem 0 1.25rem;
+    line-height: 1.65;
   }
 
   .hero-search {
@@ -2238,6 +2246,13 @@ button {
   .hero-highlights {
     justify-content: center;
     flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-pill {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.7rem;
   }
 
   .product-card-body {
@@ -3452,6 +3467,20 @@ button {
     font-size: 0.72rem;
     letter-spacing: 0.06em;
   }
+
+  /* Hero — tablet/large phone */
+  .hero-banner {
+    min-height: 340px;
+    padding: 3rem 2rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .hero-search {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -3511,5 +3540,37 @@ button {
 
   .brand-tagline {
     display: none;
+  }
+
+  /* Hero — very small phones (iPhone SE, Galaxy A) */
+  .hero-banner {
+    min-height: 260px;
+    padding: 1.75rem 1rem 1.5rem;
+    background-position: center 20%;
+  }
+
+  .hero-copy h1 {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .hero-text {
+    font-size: 0.8rem;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .hero-search input {
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+  }
+
+  .hero-search-btn {
+    padding: 0 1rem;
+    font-size: 0.7rem;
+  }
+
+  .eyebrow {
+    font-size: 0.62rem;
+    margin-bottom: 0.75rem;
   }
 }
