@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const heroImages = [
   '/images/home-banner.webp',
-  'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=1200&q=75',
+  'https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=1200&q=75',
+  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=75',
 ];
 
 interface HeroProps {
@@ -14,6 +14,16 @@ interface HeroProps {
 
 export default function Hero({ search, setSearch }: HeroProps) {
   const [active, setActive] = useState(0);
+  const loaded = useRef<Set<number>>(new Set([0]));
+  const [, forceUpdate] = useState(0);
+
+  useEffect(() => {
+    const next = (active + 1) % heroImages.length;
+    let changed = false;
+    if (!loaded.current.has(active)) { loaded.current.add(active); changed = true; }
+    if (!loaded.current.has(next))   { loaded.current.add(next);   changed = true; }
+    if (changed) forceUpdate((n) => n + 1);
+  }, [active]);
 
   useEffect(() => {
     const t = setInterval(() => setActive((p) => (p + 1) % heroImages.length), 5000);
@@ -29,7 +39,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
         <div
           key={i}
           className={`hero-slide-bg${i === active ? ' active' : ''}`}
-          style={{ backgroundImage: `url(${img})` }}
+          style={loaded.current.has(i) ? { backgroundImage: `url(${img})` } : undefined}
         />
       ))}
       <div className="hero-bg-overlay" />

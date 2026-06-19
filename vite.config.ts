@@ -23,11 +23,15 @@ export default defineConfig({
   build: {
     target: 'es2015',
     cssMinify: true,
+    chunkSizeWarningLimit: 400,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-        }
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@supabase') || id.includes('realtime-js')) return 'supabase';
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) return 'vendor';
+          }
+        },
       }
     }
   }
