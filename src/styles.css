@@ -3764,6 +3764,25 @@ button {
   border-color: #c9a46e;
 }
 
+.admin-edit-image {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border: 2px dashed #d0d0d0;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  transition: border-color 0.15s;
+}
+
+.admin-edit-image:hover {
+  border-color: #c9a46e;
+}
+
 @media (max-width: 640px) {
   .toast-container {
     bottom: 1rem;

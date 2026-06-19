@@ -29,6 +29,9 @@ interface ProductRow {
   price: number;
   image: string;
   badge: string;
+  discount: string;
+  description: string;
+  rating: number;
 }
 
 const CATEGORIES = ['Sarees', 'Kurtis', 'Artificial Jewellery'] as const;
@@ -60,7 +63,10 @@ export default function AdminDashboard() {
   // product edit state
   const [editId, setEditId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ name: '', price: '', discount: '', badge: '', description: '', rating: '' });
+  const [editImageFile, setEditImageFile] = useState<File | null>(null);
+  const [editImagePreview, setEditImagePreview] = useState('');
   const [editMsg, setEditMsg] = useState('');
+  const editFileRef = useRef<HTMLInputElement>(null);
 
   const formatError = (err: unknown) =>
     err instanceof Error ? err.message : 'Unable to load admin dashboard.';
@@ -93,7 +99,7 @@ export default function AdminDashboard() {
   };
 
   const loadProducts = async () => {
-    const { data } = await supabase.from('products').select('id,name,category,price,image,badge').order('created_at', { ascending: false });
+    const { data } = await supabase.from('products').select('id,name,category,price,image,badge,discount,description,rating').order('created_at', { ascending: false });
     if (data) setDbProducts(data as ProductRow[]);
   };
 
@@ -178,11 +184,32 @@ export default function AdminDashboard() {
 
   const startEdit = (p: ProductRow) => {
     setEditId(p.id);
-    setEditForm({ name: p.name, price: String(p.price), discount: '', badge: p.badge || '', description: '', rating: '' });
+    setEditForm({
+      name: p.name,
+      price: String(p.price),
+      discount: p.discount || '',
+      badge: p.badge || '',
+      description: p.description || '',
+      rating: p.rating ? String(p.rating) : '',
+    });
+    setEditImageFile(null);
+    setEditImagePreview(p.image || '');
     setEditMsg('');
   };
 
-  const cancelEdit = () => { setEditId(null); setEditMsg(''); };
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditImageFile(null);
+    setEditImagePreview('');
+    setEditMsg('');
+  };
+
+  const handleEditImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setEditImageFile(file);
+    setEditImagePreview(URL.createObjectURL(file));
+  };
 
   const handleSaveEdit = async () => {
     if (!editId || !editForm.name || !editForm.price) {
@@ -190,20 +217,40 @@ export default function AdminDashboard() {
       return;
     }
     setEditMsg('Saving…');
-    const updates: Record<string, unknown> = {
-      name: editForm.name.trim(),
-      price: Number(editForm.price),
-    };
-    if (editForm.badge.trim()) updates.badge = editForm.badge.trim();
-    if (editForm.discount.trim()) updates.discount = editForm.discount.trim();
-    if (editForm.description.trim()) updates.description = editForm.description.trim();
-    if (editForm.rating) updates.rating = Number(editForm.rating);
+    try {
+      const updates: Record<string, unknown> = {
+        name: editForm.name.trim(),
+        price: Number(editForm.price),
+        badge: editForm.badge.trim(),
+        discount: editForm.discount.trim(),
+        description: editForm.description.trim(),
+      };
+      if (editForm.rating) updates.rating = Number(editForm.rating);
 
-    const { error: err } = await supabase.from('products').update(updates).eq('id', editId);
-    if (err) { setEditMsg(`Error: ${err.message}`); return; }
-    setDbProducts((cur) => cur.map((p) => p.id === editId ? { ...p, name: editForm.name, price: Number(editForm.price), badge: editForm.badge } : p));
-    setEditMsg('');
-    setEditId(null);
+      if (editImageFile) {
+        const ext = editImageFile.name.split('.').pop();
+        const path = `products/${Date.now()}.${ext}`;
+        const { error: uploadErr } = await supabase.storage.from('product-images').upload(path, editImageFile, { upsert: true });
+        if (uploadErr) throw new Error(`Image upload failed: ${uploadErr.message}`);
+        const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
+        updates.image = publicUrl;
+      }
+
+      const { error: err } = await supabase.from('products').update(updates).eq('id', editId);
+      if (err) throw new Error(err.message);
+
+      setDbProducts((cur) => cur.map((p) =>
+        p.id === editId
+          ? { ...p, ...updates, price: Number(editForm.price), image: (updates.image as string) || p.image }
+          : p
+      ));
+      setEditMsg('');
+      setEditId(null);
+      setEditImageFile(null);
+      setEditImagePreview('');
+    } catch (e) {
+      setEditMsg(e instanceof Error ? e.message : 'Save failed.');
+    }
   };
 
   if (!adminKey) {
@@ -376,25 +423,40 @@ export default function AdminDashboard() {
 
                   {editId === p.id && (
                     <div className="admin-edit-form">
-                      <div className="admin-edit-grid">
-                        <label>Name *
-                          <input value={editForm.name} onChange={(e) => setEditForm((f) => ({ ...f, name: e.target.value }))} />
-                        </label>
-                        <label>Price (₹) *
-                          <input type="number" value={editForm.price} onChange={(e) => setEditForm((f) => ({ ...f, price: e.target.value }))} />
-                        </label>
-                        <label>Badge
-                          <input value={editForm.badge} onChange={(e) => setEditForm((f) => ({ ...f, badge: e.target.value }))} placeholder="e.g. New Arrival" />
-                        </label>
-                        <label>Discount
-                          <input value={editForm.discount} onChange={(e) => setEditForm((f) => ({ ...f, discount: e.target.value }))} placeholder="e.g. 20% off" />
-                        </label>
-                        <label>Rating
-                          <input type="number" min="1" max="5" step="0.1" value={editForm.rating} onChange={(e) => setEditForm((f) => ({ ...f, rating: e.target.value }))} placeholder="4.5" />
-                        </label>
-                        <label style={{ gridColumn: '1/-1' }}>Description
-                          <textarea rows={2} value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} placeholder="Leave blank to keep existing" />
-                        </label>
+                      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                        {/* Image preview / replace */}
+                        <div
+                          className="admin-edit-image"
+                          onClick={() => editFileRef.current?.click()}
+                          title="Click to change image"
+                        >
+                          {editImagePreview
+                            ? <img src={editImagePreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                            : <span style={{ fontSize: '0.75rem', color: '#aaa' }}>Click to upload</span>}
+                          <input ref={editFileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleEditImageChange} />
+                        </div>
+
+                        {/* Fields grid */}
+                        <div className="admin-edit-grid" style={{ flex: 1 }}>
+                          <label>Name *
+                            <input value={editForm.name} onChange={(e) => setEditForm((f) => ({ ...f, name: e.target.value }))} />
+                          </label>
+                          <label>Price (₹) *
+                            <input type="number" value={editForm.price} onChange={(e) => setEditForm((f) => ({ ...f, price: e.target.value }))} />
+                          </label>
+                          <label>Badge
+                            <input value={editForm.badge} onChange={(e) => setEditForm((f) => ({ ...f, badge: e.target.value }))} placeholder="e.g. New Arrival" />
+                          </label>
+                          <label>Discount
+                            <input value={editForm.discount} onChange={(e) => setEditForm((f) => ({ ...f, discount: e.target.value }))} placeholder="e.g. 20% off" />
+                          </label>
+                          <label>Rating (1–5)
+                            <input type="number" min="1" max="5" step="0.1" value={editForm.rating} onChange={(e) => setEditForm((f) => ({ ...f, rating: e.target.value }))} placeholder="4.5" />
+                          </label>
+                          <label style={{ gridColumn: '1/-1' }}>Description
+                            <textarea rows={2} value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} />
+                          </label>
+                        </div>
                       </div>
                       {editMsg && <p style={{ color: editMsg === 'Saving…' ? '#888' : '#dc2626', fontSize: '0.82rem', margin: '0.5rem 0 0' }}>{editMsg}</p>}
                       <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
