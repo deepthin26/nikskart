@@ -1,3 +1,8 @@
+/* Prevent horizontal scroll on all devices */
+html {
+  overflow-x: hidden;
+}
+
 /* ================================================================
    NIKSKART — Neerus-inspired design system
    Palette: black #0a0a0a · white #fff · gold #c9a46e · grey #f5f5f5
@@ -3480,6 +3485,57 @@ button {
 
   .hero-search {
     max-width: 100%;
+  }
+
+  /* Auth panel — reduce oversized padding/margin on mobile */
+  .auth-panel,
+  .order-confirmation {
+    padding: 1.75rem 1.5rem;
+    margin: 2rem auto;
+  }
+
+  /* Empty cart / empty state — reduce tall padding */
+  .empty-cart {
+    padding: 3rem 1.5rem;
+  }
+
+  /* Section header — wrap title + link on narrow screens */
+  .section-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Cart summary — make CTA button full-width */
+  .cart-summary .primary-button {
+    width: 100%;
+  }
+
+  /* Promo strip last item — remove bottom border when stacked */
+  .promo-strip-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Admin table header — hide when rows stack (cells have labels) */
+  .table-row.table-header {
+    display: none;
+  }
+
+  /* Quantity buttons — 44px min for accessible touch targets */
+  .quantity-button {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  /* Payment method cards — compact padding on small screens */
+  .payment-method-card {
+    padding: 0.65rem 0.75rem;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  /* Category page hero heading */
+  .category-hero h1 {
+    font-size: 1.75rem;
   }
 }
 
