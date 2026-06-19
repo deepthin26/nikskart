@@ -20,9 +20,11 @@ const womenCategories = [
 
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
   const [womenOpen, setWomenOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileWomenOpen, setMobileWomenOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when tapping outside on mobile
+  // Close desktop dropdown when tapping outside on mobile
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -37,11 +39,23 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
     };
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  const closeAll = () => {
+    setMobileOpen(false);
+    setMobileWomenOpen(false);
+    setWomenOpen(false);
+  };
+
   return (
     <>
       <header className="navbar">
         <div className="brand-bar">
-          <Link className="brand" to="/">
+          <Link className="brand" to="/" onClick={closeAll}>
             <svg className="brand-logo-svg" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="1" y="1" width="42" height="42" rx="4" fill="#0a0a0a"/>
               <rect x="1" y="1" width="42" height="42" rx="4" stroke="#c9a46e" strokeWidth="1.5"/>
@@ -59,10 +73,10 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             </div>
           </Link>
 
+          {/* ── Desktop nav ── */}
           <nav className="nav-links">
             <Link to="/">Home</Link>
 
-            {/* Women dropdown — hover on desktop, tap on mobile */}
             <div
               className="nav-dropdown"
               ref={dropdownRef}
@@ -80,11 +94,7 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
               {womenOpen && (
                 <div className="dropdown-menu">
                   {womenCategories.map((cat) => (
-                    <Link
-                      key={cat.to}
-                      to={cat.to}
-                      onClick={() => setWomenOpen(false)}
-                    >
+                    <Link key={cat.to} to={cat.to} onClick={() => setWomenOpen(false)}>
                       {cat.label}
                     </Link>
                   ))}
@@ -99,6 +109,7 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             {user.authenticated && <Link to="/admin">Admin</Link>}
           </nav>
 
+          {/* ── Desktop actions ── */}
           <div className="navbar-actions">
             {user.authenticated ? (
               <>
@@ -115,8 +126,86 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
               Bag <span className="cart-count">{cartCount}</span>
             </Link>
           </div>
+
+          {/* ── Mobile: Bag + Hamburger ── */}
+          <div className="mobile-nav-actions">
+            <Link className="cart-button" to="/cart" onClick={closeAll}>
+              Bag <span className="cart-count">{cartCount}</span>
+            </Link>
+            <button
+              className="hamburger-btn"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+            >
+              <span className={mobileOpen ? 'is-open' : ''} />
+              <span className={mobileOpen ? 'is-open' : ''} />
+              <span className={mobileOpen ? 'is-open' : ''} />
+            </button>
+          </div>
         </div>
       </header>
+
+      {/* ── Mobile drawer ── */}
+      {mobileOpen && (
+        <>
+          <div className="mobile-nav-backdrop" onClick={closeAll} />
+          <nav className="mobile-nav" aria-label="Mobile navigation">
+            <div className="mobile-nav-header">
+              <span className="mobile-nav-brand">Nikskart</span>
+              <button className="mobile-nav-close" onClick={closeAll} aria-label="Close menu">✕</button>
+            </div>
+
+            <div className="mobile-nav-body">
+              <Link to="/" className="mobile-nav-link" onClick={closeAll}>Home</Link>
+
+              {/* Women accordion */}
+              <button
+                className="mobile-nav-link mobile-nav-accordion"
+                onClick={() => setMobileWomenOpen((v) => !v)}
+              >
+                Women
+                <span className={`dropdown-chevron${mobileWomenOpen ? ' open' : ''}`}>▾</span>
+              </button>
+              {mobileWomenOpen && (
+                <div className="mobile-nav-sub">
+                  {womenCategories.map((cat) => (
+                    <Link key={cat.to} to={cat.to} className="mobile-nav-sub-link" onClick={closeAll}>
+                      {cat.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              <Link to="/wishlist" className="mobile-nav-link" onClick={closeAll}>
+                Wishlist{wishlistCount > 0 && <span className="cart-count">{wishlistCount}</span>}
+              </Link>
+              {user.authenticated && <Link to="/orders" className="mobile-nav-link" onClick={closeAll}>My Orders</Link>}
+              {user.authenticated && <Link to="/account" className="mobile-nav-link" onClick={closeAll}>My Account</Link>}
+              <Link to="/checkout" className="mobile-nav-link" onClick={closeAll}>Checkout</Link>
+              {user.authenticated && <Link to="/admin" className="mobile-nav-link" onClick={closeAll}>Admin</Link>}
+
+              <div className="mobile-nav-divider" />
+
+              {user.authenticated ? (
+                <>
+                  <span className="mobile-nav-user">Hi, {user.name}</span>
+                  <button
+                    className="mobile-nav-link mobile-nav-logout"
+                    onClick={() => { onLogout(); closeAll(); }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="mobile-nav-link mobile-nav-cta" onClick={closeAll}>
+                  Login / Sign Up
+                </Link>
+              )}
+            </div>
+          </nav>
+        </>
+      )}
     </>
   );
 }
