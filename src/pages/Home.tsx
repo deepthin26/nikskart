@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 import { Product } from '../data/products';
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
@@ -57,6 +58,10 @@ const promoCollections = [
 const filterTabs = ['All', 'Sarees', 'Kurtis', 'Artificial Jewellery'];
 
 export default function Home({ cart, wishlist }: HomeProps) {
+  useSeoMeta(
+    'Nikskart – Ethnic Sarees, Kurtis & Jewellery Online Shopping',
+    'Shop premium ethnic wear at Nikskart — sarees, kurtis, lehengas and handcrafted jewellery. Free delivery above ₹2,999. Easy 15-day returns.'
+  );
   const [search, setSearch] = useState('');
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState('All');
