@@ -6,6 +6,7 @@ import { Product } from '../data/products';
 import ProductGrid from './ProductGrid';
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'rating';
+type PriceFilter = 'all' | 'under-1000' | '1000-3000' | '3000-6000' | 'over-6000';
 
 interface CategoryPageLayoutProps {
   category: string;
@@ -27,6 +28,14 @@ const sortLabels: Record<SortOption, string> = {
   rating: 'Top Rated',
 };
 
+const priceFilterLabels: Record<PriceFilter, string> = {
+  'all': 'All Prices',
+  'under-1000': 'Under ₹1,000',
+  '1000-3000': '₹1,000 – ₹3,000',
+  '3000-6000': '₹3,000 – ₹6,000',
+  'over-6000': 'Above ₹6,000',
+};
+
 export default function CategoryPageLayout({
   category, seoTitle, seoDescription, heroTitle, heroSubtitle,
   heroGradient, breadcrumbLabel, schemaDescription, cart, wishlist,
@@ -34,14 +43,24 @@ export default function CategoryPageLayout({
   useSeoMeta(seoTitle, seoDescription);
   const { products } = useProducts();
   const [sort, setSort] = useState<SortOption>('default');
+  const [search, setSearch] = useState('');
+  const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
 
   const categoryProducts = useMemo(() => {
-    const filtered = products.filter((p: Product) => p.category === category);
+    let filtered = products.filter((p: Product) => p.category === category);
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      filtered = filtered.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+    }
+    if (priceFilter === 'under-1000') filtered = filtered.filter((p) => p.price < 1000);
+    else if (priceFilter === '1000-3000') filtered = filtered.filter((p) => p.price >= 1000 && p.price <= 3000);
+    else if (priceFilter === '3000-6000') filtered = filtered.filter((p) => p.price > 3000 && p.price <= 6000);
+    else if (priceFilter === 'over-6000') filtered = filtered.filter((p) => p.price > 6000);
     if (sort === 'price-asc') return [...filtered].sort((a, b) => a.price - b.price);
     if (sort === 'price-desc') return [...filtered].sort((a, b) => b.price - a.price);
     if (sort === 'rating') return [...filtered].sort((a, b) => b.rating - a.rating);
     return filtered;
-  }, [products, category, sort]);
+  }, [products, category, sort, search, priceFilter]);
 
   useEffect(() => {
     const schema = {
@@ -112,17 +131,39 @@ export default function CategoryPageLayout({
         <p className="category-toolbar-count">
           Showing <strong>{categoryProducts.length}</strong> {breadcrumbLabel}
         </p>
-        <div className="category-sort">
-          <label htmlFor="sort-select">Sort by</label>
-          <select
-            id="sort-select"
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortOption)}
-          >
-            {(Object.keys(sortLabels) as SortOption[]).map((key) => (
-              <option key={key} value={key}>{sortLabels[key]}</option>
-            ))}
-          </select>
+        <div className="category-toolbar-controls">
+          <input
+            className="category-search-input"
+            type="search"
+            placeholder={`Search ${breadcrumbLabel.toLowerCase()}…`}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label={`Search ${breadcrumbLabel}`}
+          />
+          <div className="category-sort">
+            <label htmlFor="price-select">Price</label>
+            <select
+              id="price-select"
+              value={priceFilter}
+              onChange={(e) => setPriceFilter(e.target.value as PriceFilter)}
+            >
+              {(Object.keys(priceFilterLabels) as PriceFilter[]).map((key) => (
+                <option key={key} value={key}>{priceFilterLabels[key]}</option>
+              ))}
+            </select>
+          </div>
+          <div className="category-sort">
+            <label htmlFor="sort-select">Sort</label>
+            <select
+              id="sort-select"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortOption)}
+            >
+              {(Object.keys(sortLabels) as SortOption[]).map((key) => (
+                <option key={key} value={key}>{sortLabels[key]}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 

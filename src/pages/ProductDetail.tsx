@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products, Product } from '../data/products';
+import { useToast } from '../context/ToastContext';
 
 interface ProductDetailProps {
   cart: { addItem: (product: Product) => void };
@@ -20,6 +21,7 @@ function StarRating({ rating }: { rating: number }) {
 
 export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
   const { productId } = useParams();
+  const { addToast } = useToast();
   const product = products.find((item) => item.id === productId);
 
   useEffect(() => {
@@ -159,12 +161,12 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
 
           {/* Actions */}
           <div className="pd-actions">
-            <button className="primary-button pd-add-btn" onClick={() => cart.addItem(product)}>
+            <button className="primary-button pd-add-btn" onClick={() => { cart.addItem(product); addToast(`Added to bag — ${product.name}`); }}>
               Add to Bag
             </button>
             <button
               className={`pd-wishlist-btn${isWishlisted ? ' saved' : ''}`}
-              onClick={() => wishlist.toggleItem(product)}
+              onClick={() => { wishlist.toggleItem(product); addToast(isWishlisted ? 'Removed from wishlist' : `Saved — ${product.name}`); }}
             >
               {isWishlisted ? '♥ Saved' : '♡ Wishlist'}
             </button>

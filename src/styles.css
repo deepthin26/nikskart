@@ -1691,15 +1691,6 @@ button {
   margin-top: 1rem;
 }
 
-.cod-note {
-  padding: 1rem;
-  border-radius: 0;
-  background: #f5f0eb;
-  color: #555;
-  margin-top: 1rem;
-  font-size: 0.82rem;
-  border-left: 3px solid #c9a46e;
-}
 
 .confirmation-address {
   margin: 1rem 0;
@@ -3649,5 +3640,146 @@ button {
   .eyebrow {
     font-size: 0.62rem;
     margin-bottom: 0.75rem;
+  }
+}
+
+/* ── Toast notifications ────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #0a0a0a;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.28);
+  pointer-events: all;
+  animation: toast-slide-in 0.22s ease;
+  max-width: 320px;
+  border-left: 3px solid #c9a46e;
+}
+
+.toast-error {
+  border-left-color: #dc2626;
+  background: #1a0505;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-size: 0.78rem;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  color: #fff;
+}
+
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateX(1.5rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Category toolbar controls ──────────────────────── */
+.category-toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.category-search-input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+  color: #0a0a0a;
+  background: #fafafa;
+  font-family: inherit;
+  min-width: 200px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.category-search-input:focus {
+  border-color: #c9a46e;
+}
+
+/* ── Admin product edit form ────────────────────────── */
+.admin-edit-form {
+  background: #faf8f5;
+  border: 1px solid #e8e0d6;
+  padding: 1rem 1.25rem;
+  margin-top: 0.5rem;
+  border-radius: 0 0 8px 8px;
+}
+
+.admin-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.admin-edit-grid label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-edit-grid input,
+.admin-edit-grid textarea {
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.admin-edit-grid input:focus,
+.admin-edit-grid textarea:focus {
+  border-color: #c9a46e;
+}
+
+@media (max-width: 640px) {
+  .toast-container {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .toast {
+    max-width: 100%;
+  }
+
+  .category-search-input {
+    min-width: 100%;
+  }
+
+  .admin-edit-grid {
+    grid-template-columns: 1fr;
   }
 }

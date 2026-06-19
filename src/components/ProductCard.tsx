@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
+import { useToast } from '../context/ToastContext';
 
 interface ProductCardProps {
   product: Product;
@@ -9,6 +10,18 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, addItem, toggleWishlist, isWishlisted }: ProductCardProps) {
+  const { addToast } = useToast();
+
+  const handleAddToBag = () => {
+    addItem(product);
+    addToast(`Added to bag — ${product.name}`);
+  };
+
+  const handleToggleWishlist = () => {
+    toggleWishlist(product);
+    addToast(isWishlisted ? 'Removed from wishlist' : `Saved — ${product.name}`);
+  };
+
   return (
     <article className="product-card">
       <Link to={`/product/${product.id}`} className="product-image-link">
@@ -19,7 +32,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
       </Link>
       <button
         className={`product-wishlist-btn${isWishlisted ? ' saved' : ''}`}
-        onClick={() => toggleWishlist(product)}
+        onClick={handleToggleWishlist}
         aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
       >
         {isWishlisted ? '♥' : '♡'}
@@ -35,7 +48,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
         <p className="product-category">{product.category}</p>
         <div className="card-footer">
           <span className="rating">{'★'.repeat(Math.round(product.rating))} {product.rating}</span>
-          <button className="card-add-btn" onClick={() => addItem(product)}>
+          <button className="card-add-btn" onClick={handleAddToBag}>
             + Bag
           </button>
         </div>

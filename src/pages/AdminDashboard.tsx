@@ -49,13 +49,18 @@ export default function AdminDashboard() {
   // product category sub-tab
   const [productCategory, setProductCategory] = useState<Category>('Sarees');
 
-  // product form state
+  // product form state (add)
   const [form, setForm] = useState({ name: '', price: '', discount: '', badge: '', description: '', rating: '4.5' });
   const [imageFile, setImageFile]   = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState('');
   const [uploading, setUploading]   = useState(false);
   const [uploadMsg, setUploadMsg]   = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // product edit state
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({ name: '', price: '', discount: '', badge: '', description: '', rating: '' });
+  const [editMsg, setEditMsg] = useState('');
 
   const formatError = (err: unknown) =>
     err instanceof Error ? err.message : 'Unable to load admin dashboard.';
@@ -169,6 +174,36 @@ export default function AdminDashboard() {
     if (!confirm('Delete this product?')) return;
     await supabase.from('products').delete().eq('id', id);
     setDbProducts((cur) => cur.filter((p) => p.id !== id));
+  };
+
+  const startEdit = (p: ProductRow) => {
+    setEditId(p.id);
+    setEditForm({ name: p.name, price: String(p.price), discount: '', badge: p.badge || '', description: '', rating: '' });
+    setEditMsg('');
+  };
+
+  const cancelEdit = () => { setEditId(null); setEditMsg(''); };
+
+  const handleSaveEdit = async () => {
+    if (!editId || !editForm.name || !editForm.price) {
+      setEditMsg('Name and price are required.');
+      return;
+    }
+    setEditMsg('Saving…');
+    const updates: Record<string, unknown> = {
+      name: editForm.name.trim(),
+      price: Number(editForm.price),
+    };
+    if (editForm.badge.trim()) updates.badge = editForm.badge.trim();
+    if (editForm.discount.trim()) updates.discount = editForm.discount.trim();
+    if (editForm.description.trim()) updates.description = editForm.description.trim();
+    if (editForm.rating) updates.rating = Number(editForm.rating);
+
+    const { error: err } = await supabase.from('products').update(updates).eq('id', editId);
+    if (err) { setEditMsg(`Error: ${err.message}`); return; }
+    setDbProducts((cur) => cur.map((p) => p.id === editId ? { ...p, name: editForm.name, price: Number(editForm.price), badge: editForm.badge } : p));
+    setEditMsg('');
+    setEditId(null);
   };
 
   if (!adminKey) {
@@ -328,13 +363,46 @@ export default function AdminDashboard() {
             </h3>
             <div className="admin-product-list">
               {dbProducts.filter((p) => p.category === productCategory).map((p) => (
-                <div key={p.id} className="admin-product-row">
-                  {p.image && <img src={p.image} alt={p.name} width={60} height={60} style={{ objectFit: 'cover', borderRadius: '6px' }} />}
-                  <div style={{ flex: 1 }}>
-                    <strong>{p.name}</strong>
-                    <div style={{ fontSize: '0.8rem', color: '#888' }}>₹{p.price} · {p.badge}</div>
+                <div key={p.id}>
+                  <div className="admin-product-row">
+                    {p.image && <img src={p.image} alt={p.name} width={60} height={60} style={{ objectFit: 'cover', borderRadius: '6px' }} />}
+                    <div style={{ flex: 1 }}>
+                      <strong>{p.name}</strong>
+                      <div style={{ fontSize: '0.8rem', color: '#888' }}>₹{p.price} · {p.badge}</div>
+                    </div>
+                    <button className="secondary-button" style={{ fontSize: '0.75rem', padding: '0.35rem 0.75rem' }} onClick={() => startEdit(p)}>Edit</button>
+                    <button className="text-button" style={{ color: '#dc2626' }} onClick={() => handleDeleteProduct(p.id)}>Delete</button>
                   </div>
-                  <button className="text-button" style={{ color: '#dc2626' }} onClick={() => handleDeleteProduct(p.id)}>Delete</button>
+
+                  {editId === p.id && (
+                    <div className="admin-edit-form">
+                      <div className="admin-edit-grid">
+                        <label>Name *
+                          <input value={editForm.name} onChange={(e) => setEditForm((f) => ({ ...f, name: e.target.value }))} />
+                        </label>
+                        <label>Price (₹) *
+                          <input type="number" value={editForm.price} onChange={(e) => setEditForm((f) => ({ ...f, price: e.target.value }))} />
+                        </label>
+                        <label>Badge
+                          <input value={editForm.badge} onChange={(e) => setEditForm((f) => ({ ...f, badge: e.target.value }))} placeholder="e.g. New Arrival" />
+                        </label>
+                        <label>Discount
+                          <input value={editForm.discount} onChange={(e) => setEditForm((f) => ({ ...f, discount: e.target.value }))} placeholder="e.g. 20% off" />
+                        </label>
+                        <label>Rating
+                          <input type="number" min="1" max="5" step="0.1" value={editForm.rating} onChange={(e) => setEditForm((f) => ({ ...f, rating: e.target.value }))} placeholder="4.5" />
+                        </label>
+                        <label style={{ gridColumn: '1/-1' }}>Description
+                          <textarea rows={2} value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} placeholder="Leave blank to keep existing" />
+                        </label>
+                      </div>
+                      {editMsg && <p style={{ color: editMsg === 'Saving…' ? '#888' : '#dc2626', fontSize: '0.82rem', margin: '0.5rem 0 0' }}>{editMsg}</p>}
+                      <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
+                        <button className="primary-button" onClick={handleSaveEdit}>Save Changes</button>
+                        <button className="secondary-button" onClick={cancelEdit}>Cancel</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
               {dbProducts.filter((p) => p.category === productCategory).length === 0 && (
