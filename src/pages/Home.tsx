@@ -141,27 +141,6 @@ export default function Home({ cart, wishlist }: HomeProps) {
       </div>
 
 
-      {/* Shop by Occasion */}
-      <section className="occasion-section">
-        <div className="occasion-header">
-          <span className="occasion-eyebrow">✦ Curated for you ✦</span>
-          <h2>Shop by Occasion</h2>
-          <p>Find the perfect look for every moment</p>
-        </div>
-        <div className="occasion-list">
-          {occasions.map((occ) => (
-            <button key={occ.label} className="occasion-tile" onClick={() => navigate(occ.to)}>
-              <div className="occasion-ring">
-                <div className="occasion-circle">
-                  <img src={occ.image} alt={occ.label} loading="lazy" />
-                </div>
-              </div>
-              <span className="occasion-emoji">{occ.emoji}</span>
-              <span className="occasion-label">{occ.label}</span>
-            </button>
-          ))}
-        </div>
-      </section>
 
       {/* Category showcase */}
       <section className="section category-showcase">
