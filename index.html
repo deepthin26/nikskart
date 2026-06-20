@@ -44,6 +44,15 @@
         fbq('track', 'PageView');
       }
     </script>
+    <!-- Microsoft Clarity — set VITE_CLARITY_ID in Vercel env vars -->
+    <script>
+      var _CL = '%VITE_CLARITY_ID%';
+      if (_CL && _CL !== '%VITE_CLARITY_ID%') {
+        (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script',_CL);
+      }
+    </script>
     <!-- Google Analytics 4 — set VITE_GA4_ID in Vercel env vars -->
     <script>
       var _GA = '%VITE_GA4_ID%';

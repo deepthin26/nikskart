@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { usePageTracking } from './hooks/useAnalytics';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import NotFound from './pages/NotFound';
 import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
 import { useOrders } from './hooks/useOrders';
@@ -31,6 +32,34 @@ const Terms                = lazy(() => import('./pages/Terms'));
 
 function PageLoader() {
   return <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c9a46e' }}>Loading…</div>;
+}
+
+function MobileBottomNav({ cartCount }: { cartCount: number }) {
+  const { pathname } = useLocation();
+  const nav = [
+    { to: '/',        icon: '🏠', label: 'Home' },
+    { to: '/sarees',  icon: '🥻', label: 'Sarees' },
+    { to: '/kurtis',  icon: '👗', label: 'Kurtis' },
+    { to: '/cart',    icon: '🛍', label: 'Cart', badge: cartCount },
+    { to: '/account', icon: '👤', label: 'Account' },
+  ];
+  return (
+    <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
+      {nav.map((item) => (
+        <Link
+          key={item.to}
+          to={item.to}
+          className={`mbn-item${pathname === item.to ? ' active' : ''}`}
+        >
+          <span className="mbn-icon">
+            {item.icon}
+            {item.badge ? <span className="mbn-badge">{item.badge}</span> : null}
+          </span>
+          <span className="mbn-label">{item.label}</span>
+        </Link>
+      ))}
+    </nav>
+  );
 }
 
 function App() {
@@ -76,9 +105,11 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />
+      <MobileBottomNav cartCount={cart.totalCount} />
 
       {/* Floating WhatsApp button */}
       <a

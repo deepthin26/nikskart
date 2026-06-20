@@ -24,14 +24,6 @@ const categoryMeta = [
 ];
 
 
-const occasions = [
-  { label: 'Wedding',   emoji: '💍', image: 'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
-  { label: 'Festive',   emoji: '✨', image: 'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
-  { label: 'Casual',    emoji: '🌸', image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Party',     emoji: '🎉', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Office',    emoji: '💼', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Jewellery', emoji: '💎', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=300&q=80', to: '/artificial-jewellery' },
-];
 
 const whyUs = [
   { icon: '🪡', title: 'Authentic Craftsmanship', desc: 'Every piece sourced directly from Indian weavers and artisans — genuine fabrics, real craft.' },
@@ -158,7 +150,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
               onClick={() => navigate(item.to)}
             >
               {item.image && (
-                <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" />
+                <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" width="600" height="400" />
               )}
               <div className="category-card-overlay" />
               <div className="category-card-content">
@@ -189,7 +181,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
             >
               <div className="bs-rank">#{i + 1}</div>
               <div className="bs-img-wrap">
-                <img src={product.image} alt={product.name} loading="lazy" />
+                <img src={product.image} alt={product.name} loading="lazy" width="300" height="375" />
               </div>
               <div className="bs-info">
                 <span className="bs-cat">{product.category}</span>

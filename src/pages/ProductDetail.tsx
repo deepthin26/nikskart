@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
@@ -19,11 +19,17 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+function stockCount(id: string) {
+  const n = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return (n % 7) + 2;
+}
+
 export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
   const { productId } = useParams();
   const { addToast } = useToast();
   const { products, loading } = useProducts();
   const imgRef = useRef<HTMLImageElement>(null);
+  const navigate = useNavigate();
 
   const product = products.find((item) => item.id === productId);
 
@@ -166,6 +172,8 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             alt={`${product.name} – Buy ${product.category} online at Nikskart`}
             className="pd-image"
             loading="eager"
+            width="600"
+            height="750"
           />
           {product.badge && <span className="pd-image-badge">{product.badge}</span>}
           <span className="pd-zoom-hint">Hover to zoom</span>
@@ -224,6 +232,9 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             </div>
           </div>
 
+          {/* Stock urgency */}
+          <p className="pd-stock-urgency">Only {stockCount(product.id)} left in stock</p>
+
           {/* CTA buttons */}
           <div className="pd-cta-row">
             <button
@@ -246,6 +257,39 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Related products */}
+      {(() => {
+        const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+        if (!related.length) return null;
+        return (
+          <section className="pd-related">
+            <h2 className="pd-related-title">You may also like</h2>
+            <div className="pd-related-grid">
+              {related.map(p => (
+                <a key={p.id} className="pd-related-card" onClick={() => navigate(`/product/${p.id}`)}>
+                  <img src={p.image} alt={p.name} className="pd-related-img" loading="lazy" width="300" height="375" />
+                  <div className="pd-related-info">
+                    <p className="pd-related-name">{p.name}</p>
+                    <p className="pd-related-price">₹{p.price.toLocaleString('en-IN')}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* Sticky mobile CTA */}
+      <div className="pd-sticky-cta">
+        <span className="pd-sticky-price">₹{product.price.toLocaleString('en-IN')}</span>
+        <button
+          className="pd-sticky-add"
+          onClick={() => { cart.addItem(product); addToast(`Added to bag — ${product.name}`); }}
+        >
+          Add to Bag
+        </button>
       </div>
     </main>
   );

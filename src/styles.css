@@ -4644,3 +4644,204 @@ button {
   }
   .whatsapp-fab-label { display: none; }
 }
+
+/* ── Mobile Bottom Nav ── */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: #fff;
+  border-top: 1px solid #e8ddd0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+@media (min-width: 769px) { .mobile-bottom-nav { display: none !important; } }
+
+.mbn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.25rem 0.3rem;
+  color: #888;
+  text-decoration: none;
+  font-size: 0.65rem;
+  letter-spacing: 0.01em;
+  gap: 2px;
+  transition: color 0.15s;
+}
+.mbn-item.active,
+.mbn-item:hover { color: #c9a46e; }
+
+.mbn-icon {
+  position: relative;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+.mbn-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #c9a46e;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  border-radius: 99px;
+  min-width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+.mbn-label { font-size: 0.6rem; }
+
+/* ── 404 Not Found ── */
+.not-found-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.not-found-inner {
+  text-align: center;
+  max-width: 420px;
+}
+.not-found-code {
+  display: block;
+  font-size: clamp(5rem, 20vw, 8rem);
+  font-weight: 800;
+  color: #c9a46e;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.not-found-inner h1 {
+  font-size: 1.6rem;
+  color: #2d2d2d;
+  margin-bottom: 0.5rem;
+}
+.not-found-inner p {
+  color: #666;
+  margin-bottom: 1.75rem;
+}
+.not-found-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Sticky mobile Add to Bag ── */
+.pd-sticky-cta {
+  display: none;
+}
+@media (max-width: 768px) {
+  .pd-sticky-cta {
+    display: flex;
+    position: fixed;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+    z-index: 190;
+    padding: 0.65rem 1rem;
+    background: rgba(255,255,255,0.97);
+    border-top: 1px solid #e8ddd0;
+    gap: 0.75rem;
+    align-items: center;
+    backdrop-filter: blur(4px);
+  }
+  .pd-sticky-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d2d2d;
+    flex: 1;
+  }
+  .pd-sticky-add {
+    background: #c9a46e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+}
+
+/* ── Related Products ── */
+.pd-related {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0e8dc;
+}
+.pd-related-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 1.1rem;
+}
+.pd-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  .pd-related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.pd-related-card {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #f0e8dc;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.pd-related-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.09); }
+.pd-related-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+}
+.pd-related-info {
+  padding: 0.55rem 0.65rem 0.65rem;
+}
+.pd-related-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
+}
+.pd-related-price {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c9a46e;
+}
+
+/* ── Stock urgency ── */
+.pd-stock-urgency {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c0392b;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.pd-stock-urgency::before {
+  content: '●';
+  font-size: 0.5rem;
+  color: #c0392b;
+}
