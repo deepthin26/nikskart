@@ -27,6 +27,8 @@
     <link rel="preconnect" href="https://lkqzfnjxadztqaznbksl.supabase.co" crossorigin />
     <link rel="preconnect" href="https://connect.facebook.net" />
     <link rel="preconnect" href="https://www.clarity.ms" />
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://www.googleadservices.com" />
     <link rel="alternate" hreflang="en-IN" href="https://www.nikskart.com/" />
 
     <!-- Preload LCP hero — mobile gets the 25 KB version, desktop the 65 KB version -->
@@ -57,18 +59,25 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script',_CL);
       }
     </script>
-    <!-- Google Analytics 4 — set VITE_GA4_ID in Vercel env vars -->
+    <!-- Google Tag (GA4 + Google Ads) — set VITE_GA4_ID and/or VITE_GOOGLE_ADS_ID in Vercel env vars -->
     <script>
       var _GA = '%VITE_GA4_ID%';
-      if (_GA && _GA !== '%VITE_GA4_ID%') {
+      var _AW = '%VITE_GOOGLE_ADS_ID%';
+      var _hasGA = _GA && _GA !== '%VITE_GA4_ID%';
+      var _hasAW = _AW && _AW !== '%VITE_GOOGLE_ADS_ID%';
+      if (_hasGA || _hasAW) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){ window.dataLayer.push(arguments); }
         gtag('js', new Date());
+        var _tagId = _hasGA ? _GA : _AW;
         var _s = document.createElement('script');
         _s.async = true;
-        _s.src = 'https://www.googletagmanager.com/gtag/js?id=' + _GA;
+        _s.src = 'https://www.googletagmanager.com/gtag/js?id=' + _tagId;
         document.head.appendChild(_s);
-        _s.onload = function(){ gtag('config', _GA, { send_page_view: false }); };
+        _s.onload = function() {
+          if (_hasGA) gtag('config', _GA, { send_page_view: false });
+          if (_hasAW) gtag('config', _AW);
+        };
       }
     </script>
 

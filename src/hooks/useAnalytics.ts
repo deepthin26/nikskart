@@ -32,4 +32,10 @@ export function trackInitiateCheckout(total: number, numItems: number) {
 export function trackPurchase(orderId: string, total: number) {
   fbq('track', 'Purchase', { value: total, currency: 'INR', order_id: orderId });
   gtag('event', 'purchase', { currency: 'INR', value: total, transaction_id: orderId });
+  // Google Ads conversion — set VITE_GOOGLE_ADS_ID + VITE_GOOGLE_ADS_PURCHASE_LABEL in Vercel env vars
+  const awId = import.meta.env.VITE_GOOGLE_ADS_ID;
+  const awLabel = import.meta.env.VITE_GOOGLE_ADS_PURCHASE_LABEL;
+  if (awId && awLabel) {
+    gtag('event', 'conversion', { send_to: `${awId}/${awLabel}`, value: total, currency: 'INR', transaction_id: orderId });
+  }
 }

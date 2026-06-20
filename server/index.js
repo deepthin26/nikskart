@@ -5,6 +5,7 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { findOrders, createOrder, findAllOrders, updateOrderStatus, aggregateCustomers } from './db.js';
 import { sendStatusEmail } from './mailer.js';
+import { staticProducts } from './products.js';
 
 dotenv.config();
 
@@ -157,6 +158,95 @@ app.put('/api/orders/:id/status', requireAdmin, async (req, res) => {
   }).catch((err) => console.error('[mailer] Email failed:', err.message));
 
   return res.json(normalizeOrder(order));
+});
+
+// ── Google Merchant Center product feed ──────────────────────────────────────
+const GMC_CATEGORY = {
+  'Sarees':              'Apparel &amp; Accessories &gt; Clothing &gt; Traditional &amp; Ceremonial Clothing',
+  'Kurtis':             'Apparel &amp; Accessories &gt; Clothing',
+  'Artificial Jewellery': 'Apparel &amp; Accessories &gt; Jewelry',
+};
+const PRODUCT_TYPE = {
+  'Sarees':              "Women's Ethnic Wear &gt; Sarees",
+  'Kurtis':             "Women's Ethnic Wear &gt; Kurtis",
+  'Artificial Jewellery': "Women's Jewellery &gt; Artificial Jewellery",
+};
+
+function xmlEsc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function buildFeed(products) {
+  const base = 'https://www.nikskart.com';
+  const entries = products.map((p) => {
+    const slug = p.slug || String(p.id);
+    const discountPct = parseInt(p.discount || '0') || 0;
+    const mrp = discountPct > 0 ? Math.round(p.price / (1 - discountPct / 100)) : p.price;
+    const img = (p.image || '').replace(/&w=\d+/, '&w=800').replace(/&q=\d+/, '&q=80');
+    return `  <entry>
+    <g:id>${xmlEsc(p.id)}</g:id>
+    <g:title>${xmlEsc(p.name)}</g:title>
+    <g:description>${xmlEsc(p.description)}</g:description>
+    <g:link>${base}/product/${xmlEsc(slug)}</g:link>
+    <g:image_link>${xmlEsc(img)}</g:image_link>
+    <g:condition>new</g:condition>
+    <g:availability>in_stock</g:availability>
+    <g:price>${mrp}.00 INR</g:price>${discountPct > 0 ? `\n    <g:sale_price>${p.price}.00 INR</g:sale_price>` : ''}
+    <g:brand>Nikskart</g:brand>
+    <g:google_product_category>${GMC_CATEGORY[p.category] || GMC_CATEGORY['Kurtis']}</g:google_product_category>
+    <g:product_type>${PRODUCT_TYPE[p.category] || PRODUCT_TYPE['Kurtis']}</g:product_type>
+    <g:identifier_exists>false</g:identifier_exists>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Free Shipping</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>${xmlEsc(p.category)}</g:custom_label_0>
+  </entry>`;
+  }).join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:g="http://base.google.com/ns/1.0">
+  <title>Nikskart – Ethnic Sarees, Kurtis &amp; Jewellery</title>
+  <link href="${base}" />
+  <updated>${new Date().toISOString()}</updated>
+${entries}
+</feed>`;
+}
+
+app.get('/api/feed', async (req, res) => {
+  let products = staticProducts;
+
+  // Prefer live Supabase data when service key is available
+  const { supabase } = await import('./supabase.js');
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('id,slug,name,category,price,discount,image,description')
+        .order('created_at', { ascending: false });
+      if (!error && data && data.length > 0) {
+        products = data.map((r) => ({
+          id: String(r.id),
+          slug: r.slug || String(r.id),
+          name: r.name,
+          category: r.category,
+          price: r.price,
+          discount: r.discount || '',
+          image: r.image || '',
+          description: r.description || '',
+        }));
+      }
+    } catch { /* fall back to static */ }
+  }
+
+  res.setHeader('Content-Type', 'application/atom+xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+  return res.send(buildFeed(products));
 });
 
 app.get('/', (_req, res) => res.json({ status: 'Nikskart backend is running' }));
