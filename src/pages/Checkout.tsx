@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import type { Address } from '../hooks/useAuth';
 import { apiUrl } from '../lib/api';
+import { trackInitiateCheckout, trackPurchase } from '../hooks/useAnalytics';
 
 declare global {
   interface Window {
@@ -146,6 +147,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
     }
     setFormError('');
     setSubmitting(true);
+    trackInitiateCheckout(grandTotal, cart.uniqueItems.length);
 
     try {
       const loaded = await loadRazorpayScript();
@@ -198,6 +200,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
             clearCart();
             setOrderId(saved.id);
             setConfirmed(true);
+            trackPurchase(saved.id, grandTotal);
           } catch (err) {
             setFormError(getBackendErrorMessage(err));
           } finally {

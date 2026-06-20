@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useToast } from '../context/ToastContext';
+import { trackAddToCart } from '../hooks/useAnalytics';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
   const handleAddToBag = () => {
     addItem(product);
     addToast(`Added to bag — ${product.name}`);
+    trackAddToCart(product.name, product.price);
   };
 
   const handleToggleWishlist = () => {
