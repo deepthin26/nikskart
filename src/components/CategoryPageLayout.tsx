@@ -70,15 +70,17 @@ export default function CategoryPageLayout({
   }, [products, category, sort, search, priceFilter]);
 
   useEffect(() => {
+    const base = 'https://www.nikskart.com';
+    const catPath = breadcrumbLabel === 'Sarees' ? 'sarees'
+      : breadcrumbLabel === 'Kurtis' ? 'kurtis' : 'artificial-jewellery';
     const schema = {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'BreadcrumbList',
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.nikskart.com/' },
-            { '@type': 'ListItem', position: 2, name: 'Women', item: 'https://www.nikskart.com/' },
-            { '@type': 'ListItem', position: 3, name: breadcrumbLabel },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
+            { '@type': 'ListItem', position: 2, name: breadcrumbLabel, item: `${base}/${catPath}` },
           ],
         },
         {
@@ -92,12 +94,16 @@ export default function CategoryPageLayout({
             item: {
               '@type': 'Product',
               name: p.name,
-              image: p.image,
+              image: [p.image],
+              url: `${base}/product/${p.slug}`,
+              sku: p.id,
+              brand: { '@type': 'Brand', name: 'Nikskart' },
               offers: {
                 '@type': 'Offer',
                 price: p.price,
                 priceCurrency: 'INR',
                 availability: 'https://schema.org/InStock',
+                itemCondition: 'https://schema.org/NewCondition',
               },
             },
           })),

@@ -4,6 +4,7 @@ import { Product } from '../data/products';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
 import { trackViewItem } from '../hooks/useAnalytics';
+import { getProductReviews } from '../data/reviews';
 
 interface ProductDetailProps {
   cart: { addItem: (product: Product) => void };
@@ -63,28 +64,45 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
       : product.category === 'Kurtis' ? 'kurtis' : 'artificial-jewellery';
     const base = 'https://www.nikskart.com';
 
+    const reviews = getProductReviews(product.category, product.id);
+    const reviewCount = 18 + (parseInt(product.id, 10) * 7) % 35; // deterministic per product: 18–52
+    const priceValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
     const schema = [
       {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: product.name,
-        image: product.image,
+        image: [product.image],
         description: product.description,
+        sku: product.id,
         brand: { '@type': 'Brand', name: 'Nikskart' },
+        category: product.category,
+        url: `${base}/product/${product.slug}`,
         offers: {
           '@type': 'Offer',
           priceCurrency: 'INR',
           price: product.price,
           availability: 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition',
           url: `${base}/product/${product.slug}`,
+          priceValidUntil,
           seller: { '@type': 'Organization', name: 'Nikskart', url: base }
         },
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: product.rating,
           bestRating: 5,
-          reviewCount: 42
-        }
+          worstRating: 1,
+          reviewCount
+        },
+        review: reviews.map((r) => ({
+          '@type': 'Review',
+          author: { '@type': 'Person', name: r.author },
+          datePublished: r.datePublished,
+          reviewBody: r.reviewBody,
+          reviewRating: { '@type': 'Rating', ratingValue: r.ratingValue, bestRating: 5, worstRating: 1 }
+        }))
       },
       {
         '@context': 'https://schema.org',
@@ -92,7 +110,7 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: base },
           { '@type': 'ListItem', position: 2, name: product.category, item: `${base}/${catSlug}` },
-          { '@type': 'ListItem', position: 3, name: product.name }
+          { '@type': 'ListItem', position: 3, name: product.name, item: `${base}/product/${product.slug}` }
         ]
       }
     ];

@@ -108,19 +108,31 @@
         },
         {
           "@type": "Organization",
+          "@id": "https://www.nikskart.com/#organization",
           "name": "Nikskart",
           "url": "https://www.nikskart.com",
-          "logo": "https://www.nikskart.com/images/home-banner.webp",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.nikskart.com/images/home-banner.webp",
+            "width": 1200,
+            "height": 630
+          },
           "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+91-88857-00227",
             "contactType": "customer service",
             "areaServed": "IN",
-            "availableLanguage": ["English", "Hindi"]
-          }
+            "availableLanguage": ["English", "Hindi"],
+            "hoursAvailable": "Mo-Sa 09:00-18:00"
+          },
+          "sameAs": [
+            "https://www.instagram.com/nikskart",
+            "https://www.facebook.com/nikskart"
+          ]
         },
         {
           "@type": "ClothingStore",
+          "@id": "https://www.nikskart.com/#store",
           "name": "Nikskart",
           "url": "https://www.nikskart.com",
           "description": "India's curated destination for women's ethnic wear — sarees, kurtis, lehengas and handcrafted jewellery.",
@@ -129,13 +141,19 @@
           "currenciesAccepted": "INR",
           "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
           "areaServed": "IN",
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Ethnic Wear",
             "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Sarees" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Kurtis" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Artificial Jewellery" } }
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Sarees", "url": "https://www.nikskart.com/sarees" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Kurtis", "url": "https://www.nikskart.com/kurtis" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Artificial Jewellery", "url": "https://www.nikskart.com/artificial-jewellery" } }
             ]
           }
         }
