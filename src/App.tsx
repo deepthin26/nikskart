@@ -23,6 +23,7 @@ const Contact              = lazy(() => import('./pages/Contact'));
 const Sarees               = lazy(() => import('./pages/Sarees'));
 const Kurtis               = lazy(() => import('./pages/Kurtis'));
 const ArtificialJewellery  = lazy(() => import('./pages/ArtificialJewellery'));
+const JewelleryCollection  = lazy(() => import('./pages/JewelleryCollection'));
 const About                = lazy(() => import('./pages/About'));
 const ShippingPolicy       = lazy(() => import('./pages/ShippingPolicy'));
 const Returns              = lazy(() => import('./pages/Returns'));
@@ -115,6 +116,7 @@ function App() {
           <Route path="/sarees" element={<Sarees cart={cart} wishlist={wishlist} />} />
           <Route path="/kurtis" element={<Kurtis cart={cart} wishlist={wishlist} />} />
           <Route path="/artificial-jewellery" element={<ArtificialJewellery cart={cart} wishlist={wishlist} />} />
+          <Route path="/jewellery-collection" element={<JewelleryCollection cart={cart} wishlist={wishlist} />} />
           <Route path="/about" element={<About />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/returns" element={<Returns />} />

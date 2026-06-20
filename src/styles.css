@@ -5046,3 +5046,640 @@ button, a { touch-action: manipulation; }
   .nav-links, .navbar-actions { display: none; }
   .mobile-nav-actions { display: flex; }
 }
+
+/* ================================================================
+   JEWELLERY COLLECTION — Landing Page
+   ================================================================ */
+
+.jlp-page {
+  background: #fff;
+}
+
+/* ── Hero ── */
+.jlp-hero {
+  position: relative;
+  min-height: 88vh;
+  background: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1400&q=85') center center / cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.jlp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(5,3,2,0.85) 45%, rgba(30,15,0,0.55) 100%);
+}
+
+.jlp-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  padding: 5rem 4rem 5rem;
+}
+
+.jlp-hero-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a46e;
+  margin-bottom: 1.25rem;
+  border-left: 2px solid #c9a46e;
+  padding-left: 0.75rem;
+}
+
+.jlp-hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-family: Georgia, serif;
+  color: #fff;
+  line-height: 1.12;
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+
+.jlp-hero-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
+  max-width: 480px;
+}
+
+.jlp-hero-badges {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.jlp-badge {
+  background: rgba(201,164,110,0.18);
+  border: 1px solid rgba(201,164,110,0.5);
+  color: #c9a46e;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+}
+
+.jlp-hero-ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.jlp-cta-primary {
+  background: #c9a46e;
+  color: #0a0a0a;
+  border: none;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-height: 48px;
+}
+.jlp-cta-primary:hover { background: #b8903d; }
+
+.jlp-cta-ghost {
+  border: 1px solid rgba(255,255,255,0.5);
+  color: #fff;
+  padding: 0.9rem 1.8rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s, color 0.2s;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+}
+.jlp-cta-ghost:hover { border-color: #c9a46e; color: #c9a46e; }
+
+/* ── Trust strip ── */
+.jlp-trust-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background: #0a0a0a;
+  padding: 0.95rem 2rem;
+  flex-wrap: wrap;
+}
+
+.jlp-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}
+
+.jlp-trust-icon {
+  color: #c9a46e;
+  font-size: 0.9rem;
+}
+
+/* ── Shared section styles ── */
+.jlp-section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.jlp-section-dark {
+  max-width: 100%;
+  background: #0a0a0a;
+  padding: 5rem 2rem;
+}
+
+.jlp-section-dark .jlp-section {
+  padding: 0;
+}
+
+.jlp-section-cream {
+  background: #faf7f2;
+  max-width: 100%;
+  padding: 5rem 2rem;
+}
+
+.jlp-section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.jlp-section-header h2 {
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-family: Georgia, serif;
+  color: #0a0a0a;
+  margin: 0.35rem 0 0.6rem;
+}
+
+.jlp-section-header p {
+  color: #666;
+  font-size: 1rem;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.jlp-section-header-light h2 { color: #fff; }
+.jlp-section-header-light p  { color: rgba(255,255,255,0.6); }
+
+.jlp-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.jlp-eyebrow-gold { color: #c9a46e; }
+
+/* ── Collections ── */
+.jlp-collections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.jlp-coll-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: #0a0a0a;
+  display: block;
+  width: 100%;
+}
+
+.jlp-coll-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.jlp-coll-card:hover .jlp-coll-img {
+  transform: scale(1.06);
+}
+
+.jlp-coll-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,3,2,0.88) 40%, rgba(5,3,2,0.2) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.jlp-coll-title {
+  font-size: 1.25rem;
+  font-family: Georgia, serif;
+  color: #fff;
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+}
+
+.jlp-coll-sub {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0 0 0.75rem;
+}
+
+.jlp-coll-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.jlp-coll-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c9a46e;
+  border: 1px solid rgba(201,164,110,0.4);
+  padding: 0.2rem 0.5rem;
+}
+
+.jlp-coll-cta {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c9a46e;
+  font-weight: 600;
+}
+
+/* ── Products grid ── */
+.jlp-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.jlp-product-card {
+  position: relative;
+  background: #141414;
+  border: 1px solid #222;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.jlp-product-card:hover { border-color: #c9a46e; }
+
+.jlp-product-badge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  background: #c9a46e;
+  color: #0a0a0a;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  z-index: 2;
+}
+
+.jlp-product-wish {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  background: rgba(10,10,10,0.7);
+  border: 1px solid #333;
+  color: #888;
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  z-index: 2;
+  padding: 0;
+}
+.jlp-product-wish.active { color: #c9a46e; border-color: #c9a46e; }
+.jlp-product-wish:hover  { color: #c9a46e; border-color: #c9a46e; }
+
+.jlp-product-img-wrap {
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+
+.jlp-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.jlp-product-img-wrap:hover .jlp-product-img { transform: scale(1.04); }
+
+.jlp-product-info {
+  padding: 1rem;
+}
+
+.jlp-product-name {
+  font-size: 0.88rem;
+  color: #e8e8e8;
+  margin: 0 0 0.5rem;
+  cursor: pointer;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.jlp-product-name:hover { color: #c9a46e; }
+
+.jlp-product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.jlp-product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #c9a46e;
+}
+
+.jlp-product-mrp {
+  font-size: 0.8rem;
+  color: #555;
+  text-decoration: line-through;
+}
+
+.jlp-product-disc {
+  font-size: 0.72rem;
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.jlp-product-add {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #333;
+  color: #e8e8e8;
+  padding: 0.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  min-height: 40px;
+}
+.jlp-product-add:hover {
+  background: #c9a46e;
+  border-color: #c9a46e;
+  color: #0a0a0a;
+}
+
+.jlp-see-all-wrap {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.jlp-see-all {
+  display: inline-block;
+  border: 1px solid #c9a46e;
+  color: #c9a46e;
+  padding: 0.75rem 2rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+.jlp-see-all:hover { background: #c9a46e; color: #0a0a0a; }
+
+/* ── Benefits ── */
+.jlp-benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.jlp-benefit-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border: 1px solid #e8e8e8;
+}
+
+.jlp-benefit-icon {
+  display: block;
+  font-size: 1.4rem;
+  color: #c9a46e;
+  margin-bottom: 0.85rem;
+}
+
+.jlp-benefit-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin: 0 0 0.5rem;
+}
+
+.jlp-benefit-desc {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Reviews ── */
+.jlp-reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.jlp-review-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  padding: 1.75rem;
+  border-radius: 2px;
+}
+
+.jlp-stars { display: inline-flex; gap: 2px; margin-bottom: 1rem; }
+.jlp-star { color: #e0e0e0; font-size: 1rem; }
+.jlp-star.filled { color: #c9a46e; }
+
+.jlp-review-text {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+  font-style: italic;
+}
+
+.jlp-review-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.jlp-review-meta strong {
+  font-size: 0.88rem;
+  color: #0a0a0a;
+}
+
+.jlp-review-meta span {
+  font-size: 0.78rem;
+  color: #999;
+}
+
+/* ── FAQ ── */
+.jlp-faq {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.jlp-faq-item {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.jlp-faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  padding: 1.2rem 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  line-height: 1.4;
+}
+
+.jlp-faq-q:hover { color: #c9a46e; }
+
+.jlp-faq-chevron {
+  font-size: 1.3rem;
+  color: #c9a46e;
+  flex-shrink: 0;
+  font-weight: 300;
+}
+
+.jlp-faq-a {
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.7;
+  padding: 0 0 1.2rem;
+  margin: 0;
+}
+
+/* ── WhatsApp CTA Banner ── */
+.jlp-wa-banner {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0f00 100%);
+  padding: 4rem 2rem;
+}
+
+.jlp-wa-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.jlp-wa-text h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-family: Georgia, serif;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.jlp-wa-text p {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+  margin: 0;
+  max-width: 460px;
+  line-height: 1.6;
+}
+
+.jlp-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #25d366;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.9rem 2rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: background 0.2s;
+  min-height: 48px;
+}
+.jlp-wa-btn:hover { background: #1da851; }
+
+/* ── Mobile responsive ── */
+@media (max-width: 900px) {
+  .jlp-product-grid { grid-template-columns: repeat(2, 1fr); }
+  .jlp-benefits     { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .jlp-hero { min-height: 92dvh; }
+  .jlp-hero-content { padding: 3rem 1.25rem; }
+  .jlp-hero-title { font-size: 2rem; }
+
+  .jlp-trust-strip {
+    gap: 1rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 0.85rem 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .jlp-trust-item { flex-shrink: 0; }
+
+  .jlp-section { padding: 3.5rem 1.25rem; }
+  .jlp-section-dark  { padding: 3.5rem 1.25rem; }
+  .jlp-section-cream { padding: 3.5rem 1.25rem; }
+
+  .jlp-collections {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .jlp-product-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+
+  .jlp-reviews { grid-template-columns: 1fr; }
+
+  .jlp-benefits { grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .jlp-wa-inner { flex-direction: column; text-align: center; }
+  .jlp-wa-text p { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .jlp-hero-ctas { flex-direction: column; }
+  .jlp-cta-primary, .jlp-cta-ghost { text-align: center; justify-content: center; }
+  .jlp-benefits { grid-template-columns: 1fr; }
+}
+
+@media (hover: none) {
+  .jlp-coll-card:hover .jlp-coll-img { transform: none; }
+  .jlp-product-img-wrap:hover .jlp-product-img { transform: none; }
+}
