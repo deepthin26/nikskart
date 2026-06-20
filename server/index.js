@@ -160,6 +160,50 @@ app.put('/api/orders/:id/status', requireAdmin, async (req, res) => {
   return res.json(normalizeOrder(order));
 });
 
+// ── Jewellery lead capture ───────────────────────────────────────────────────
+app.post('/api/leads', async (req, res) => {
+  const { name, phone, email, occasion, budget, message } = req.body;
+  if (!name || typeof name !== 'string' || !name.trim()) {
+    return res.status(400).json({ error: 'Name is required.' });
+  }
+  if (!phone || typeof phone !== 'string') {
+    return res.status(400).json({ error: 'Phone number is required.' });
+  }
+  const phoneClean = phone.replace(/\D/g, '');
+  if (phoneClean.length < 10) {
+    return res.status(400).json({ error: 'Please enter a valid 10-digit phone number.' });
+  }
+
+  const { supabase } = await import('./supabase.js');
+  if (supabase) {
+    const { error } = await supabase.from('jewellery_leads').insert({
+      name: name.trim(),
+      phone: phoneClean,
+      email: email?.trim() || null,
+      occasion: occasion || null,
+      budget: budget || null,
+      message: message?.trim() || null,
+      source: 'jewellery-collection',
+    });
+    if (error) {
+      console.error('[leads] Supabase insert error:', error.message);
+      return res.status(500).json({ error: 'Could not save your request. Please WhatsApp us directly.' });
+    }
+  }
+  return res.json({ success: true });
+});
+
+app.get('/api/leads', requireAdmin, async (req, res) => {
+  const { supabase } = await import('./supabase.js');
+  if (!supabase) return res.json([]);
+  const { data, error } = await supabase
+    .from('jewellery_leads')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  return res.json(data);
+});
+
 // ── Google Merchant Center product feed ──────────────────────────────────────
 const GMC_CATEGORY = {
   'Sarees':              'Apparel &amp; Accessories &gt; Clothing &gt; Traditional &amp; Ceremonial Clothing',

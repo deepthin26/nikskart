@@ -6,6 +6,104 @@ import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
 import { trackAddToCart } from '../hooks/useAnalytics';
 
+const OCCASIONS = ['Wedding / Bridal', 'Festival / Pooja', 'Reception / Party', 'Daily Wear', 'Corporate Event', 'Gift for Someone', 'Other'];
+const BUDGETS   = ['Under ₹1,000', '₹1,000 – ₹2,500', '₹2,500 – ₹5,000', 'Above ₹5,000'];
+
+function LeadForm() {
+  const [form, setForm] = useState({ name: '', phone: '', email: '', occasion: '', budget: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMsg('');
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      setStatus('success');
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Unable to submit. Please try WhatsApp.');
+      setStatus('error');
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div className="jlf-success">
+        <span className="jlf-success-icon">✦</span>
+        <h3>We've received your request!</h3>
+        <p>Our jewellery stylist will call you within 2 hours — Mon to Sat, 9 AM – 6 PM.</p>
+        <a
+          className="jlf-wa-link"
+          href="https://wa.me/918885700227?text=Hi%2C%20I%20just%20submitted%20a%20styling%20request"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Or chat with us now on WhatsApp →
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <form className="jlf-form" onSubmit={handleSubmit} noValidate>
+      <div className="jlf-row">
+        <div className="jlf-field">
+          <label htmlFor="jlf-name">Full Name <span className="jlf-req">*</span></label>
+          <input id="jlf-name" type="text" placeholder="e.g. Priya Sharma" value={form.name} onChange={set('name')} required autoComplete="name" />
+        </div>
+        <div className="jlf-field">
+          <label htmlFor="jlf-phone">Phone Number <span className="jlf-req">*</span></label>
+          <input id="jlf-phone" type="tel" placeholder="10-digit mobile number" value={form.phone} onChange={set('phone')} required autoComplete="tel" inputMode="numeric" maxLength={10} />
+        </div>
+      </div>
+
+      <div className="jlf-field">
+        <label htmlFor="jlf-email">Email Address <span className="jlf-optional">(optional)</span></label>
+        <input id="jlf-email" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} autoComplete="email" />
+      </div>
+
+      <div className="jlf-row">
+        <div className="jlf-field">
+          <label htmlFor="jlf-occasion">Occasion</label>
+          <select id="jlf-occasion" value={form.occasion} onChange={set('occasion')}>
+            <option value="">Select occasion…</option>
+            {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+          </select>
+        </div>
+        <div className="jlf-field">
+          <label htmlFor="jlf-budget">Budget Range</label>
+          <select id="jlf-budget" value={form.budget} onChange={set('budget')}>
+            <option value="">Select budget…</option>
+            {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div className="jlf-field">
+        <label htmlFor="jlf-message">Tell us more <span className="jlf-optional">(optional)</span></label>
+        <textarea id="jlf-message" rows={3} placeholder="Outfit colour, jewellery preference, any specific piece you liked…" value={form.message} onChange={set('message')} />
+      </div>
+
+      {status === 'error' && <p className="jlf-error">{errorMsg}</p>}
+
+      <button className="jlf-submit" type="submit" disabled={status === 'loading'}>
+        {status === 'loading' ? 'Sending…' : 'Get Free Styling Advice →'}
+      </button>
+      <p className="jlf-privacy">We never share your details. Our stylist will call once to assist you.</p>
+    </form>
+  );
+}
+
 interface JewelleryCollectionProps {
   cart: { addItem: (p: Product) => void };
   wishlist: { toggleItem: (p: Product) => void; hasItem: (id: string) => boolean };
@@ -336,6 +434,27 @@ export default function JewelleryCollection({ cart, wishlist }: JewelleryCollect
               <p className="jlp-benefit-desc">{b.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Lead capture form ── */}
+      <section className="jlf-section">
+        <div className="jlf-inner">
+          <div className="jlf-left">
+            <span className="jlp-eyebrow jlp-eyebrow-gold">Free Styling Advice</span>
+            <h2 className="jlf-heading">Tell Us Your Occasion.<br />We'll Find Your Perfect Jewellery.</h2>
+            <GoldDivider />
+            <p className="jlf-sub">Share a few details and our jewellery stylist will personally recommend the best pieces for your outfit, budget and occasion — completely free.</p>
+            <ul className="jlf-perks">
+              <li><span>✦</span> Personal recommendation within 2 hours</li>
+              <li><span>✦</span> Mix-and-match suggestions for full bridal sets</li>
+              <li><span>✦</span> Guidance on gold-plated vs temple vs oxidised</li>
+              <li><span>✦</span> No obligation — just honest advice</li>
+            </ul>
+          </div>
+          <div className="jlf-right">
+            <LeadForm />
+          </div>
         </div>
       </section>
 
