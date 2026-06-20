@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
+  const [subscribed, setSubscribed] = useState(false);
   return (
     <footer className="site-footer">
       {/* Newsletter */}
@@ -10,10 +12,14 @@ export default function Footer() {
             <p className="footer-newsletter-label">Stay in the loop</p>
             <h3 className="footer-newsletter-heading">New collections. Exclusive offers. Delivered to you.</h3>
           </div>
-          <form className="footer-newsletter-form" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="Enter your email address" />
-            <button type="submit">Subscribe</button>
-          </form>
+          {subscribed ? (
+            <p className="footer-newsletter-success">You're in! We'll send you our best offers.</p>
+          ) : (
+            <form className="footer-newsletter-form" onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }}>
+              <input type="email" placeholder="Enter your email address" required />
+              <button type="submit">Subscribe</button>
+            </form>
+          )}
         </div>
       </div>
 

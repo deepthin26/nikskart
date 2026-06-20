@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
+import { trackViewItem } from '../hooks/useAnalytics';
 
 interface ProductDetailProps {
   cart: { addItem: (product: Product) => void };
@@ -103,6 +104,8 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(schema);
     document.head.appendChild(script);
+
+    trackViewItem({ id: product.id, name: product.name, category: product.category, price: product.price });
 
     return () => {
       document.title = 'Nikskart – Ethnic Sarees, Kurtis & Jewellery Online Shopping';
