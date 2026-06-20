@@ -26,13 +26,13 @@ function stockCount(id: string) {
 }
 
 export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
-  const { productId } = useParams();
+  const { slug } = useParams();
   const { addToast } = useToast();
   const { products, loading } = useProducts();
   const imgRef = useRef<HTMLImageElement>(null);
   const navigate = useNavigate();
 
-  const product = products.find((item) => item.id === productId);
+  const product = products.find((item) => item.slug === slug);
 
   // Mouse-tracking zoom — updates transform-origin in real time
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -76,7 +76,7 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
           priceCurrency: 'INR',
           price: product.price,
           availability: 'https://schema.org/InStock',
-          url: `${base}/product/${product.id}`,
+          url: `${base}/product/${product.slug}`,
           seller: { '@type': 'Organization', name: 'Nikskart', url: base }
         },
         aggregateRating: {
@@ -273,8 +273,40 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             <h2 className="pd-related-title">You may also like</h2>
             <div className="pd-related-grid">
               {related.map(p => (
-                <a key={p.id} className="pd-related-card" onClick={() => navigate(`/product/${p.id}`)}>
-                  <img src={p.image} alt={p.name} className="pd-related-img" loading="lazy" width="300" height="375" />
+                <a key={p.id} className="pd-related-card" onClick={() => navigate(`/product/${p.slug}`)}>
+                  <img src={p.image} alt={`${p.name} – Buy ${p.category} online | Nikskart`} className="pd-related-img" loading="lazy" width="300" height="375" />
+                  <div className="pd-related-info">
+                    <p className="pd-related-name">{p.name}</p>
+                    <p className="pd-related-price">₹{p.price.toLocaleString('en-IN')}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* Complete the Look — cross-category internal links */}
+      {(() => {
+        const crossCat = product.category === 'Artificial Jewellery'
+          ? 'Sarees'
+          : 'Artificial Jewellery';
+        const crossLabel = product.category === 'Artificial Jewellery'
+          ? 'Shop Sarees'
+          : 'Complete the Look with Jewellery';
+        const crossTo = crossCat === 'Sarees' ? '/sarees' : '/artificial-jewellery';
+        const crossProducts = products.filter(p => p.category === crossCat).slice(0, 4);
+        if (!crossProducts.length) return null;
+        return (
+          <section className="pd-related">
+            <div className="pd-related-header">
+              <h2 className="pd-related-title">{crossLabel}</h2>
+              <Link to={crossTo} className="pd-related-see-all">See all →</Link>
+            </div>
+            <div className="pd-related-grid">
+              {crossProducts.map(p => (
+                <a key={p.id} className="pd-related-card" onClick={() => navigate(`/product/${p.slug}`)}>
+                  <img src={p.image} alt={`${p.name} – ${p.category} | Nikskart`} className="pd-related-img" loading="lazy" width="300" height="375" decoding="async" />
                   <div className="pd-related-info">
                     <p className="pd-related-name">{p.name}</p>
                     <p className="pd-related-price">₹{p.price.toLocaleString('en-IN')}</p>

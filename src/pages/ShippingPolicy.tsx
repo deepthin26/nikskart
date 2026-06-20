@@ -2,8 +2,8 @@ import { useSeoMeta } from '../hooks/useSeoMeta';
 
 export default function ShippingPolicy() {
   useSeoMeta(
-    'Shipping Policy – Nikskart',
-    'Nikskart shipping policy — delivery timelines, pin code availability, order tracking and more.'
+    'Shipping Policy – Nikskart | Free Delivery Across India',
+    'Nikskart shipping policy — free delivery across India in 5–7 days. Know our delivery timelines, pin code coverage and order tracking details.'
   );
 
   return (

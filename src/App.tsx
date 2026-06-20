@@ -99,7 +99,7 @@ function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Home cart={cart} wishlist={wishlist} />} />
-          <Route path="/product/:productId" element={<ProductDetail cart={cart} wishlist={wishlist} />} />
+          <Route path="/product/:slug" element={<ProductDetail cart={cart} wishlist={wishlist} />} />
           <Route path="/cart" element={<Cart cart={cart} wishlist={wishlist} />} />
           <Route path="/wishlist" element={<Wishlist wishlist={wishlist} cart={cart} />} />
           <Route path="/login" element={<Login onLogin={auth.login} onSignup={auth.signup} />} />

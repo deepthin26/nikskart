@@ -15,6 +15,7 @@ export function useProducts() {
       if (!error && data && data.length > 0) {
         setProducts(data.map((r) => ({
           id: String(r.id),
+          slug: r.slug || String(r.id),
           name: r.name,
           category: r.category,
           price: r.price,

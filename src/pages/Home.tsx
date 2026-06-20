@@ -150,7 +150,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
               onClick={() => navigate(item.to)}
             >
               {item.image && (
-                <img className="category-card-bg" src={item.image} alt={item.title} loading="lazy" decoding="async" width="600" height="400" />
+                <img className="category-card-bg" src={item.image} alt={`Shop ${item.title} online – ethnic wear for women | Nikskart`} loading="lazy" decoding="async" width="600" height="400" />
               )}
               <div className="category-card-overlay" />
               <div className="category-card-content">
@@ -177,11 +177,11 @@ export default function Home({ cart, wishlist }: HomeProps) {
             <article
               key={product.id}
               className="bs-card"
-              onClick={() => navigate(`/product/${product.id}`)}
+              onClick={() => navigate(`/product/${product.slug}`)}
             >
               <div className="bs-rank">#{i + 1}</div>
               <div className="bs-img-wrap">
-                <img src={product.image} alt={product.name} loading="lazy" decoding="async" width="300" height="375" />
+                <img src={product.image} alt={`${product.name} – ${product.category} | Nikskart`} loading="lazy" decoding="async" width="300" height="375" />
               </div>
               <div className="bs-info">
                 <span className="bs-cat">{product.category}</span>

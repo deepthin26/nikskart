@@ -26,8 +26,8 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
 
   return (
     <article className="product-card">
-      <Link to={`/product/${product.id}`} className="product-image-link">
-        <img src={product.image} alt={`${product.name} – ${product.category} | Nikskart`} loading="lazy" decoding="async" width="400" height="500" />
+      <Link to={`/product/${product.slug}`} className="product-image-link">
+        <img src={product.image} alt={`${product.name} – Buy ${product.category} online | Nikskart`} loading="lazy" decoding="async" width="400" height="500" />
         <div className="product-image-overlay">
           <span className="product-overlay-btn">View Details</span>
         </div>
@@ -44,7 +44,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
           <span className="badge small">{product.badge}</span>
           <span className="price">₹{product.price}</span>
         </div>
-        <Link to={`/product/${product.id}`} className="product-title">
+        <Link to={`/product/${product.slug}`} className="product-title">
           {product.name}
         </Link>
         <p className="product-category">{product.category}</p>
