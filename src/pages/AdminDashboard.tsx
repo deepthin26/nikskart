@@ -23,6 +23,18 @@ interface OrderData {
   createdAt: string;
 }
 
+interface Lead {
+  id: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  occasion: string | null;
+  budget: string | null;
+  message: string | null;
+  source: string;
+  created_at: string;
+}
+
 interface ProductRow {
   id: string;
   name: string;
@@ -43,8 +55,9 @@ export default function AdminDashboard() {
   const [customers, setCustomers]   = useState<Customer[]>([]);
   const [orders, setOrders]         = useState<OrderData[]>([]);
   const [dbProducts, setDbProducts] = useState<ProductRow[]>([]);
+  const [leads, setLeads]           = useState<Lead[]>([]);
   const [loading, setLoading]       = useState(false);
-  const [activeTab, setActiveTab]   = useState<'orders' | 'customers' | 'products'>('orders');
+  const [activeTab, setActiveTab]   = useState<'orders' | 'customers' | 'products' | 'leads'>('orders');
   const [adminKey, setAdminKey]     = useState<string | null>(() => {
     try { return localStorage.getItem('nikskart-admin-key'); } catch { return null; }
   });
@@ -80,14 +93,16 @@ export default function AdminDashboard() {
     setError('');
     try {
       const headers: Record<string, string> = { 'Content-Type': 'application/json', 'x-admin-key': adminKey! };
-      const [cRes, oRes] = await Promise.all([
+      const [cRes, oRes, lRes] = await Promise.all([
         fetch(apiUrl('/api/customers'), { headers }),
-        fetch(apiUrl('/api/orders/all'), { headers })
+        fetch(apiUrl('/api/orders/all'), { headers }),
+        fetch(apiUrl('/api/leads'), { headers }),
       ]);
       if (!cRes.ok) throw new Error(cRes.status === 401 ? 'Admin key invalid' : 'Unable to fetch customers');
       if (!oRes.ok) throw new Error(oRes.status === 401 ? 'Admin key invalid' : 'Unable to fetch orders');
       setCustomers(await cRes.json());
       setOrders(await oRes.json());
+      if (lRes.ok) setLeads(await lRes.json());
     } catch (err) {
       setError(formatError(err));
       if (formatError(err).toLowerCase().includes('invalid')) {
@@ -285,12 +300,13 @@ export default function AdminDashboard() {
 
       {/* Tab bar */}
       <div className="admin-tabs">
-        {(['orders', 'customers', 'products'] as const).map((t) => (
+        {(['orders', 'customers', 'products', 'leads'] as const).map((t) => (
           <button key={t} className={`admin-tab${activeTab === t ? ' active' : ''}`} onClick={() => setActiveTab(t)}>
             {t.charAt(0).toUpperCase() + t.slice(1)}
-            {t === 'orders' && ` (${orders.length})`}
+            {t === 'orders'    && ` (${orders.length})`}
             {t === 'customers' && ` (${customers.length})`}
-            {t === 'products' && ` (${dbProducts.length})`}
+            {t === 'products'  && ` (${dbProducts.length})`}
+            {t === 'leads'     && ` (${leads.length})`}
           </button>
         ))}
       </div>
@@ -338,6 +354,52 @@ export default function AdminDashboard() {
             ))}
             {customers.length === 0 && !loading && <li>No customers yet.</li>}
           </ul>
+        </section>
+      )}
+
+      {/* Leads tab */}
+      {activeTab === 'leads' && (
+        <section className="panel">
+          {leads.length === 0 && !loading ? (
+            <p style={{ color: '#888', padding: '1rem 0' }}>No leads yet. They appear here once someone submits the jewellery collection form.</p>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="leads-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Occasion</th>
+                    <th>Budget</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.map((l, i) => (
+                    <tr key={l.id}>
+                      <td style={{ color: '#aaa' }}>{i + 1}</td>
+                      <td><strong>{l.name}</strong></td>
+                      <td>
+                        <a href={`tel:${l.phone}`} style={{ color: '#c9a46e' }}>{l.phone}</a>
+                      </td>
+                      <td style={{ color: '#888' }}>{l.email || '—'}</td>
+                      <td>{l.occasion || '—'}</td>
+                      <td>{l.budget || '—'}</td>
+                      <td style={{ maxWidth: '220px', color: '#888', fontSize: '0.82rem' }}>
+                        {l.message ? (l.message.length > 80 ? l.message.slice(0, 80) + '…' : l.message) : '—'}
+                      </td>
+                      <td style={{ color: '#aaa', whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
+                        {new Date(l.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
       )}
 

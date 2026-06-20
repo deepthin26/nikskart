@@ -3830,6 +3830,31 @@ button {
   font-weight: 600;
 }
 .panel { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 1.5rem; }
+
+/* ── Leads table ── */
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 700px;
+}
+.leads-table th {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #999;
+  border-bottom: 2px solid #f0f0f0;
+  white-space: nowrap;
+}
+.leads-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #f5f5f5;
+  vertical-align: top;
+}
+.leads-table tbody tr:hover td { background: #faf9f7; }
+.leads-table tbody tr:last-child td { border-bottom: none; }
 .orders-list { display: flex; flex-direction: column; gap: 1rem; }
 .admin-order {
   display: flex; gap: 1rem; align-items: center;
