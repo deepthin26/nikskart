@@ -19,6 +19,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
   const heroImages = useRef(getHeroImages());
   const loaded = useRef<Set<number>>(new Set([0]));
   const [, forceUpdate] = useState(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const next = (active + 1) % heroImages.current.length;
@@ -37,8 +38,25 @@ export default function Hero({ search, setSearch }: HeroProps) {
   const prev = () => setActive((p) => (p - 1 + heroImages.current.length) % heroImages.current.length);
   const next = () => setActive((p) => (p + 1) % heroImages.current.length);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart.current) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx < 0) next(); else prev();
+  };
+
   return (
-    <section className="hero-banner home-hero">
+    <section
+      className="hero-banner home-hero"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {heroImages.current.map((img, i) => (
         <div
           key={i}

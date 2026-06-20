@@ -4875,3 +4875,161 @@ button {
   font-size: 0.5rem;
   color: #c0392b;
 }
+
+/* ═══════════════════════════════════════════
+   MOBILE EXPERIENCE — COMPREHENSIVE PASS
+   ═══════════════════════════════════════════ */
+
+/* Remove default tap flash across all interactive elements */
+a, button, [role="button"], input, select, textarea, label {
+  -webkit-tap-highlight-color: transparent;
+}
+button, a { touch-action: manipulation; }
+
+/* ── Hero: hide arrows on touch, show swipe dots ── */
+@media (max-width: 768px) {
+  .hero-arrow { display: none; }
+
+  .hero-dots { bottom: 1rem; gap: 0.55rem; }
+
+  .hero-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    padding: 0.3rem;       /* enlarge tap target without changing visible size */
+    box-sizing: content-box;
+  }
+}
+
+/* ── Touch targets: 44 px minimum ── */
+@media (max-width: 768px) {
+  .product-wishlist-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+    top: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .card-add-btn {
+    min-height: 40px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .mbn-item {
+    min-height: 52px;
+    padding-top: 0.55rem;
+    padding-bottom: 0.4rem;
+  }
+
+  /* Bigger tap targets for hero dots */
+  .hero-dot { padding: 0.35rem; }
+}
+
+/* ── Product grid: always 2 columns on mobile ──
+   This rule is placed AFTER the 420px 1-column rule
+   so it wins for all widths up to 768px.            */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .product-card-body {
+    padding: 0.55rem 0.6rem;
+    gap: 0.2rem;
+  }
+
+  .product-title {
+    font-size: 0.78rem;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .price { font-size: 0.82rem; }
+
+  .rating { font-size: 0.72rem; }
+
+  /* Full-width add button inside card */
+  .card-add-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ── Disable hover effects on pure-touch screens ── */
+@media (hover: none) {
+  /* Overlay "View Details" never shows on touch — remove the space */
+  .product-image-overlay { display: none; }
+
+  /* No zoom on touch */
+  .product-card:hover .product-image-link img { transform: none; }
+
+  /* No shadow on tap — tap flash removed via -webkit-tap-highlight */
+  .product-card:hover {
+    box-shadow: none;
+    border-color: #ebebeb;
+  }
+
+  /* Back-to-top: no hover lift */
+  .back-to-top:hover { transform: none; }
+}
+
+/* ── Footer: clear fixed bottom nav ── */
+@media (max-width: 768px) {
+  .site-footer { padding-bottom: 4rem; }
+}
+
+/* ── Page content: breathing room at bottom on mobile ── */
+@media (max-width: 768px) {
+  .page-content { padding-bottom: 2rem; }
+
+  /* Category page hero tighter on phone */
+  .category-page-hero { padding: 2rem 1rem 1.5rem; }
+
+  /* Category toolbar search full width */
+  .category-toolbar-controls {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .category-search-input { width: 100%; min-width: unset; }
+
+  .category-sort { flex: 1; }
+  .category-sort select { width: 100%; }
+}
+
+/* ── Product detail: tighter breadcrumb on mobile ── */
+@media (max-width: 768px) {
+  .pd-breadcrumb {
+    font-size: 0.72rem;
+    margin-bottom: 1rem;
+  }
+
+  .pd-title { font-size: 1.25rem; }
+
+  .pd-price { font-size: 1.6rem; }
+}
+
+/* ── Best sellers strip: momentum scroll & snap (already has snap, add overscroll) ── */
+@media (max-width: 768px) {
+  .bs-strip {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-padding-left: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+}
+
+/* ── Navbar: hide desktop nav links below 768px (hamburger takes over) ── */
+@media (max-width: 768px) {
+  .nav-links, .navbar-actions { display: none; }
+  .mobile-nav-actions { display: flex; }
+}
