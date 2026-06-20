@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-const heroImages = [
-  '/images/home-banner.webp',
-  'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=1200&q=75',
-  'https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=1200&q=75',
-  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=75',
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768;
+
+const getHeroImages = () => [
+  isMobile() ? '/images/home-banner-mobile.webp' : '/images/home-banner.webp',
+  `https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
+  `https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
+  `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
 ];
 
 interface HeroProps {
@@ -14,11 +16,12 @@ interface HeroProps {
 
 export default function Hero({ search, setSearch }: HeroProps) {
   const [active, setActive] = useState(0);
+  const heroImages = useRef(getHeroImages());
   const loaded = useRef<Set<number>>(new Set([0]));
   const [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    const next = (active + 1) % heroImages.length;
+    const next = (active + 1) % heroImages.current.length;
     let changed = false;
     if (!loaded.current.has(active)) { loaded.current.add(active); changed = true; }
     if (!loaded.current.has(next))   { loaded.current.add(next);   changed = true; }
@@ -26,16 +29,17 @@ export default function Hero({ search, setSearch }: HeroProps) {
   }, [active]);
 
   useEffect(() => {
-    const t = setInterval(() => setActive((p) => (p + 1) % heroImages.length), 5000);
+    const len = heroImages.current.length;
+    const t = setInterval(() => setActive((p) => (p + 1) % len), 5000);
     return () => clearInterval(t);
   }, []);
 
-  const prev = () => setActive((p) => (p - 1 + heroImages.length) % heroImages.length);
-  const next = () => setActive((p) => (p + 1) % heroImages.length);
+  const prev = () => setActive((p) => (p - 1 + heroImages.current.length) % heroImages.current.length);
+  const next = () => setActive((p) => (p + 1) % heroImages.current.length);
 
   return (
     <section className="hero-banner home-hero">
-      {heroImages.map((img, i) => (
+      {heroImages.current.map((img, i) => (
         <div
           key={i}
           className={`hero-slide-bg${i === active ? ' active' : ''}`}
@@ -67,7 +71,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
       <button className="hero-arrow hero-next" onClick={next} aria-label="Next slide">&#8250;</button>
 
       <div className="hero-dots">
-        {heroImages.map((_, i) => (
+        {heroImages.current.map((_, i) => (
           <button
             key={i}
             className={`hero-dot${i === active ? ' active' : ''}`}

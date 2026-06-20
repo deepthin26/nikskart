@@ -25,8 +25,9 @@
     <link rel="preconnect" href="https://www.google-analytics.com" />
     <link rel="dns-prefetch" href="https://lkqzfnjxadztqaznbksl.supabase.co" />
 
-    <!-- Preload LCP image (above-the-fold hero) -->
-    <link rel="preload" href="/images/home-banner.webp" as="image" type="image/webp" fetchpriority="high" />
+    <!-- Preload LCP hero — mobile gets the 25 KB version, desktop the 65 KB version -->
+    <link rel="preload" href="/images/home-banner-mobile.webp" as="image" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
+    <link rel="preload" href="/images/home-banner.webp" as="image" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
 
     <link rel="canonical" href="https://www.nikskart.com/" />
 
