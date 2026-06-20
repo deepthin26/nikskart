@@ -21,8 +21,11 @@ export default defineConfig({
     proxy: apiProxy
   },
   build: {
-    target: 'es2015',
+    target: 'es2020',          // smaller output — no need to polyfill native async/await, ??, ?. for modern browsers
     cssMinify: true,
+    minify: 'esbuild',
+    assetsInlineLimit: 8192,   // inline assets <8 KB as base64 to eliminate extra HTTP round-trips
+    reportCompressedSize: false, // skip gzip size reporting for faster builds
     chunkSizeWarningLimit: 400,
     rollupOptions: {
       output: {

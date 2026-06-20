@@ -175,6 +175,8 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
             alt={`${product.name} – Buy ${product.category} online at Nikskart`}
             className="pd-image"
             loading="eager"
+            fetchPriority="high"
+            decoding="sync"
             width="600"
             height="750"
           />
