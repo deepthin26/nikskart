@@ -52,27 +52,43 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
     setMeta('meta[property="og:url"]', window.location.href);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', window.location.href);
 
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: product.name,
-      image: product.image,
-      description: product.description,
-      brand: { '@type': 'Brand', name: 'Nikskart' },
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'INR',
-        price: product.price,
-        availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: 'Nikskart' }
+    const catSlug = product.category === 'Sarees' ? 'sarees'
+      : product.category === 'Kurtis' ? 'kurtis' : 'artificial-jewellery';
+    const base = 'https://www.nikskart.com';
+
+    const schema = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        image: product.image,
+        description: product.description,
+        brand: { '@type': 'Brand', name: 'Nikskart' },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'INR',
+          price: product.price,
+          availability: 'https://schema.org/InStock',
+          url: `${base}/product/${product.id}`,
+          seller: { '@type': 'Organization', name: 'Nikskart', url: base }
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: product.rating,
+          bestRating: 5,
+          reviewCount: 42
+        }
       },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: product.rating,
-        bestRating: 5,
-        reviewCount: 42
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: base },
+          { '@type': 'ListItem', position: 2, name: product.category, item: `${base}/${catSlug}` },
+          { '@type': 'ListItem', position: 3, name: product.name }
+        ]
       }
-    };
+    ];
 
     const existing = document.getElementById('product-schema');
     if (existing) existing.remove();
