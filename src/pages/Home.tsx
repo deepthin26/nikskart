@@ -25,12 +25,12 @@ const categoryMeta = [
 
 
 const occasions = [
-  { label: 'Wedding',    image: 'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
-  { label: 'Festive',    image: 'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
-  { label: 'Casual',     image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Party',      image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Office',     image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
-  { label: 'Jewellery',  image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=300&q=80', to: '/artificial-jewellery' },
+  { label: 'Wedding',   emoji: '💍', image: 'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
+  { label: 'Festive',   emoji: '✨', image: 'https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=300&q=80', to: '/sarees' },
+  { label: 'Casual',    emoji: '🌸', image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
+  { label: 'Party',     emoji: '🎉', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
+  { label: 'Office',    emoji: '💼', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80', to: '/kurtis' },
+  { label: 'Jewellery', emoji: '💎', image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=300&q=80', to: '/artificial-jewellery' },
 ];
 
 const whyUs = [
@@ -142,17 +142,21 @@ export default function Home({ cart, wishlist }: HomeProps) {
 
 
       {/* Shop by Occasion */}
-      <section className="section occasion-section">
+      <section className="occasion-section">
         <div className="occasion-header">
+          <span className="occasion-eyebrow">✦ Curated for you ✦</span>
           <h2>Shop by Occasion</h2>
           <p>Find the perfect look for every moment</p>
         </div>
         <div className="occasion-list">
           {occasions.map((occ) => (
             <button key={occ.label} className="occasion-tile" onClick={() => navigate(occ.to)}>
-              <div className="occasion-circle">
-                <img src={occ.image} alt={occ.label} loading="lazy" />
+              <div className="occasion-ring">
+                <div className="occasion-circle">
+                  <img src={occ.image} alt={occ.label} loading="lazy" />
+                </div>
               </div>
+              <span className="occasion-emoji">{occ.emoji}</span>
               <span className="occasion-label">{occ.label}</span>
             </button>
           ))}
