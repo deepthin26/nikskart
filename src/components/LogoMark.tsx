@@ -26,11 +26,11 @@ export default function LogoMark({ size = 42, className = '' }: { size?: number;
   );
 }
 
-// Wordmark: "Nikskart" with the dot of the i replaced by a gold diamond.
+// Wordmark: "Nikskart" in the brand font.
 export function Wordmark({ className = '' }: { className?: string }) {
   return (
     <strong className={`nk-wordmark ${className}`} aria-label="Nikskart">
-      N<span className="nk-gem-i">ı</span>kskart
+      Nikskart
     </strong>
   );
 }

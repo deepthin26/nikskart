@@ -6585,3 +6585,6 @@ button, a { touch-action: manipulation; }
 }
 .header-search button[type="submit"]:hover { background: #c9a46e; color: #0b0906; }
 .header-search-close { background: transparent; border: 0; color: #888; cursor: pointer; display: inline-grid; place-items: center; }
+
+/* phones with a notch: keep the header clear of the status bar, no extra gap otherwise */
+.navbar { padding-top: env(safe-area-inset-top, 0px); }
