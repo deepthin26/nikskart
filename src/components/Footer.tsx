@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import LogoMark from './LogoMark';
+import LogoMark, { Wordmark } from './LogoMark';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="footer-brand">
             <LogoMark size={38} />
             <div className="brand-text">
-              <strong>Nikskart</strong>
+              <Wordmark />
               <span style={{ fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a46e', fontWeight: 600 }}>Jewellery &amp; Watches</span>
             </div>
           </div>
@@ -46,7 +46,7 @@ export default function Footer() {
           <ul className="footer-links">
             <li><Link to="/collections/new-arrivals">New Arrivals</Link></li>
             <li><Link to="/collections/women">Women's Jewellery</Link></li>
-            <li><Link to="/collections/watches">Watches</Link></li>
+            <li><Link to="/collections/womens-watches">Watches</Link></li>
             <li><Link to="/collections/anti-tarnish">Anti-Tarnish</Link></li>
           </ul>
         </div>

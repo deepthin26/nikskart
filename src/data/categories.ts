@@ -17,6 +17,7 @@ export const CATEGORY_LIST: CategoryDef[] = [
   // Women
   { slug: 'earrings',        category: 'Earrings',            label: 'Earrings',            group: 'women',   subtitle: 'Studs, hoops, danglers & ear cuffs' },
   { slug: 'necklaces',       category: 'Necklaces',           label: 'Necklaces',           group: 'women',   subtitle: 'Chains, chokers, layered & pearl' },
+  { slug: 'womens-watches',  category: "Women's Watches",     label: 'Watches',     group: 'women', subtitle: 'Bracelet, mesh & leather straps' },
   { slug: 'pendants',        category: 'Pendants',            label: 'Pendants',            group: 'women',   subtitle: 'Evil eye, initial, solitaire & heart' },
   { slug: 'rings',           category: 'Rings',               label: 'Rings',               group: 'women',   subtitle: 'Adjustable, solitaire & statement' },
   { slug: 'bracelets',       category: 'Bracelets',           label: 'Bracelets',           group: 'women',   subtitle: 'Chain, cuff, charm & tennis' },
@@ -24,16 +25,13 @@ export const CATEGORY_LIST: CategoryDef[] = [
   { slug: 'mangalsutra',     category: 'Mangalsutra',         label: 'Mangalsutra',         group: 'women',   subtitle: 'Modern everyday mangalsutras' },
   { slug: 'jewellery-sets',  category: 'Jewellery Sets',      label: 'Jewellery Sets',      group: 'women',   subtitle: 'Necklace & earring sets' },
   { slug: 'artificial-jewellery', category: 'Artificial Jewellery', label: 'Kundan & Ethnic', group: 'women', subtitle: 'Kundan, Polki & temple gold' },
-  // Watches
-  { slug: 'womens-watches',  category: "Women's Watches",     label: "Women's Watches",     group: 'watches', subtitle: 'Bracelet, mesh & leather straps' },
 ];
 
 export const GROUPS: { key: CategoryDef['group']; label: string; slug: string; subtitle: string }[] = [
   { key: 'women',   label: 'Women',   slug: 'women',   subtitle: 'Anti-tarnish jewellery for her' },
-  { key: 'watches', label: "Women's Watches", slug: 'watches', subtitle: 'Elegant watches for her' },
 ];
 
-const JEWELLERY_CATS = CATEGORY_LIST.filter((c) => c.group !== 'watches').map((c) => c.category);
+const JEWELLERY_CATS = CATEGORY_LIST.map((c) => c.category).filter((c) => !c.includes('Watches'));
 
 /** All categories shown on the storefront (sarees/kurtis are no longer listed). */
 export const STORE_CATEGORIES = CATEGORY_LIST.map((c) => c.category);

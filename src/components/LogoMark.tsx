@@ -1,26 +1,32 @@
-// Nikskart logo mark: a gold "N" whose right stroke is crowned by a faceted
-// diamond (like a solitaire ring), with a small sparkle — inside a fine gold ring.
+// Nikskart logo mark: a bold gold "N" whose right stroke is crowned by a
+// faceted diamond (like a solitaire ring), inside a fine gold ring on black.
 export default function LogoMark({ size = 42, className = '' }: { size?: number; className?: string }) {
   const id = `nkGold${size}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <linearGradient id={id} x1="8" y1="6" x2="32" y2="34" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#f3dfb3" />
-          <stop offset="0.5" stopColor="#c9a46e" />
-          <stop offset="1" stopColor="#9c7a45" />
+          <stop offset="0" stopColor="#f6e4bb" />
+          <stop offset="0.5" stopColor="#d1ad72" />
+          <stop offset="1" stopColor="#a07d45" />
         </linearGradient>
       </defs>
-      {/* badge */}
-      <circle cx="20" cy="20" r="19.25" fill="#0a0a0a" />
-      <circle cx="20" cy="20" r="16.2" stroke={`url(#${id})`} strokeWidth="0.8" />
-      {/* N: left stem, diagonal, right stem */}
-      <path d="M11.6 29.5V12.2h2.4L25.6 26.6V17.2h2.4v12.3h-2.3L14 15.1v14.4z" fill={`url(#${id})`} />
+      <circle cx="20" cy="20" r="19.5" fill="#0a0a0a" />
+      <circle cx="20" cy="20" r="16.8" stroke={`url(#${id})`} strokeWidth="0.9" />
+      {/* bold N */}
+      <path d="M10.6 29.6V11.8h3.4l11.6 13.7V19.2h3.4v10.4h-3.2L14 16v13.6z" fill={`url(#${id})`} />
       {/* solitaire diamond on the right stem */}
-      <path d="M23.6 12.9l1.5-2.2h3.4l1.5 2.2-3.2 3.6z" fill={`url(#${id})`} />
-      <path d="M23.6 12.9h6.4M25.1 10.7l1.7 5.8 1.7-5.8M26.8 10.7v2.2" stroke="#0a0a0a" strokeWidth="0.45" strokeLinejoin="round" />
-      {/* sparkle */}
-      <path d="M31.6 6.9c.15 1.15.75 1.75 1.9 1.9-1.15.15-1.75.75-1.9 1.9-.15-1.15-.75-1.75-1.9-1.9 1.15-.15 1.75-.75 1.9-1.9z" fill="#f3dfb3" />
+      <path d="M22.9 13.3l1.9-2.9h4.6l1.9 2.9-4.2 5.2z" fill={`url(#${id})`} />
+      <path d="M22.9 13.3h8.4M24.8 10.4l2.3 8.1 2.3-8.1M27.1 10.4l-1.2 2.9M27.1 10.4l1.2 2.9" stroke="#0a0a0a" strokeWidth="0.5" strokeLinejoin="round" strokeLinecap="round" />
     </svg>
+  );
+}
+
+// Wordmark: "nikskart" with the dot of the i replaced by a gold diamond.
+export function Wordmark({ className = '' }: { className?: string }) {
+  return (
+    <strong className={`nk-wordmark ${className}`} aria-label="Nikskart">
+      n<span className="nk-gem-i">ı</span>kskart
+    </strong>
   );
 }

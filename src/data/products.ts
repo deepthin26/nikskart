@@ -280,8 +280,8 @@ export const sampleProducts: Product[] = [
   s('s13', 'modern-beaded-mangalsutra', 'Modern Beaded Mangalsutra', 'Mangalsutra', 1299, '50% off', 20768279, 4.7, `A lightweight, modern mangalsutra designed for daily wear. ${AT}`),
   s('s14', 'necklace-earring-set', 'Necklace & Earring Set', 'Jewellery Sets', 1799, '50% off', 20858959, 4.8, `A coordinated necklace and earring set, boxed and ready to gift. ${AT}`, 'Best Seller'),
   // Watches
-  s('s19', 'womens-classic-white-dial-watch', 'Classic White Dial Watch', "Women's Watches", 1999, '50% off', 1697214, 4.7, `A clean white-dial watch with an elegant profile. ${WT}`, 'New'),
-  s('s20', 'womens-silver-bracelet-watch', 'Silver Bracelet Watch', "Women's Watches", 2499, '50% off', 1134041, 4.8, `A polished silver-tone bracelet watch for work and evenings. ${WT}`, 'Best Seller'),
-  s('s23', 'womens-rose-gold-mesh-watch', 'Rose Gold Mesh Watch', "Women's Watches", 2199, '50% off', 1134041, 4.7, `A slim rose-gold-tone watch with a mesh strap. ${WT}`, 'New'),
-  s('s24', 'womens-petite-leather-watch', 'Petite Leather Strap Watch', "Women's Watches", 1799, '50% off', 1697214, 4.6, `A petite dial on a soft leather strap for everyday elegance. ${WT}`),
+  s('s19', 'womens-classic-white-dial-watch', 'Classic White Dial Watch', "Women's Watches", 1999, '50% off', 179909, 4.7, `A clean white-dial watch with an elegant profile. ${WT}`, 'New'),
+  s('s20', 'womens-silver-bracelet-watch', 'Silver Bracelet Watch', "Women's Watches", 2499, '50% off', 1374128, 4.8, `A polished silver-tone bracelet watch for work and evenings. ${WT}`, 'Best Seller'),
+  s('s23', 'womens-rose-gold-mesh-watch', 'Rose Gold Mesh Watch', "Women's Watches", 2199, '50% off', 27059287, 4.7, `A slim rose-gold-tone watch with a mesh strap. ${WT}`, 'New'),
+  s('s24', 'womens-petite-leather-watch', 'Petite Leather Strap Watch', "Women's Watches", 1799, '50% off', 14668285, 4.6, `A petite dial on a soft leather strap for everyday elegance. ${WT}`),
 ];

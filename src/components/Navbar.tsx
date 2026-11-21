@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import LogoMark from './LogoMark';
+import LogoMark, { Wordmark } from './LogoMark';
 import { CATEGORY_LIST, GROUPS, categoryPath } from '../data/categories';
 
 interface NavbarProps {
@@ -67,7 +67,7 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
           <Link className="brand" to="/" onClick={closeAll}>
             <LogoMark className="brand-logo-svg" size={42} />
             <div className="brand-text">
-              <strong>Nikskart</strong>
+              <Wordmark />
               <span className="brand-tagline">Jewellery &amp; Watches</span>
             </div>
           </Link>

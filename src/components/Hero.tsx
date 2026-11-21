@@ -6,7 +6,7 @@ const getHeroImages = () => [
   `https://images.pexels.com/photos/13325931/pexels-photo-13325931.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
   `https://images.pexels.com/photos/13292666/pexels-photo-13292666.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
   `https://images.pexels.com/photos/20943477/pexels-photo-20943477.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
-  `https://images.pexels.com/photos/1697214/pexels-photo-1697214.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
+  `https://images.pexels.com/photos/179909/pexels-photo-179909.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
 ];
 
 interface HeroProps {

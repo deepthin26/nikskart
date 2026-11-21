@@ -6251,3 +6251,42 @@ button, a { touch-action: manipulation; }
 }
 .brand-tagline { font-size: 0.55rem; letter-spacing: 0.3em; margin-top: 3px; }
 @media (max-width: 768px) { .brand strong { font-size: 1.5rem; } }
+
+/* ── Logo wordmark font: Bodoni Moda ── */
+.brand strong, .footer-brand .brand-text strong {
+  font-family: 'Bodoni Moda', 'Didot', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+.brand-tagline { letter-spacing: 0.26em; margin-top: 4px; }
+@media (max-width: 768px) { .brand strong { font-size: 1.2rem; } }
+
+/* ── Wordmark: lowercase "nikskart" with a diamond i-dot ── */
+.brand .nk-wordmark, .footer-brand .nk-wordmark {
+  font-family: 'Bodoni Moda', 'Didot', Georgia, serif;
+  font-size: 1.95rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.03em;
+  line-height: 0.9;
+}
+.nk-gem-i { position: relative; display: inline-block; }
+.nk-gem-i::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.06em;
+  width: 0.24em;
+  height: 0.24em;
+  transform: translateX(-50%) rotate(45deg);
+  background: linear-gradient(135deg, #f6e4bb 0%, #d1ad72 55%, #a07d45 100%);
+  box-shadow: 0 0 0 0.03em rgba(201,164,110,0.25);
+}
+.brand-tagline { margin-top: 5px; }
+@media (max-width: 768px) { .brand .nk-wordmark { font-size: 1.6rem; } }
+.footer-brand .brand-text .nk-wordmark, .brand .brand-text .nk-wordmark { text-transform: none; letter-spacing: 0.03em; font-size: 1.95rem; }
+.nk-gem-i::after { width: 0.21em; height: 0.21em; top: 0.08em; }
+@media (max-width: 768px) { .brand .brand-text .nk-wordmark { font-size: 1.6rem; } }
