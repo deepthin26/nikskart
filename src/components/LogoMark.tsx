@@ -1,5 +1,5 @@
-// Nikskart logo mark: a bold gold "N" whose right stroke is crowned by a
-// faceted diamond (like a solitaire ring), inside a fine gold ring on black.
+// Nikskart logo mark: a clear gold "N" in the brand font with a small
+// diamond accent above, inside a fine gold ring on black.
 export default function LogoMark({ size = 42, className = '' }: { size?: number; className?: string }) {
   const id = `nkGold${size}`;
   return (
@@ -13,11 +13,10 @@ export default function LogoMark({ size = 42, className = '' }: { size?: number;
       </defs>
       <circle cx="20" cy="20" r="19.5" fill="#0a0a0a" />
       <circle cx="20" cy="20" r="16.8" stroke={`url(#${id})`} strokeWidth="0.9" />
-      {/* bold N */}
-      <path d="M10.6 29.6V11.8h3.4l11.6 13.7V19.2h3.4v10.4h-3.2L14 16v13.6z" fill={`url(#${id})`} />
-      {/* solitaire diamond on the right stem */}
-      <path d="M22.9 13.3l1.9-2.9h4.6l1.9 2.9-4.2 5.2z" fill={`url(#${id})`} />
-      <path d="M22.9 13.3h8.4M24.8 10.4l2.3 8.1 2.3-8.1M27.1 10.4l-1.2 2.9M27.1 10.4l1.2 2.9" stroke="#0a0a0a" strokeWidth="0.5" strokeLinejoin="round" strokeLinecap="round" />
+      {/* clear N in the brand font */}
+      <text x="20" y="29.8" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontSize="22" fontWeight="700" fill={`url(#${id})`}>N</text>
+      {/* small diamond accent */}
+      <path d="M17.7 7.6l.85-1.3h2.9l.85 1.3-2.3 2.6z" fill={`url(#${id})`} />
     </svg>
   );
 }
