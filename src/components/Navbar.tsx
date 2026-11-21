@@ -86,7 +86,9 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
           <nav className="nav-links" ref={dropdownRef}>
             <Link to="/">Home</Link>
 
-            {menus.map((m) => (
+            {menus.map((m) => m.items.length === 1 ? (
+              <Link key={m.key} to={m.items[0].to}>{m.label}</Link>
+            ) : (
               <div
                 key={m.key}
                 className="nav-dropdown"
@@ -174,7 +176,9 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             <div className="mobile-nav-body">
               <Link to="/" className="mobile-nav-link" onClick={closeAll}>Home</Link>
 
-              {menus.map((m) => (
+              {menus.map((m) => m.items.length === 1 ? (
+                <Link key={m.key} to={m.items[0].to} className="mobile-nav-link" onClick={closeAll}>{m.label}</Link>
+              ) : (
                 <div key={m.key}>
                   <button
                     className="mobile-nav-link mobile-nav-accordion"

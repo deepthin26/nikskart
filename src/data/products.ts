@@ -279,15 +279,9 @@ export const sampleProducts: Product[] = [
   s('s12', 'dainty-gold-anklet', 'Dainty Gold Anklet', 'Anklets', 499, '50% off', 8183933, 4.5, `A delicate anklet with a subtle sparkle. ${AT}`, 'New'),
   s('s13', 'modern-beaded-mangalsutra', 'Modern Beaded Mangalsutra', 'Mangalsutra', 1299, '50% off', 20768279, 4.7, `A lightweight, modern mangalsutra designed for daily wear. ${AT}`),
   s('s14', 'necklace-earring-set', 'Necklace & Earring Set', 'Jewellery Sets', 1799, '50% off', 20858959, 4.8, `A coordinated necklace and earring set, boxed and ready to gift. ${AT}`, 'Best Seller'),
-  // Men
-  s('s15', 'mens-cuban-link-chain', 'Cuban Link Chain', "Men's Chains", 1499, '50% off', 19869445, 4.7, `A bold Cuban link chain for men. ${AT}`, 'Best Seller'),
-  s('s16', 'mens-signet-ring', 'Classic Signet Ring', "Men's Rings", 899, '50% off', 8469153, 4.5, `A timeless brushed signet ring. ${AT}`, 'New'),
-  s('s17', 'mens-steel-kada', 'Steel Kada Bracelet', "Men's Bracelets", 999, '50% off', 12194316, 4.6, `A solid stainless steel kada with a polished finish. ${AT}`),
-  s('s18', 'mens-minimal-pendant', 'Minimal Bar Pendant', "Men's Pendants", 849, '50% off', 7407595, 4.5, `A sleek minimal pendant on a sturdy chain. ${AT}`),
   // Watches
   s('s19', 'womens-classic-white-dial-watch', 'Classic White Dial Watch', "Women's Watches", 1999, '50% off', 1697214, 4.7, `A clean white-dial watch with an elegant profile. ${WT}`, 'New'),
   s('s20', 'womens-silver-bracelet-watch', 'Silver Bracelet Watch', "Women's Watches", 2499, '50% off', 1134041, 4.8, `A polished silver-tone bracelet watch for work and evenings. ${WT}`, 'Best Seller'),
-  s('s21', 'mens-steel-chronograph-watch', 'Steel Chronograph Watch', "Men's Watches", 3499, '50% off', 190819, 4.8, `A stainless steel chronograph with a black dial and link bracelet. ${WT}`, 'Best Seller'),
-  s('s22', 'mens-minimal-silver-watch', 'Minimal Silver Watch', "Men's Watches", 2299, '50% off', 1134041, 4.6, `A minimal silver watch that goes with everything. ${WT}`),
-  s('s23', 'his-and-hers-watch-set', 'His & Hers Watch Set', 'Couple Watches', 4499, '50% off', 1697214, 4.8, `A matching pair of watches in a premium gift box. ${WT}`, 'Gift Set'),
+  s('s23', 'womens-rose-gold-mesh-watch', 'Rose Gold Mesh Watch', "Women's Watches", 2199, '50% off', 1134041, 4.7, `A slim rose-gold-tone watch with a mesh strap. ${WT}`, 'New'),
+  s('s24', 'womens-petite-leather-watch', 'Petite Leather Strap Watch', "Women's Watches", 1799, '50% off', 1697214, 4.6, `A petite dial on a soft leather strap for everyday elegance. ${WT}`),
 ];

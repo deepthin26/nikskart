@@ -28,7 +28,7 @@ export default function Collection({ cart, wishlist }: CollectionProps) {
 
   if (!cat && !coll && !group) return <NotFound />;
 
-  const title = cat ? (cat.group === 'men' ? `Men's ${cat.label}` : cat.label) : coll ? coll.label : `${group!.label}${group!.key === 'watches' ? '' : "'s Jewellery"}`;
+  const title = cat ? cat.label : coll ? coll.label : `${group!.label}${group!.key === 'watches' ? '' : "'s Jewellery"}`;
   const subtitle = cat?.subtitle ?? coll?.subtitle ?? group!.subtitle;
 
   // related links: siblings in the same group, or the main groups for collections

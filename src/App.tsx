@@ -60,7 +60,7 @@ function MobileBottomNav({ cartCount }: { cartCount: number }) {
   const nav = [
     { to: '/',        icon: '🏠', label: 'Home' },
     { to: '/collections/women',   icon: '💍', label: 'Jewellery' },
-    { to: '/collections/watches', icon: '⌚', label: 'Watches' },
+    { to: '/collections/womens-watches', icon: '⌚', label: 'Watches' },
     { to: '/cart',    icon: '🛍', label: 'Cart', badge: cartCount },
     { to: '/account', icon: '👤', label: 'Account' },
   ];

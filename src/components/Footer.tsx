@@ -45,7 +45,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="footer-tagline">
-            Anti-tarnish, waterproof demi-fine jewellery and watches for women and men — earrings, necklaces, rings, bracelets, chains and timepieces.
+            Anti-tarnish, waterproof demi-fine jewellery and watches for women — earrings, necklaces, pendants, rings, bracelets and watches.
           </p>
         </div>
 
@@ -55,7 +55,6 @@ export default function Footer() {
           <ul className="footer-links">
             <li><Link to="/collections/new-arrivals">New Arrivals</Link></li>
             <li><Link to="/collections/women">Women's Jewellery</Link></li>
-            <li><Link to="/collections/men">Men's Jewellery</Link></li>
             <li><Link to="/collections/watches">Watches</Link></li>
             <li><Link to="/collections/anti-tarnish">Anti-Tarnish</Link></li>
             <li><Link to="/collections/gifting">Gifting</Link></li>

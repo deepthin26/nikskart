@@ -69,7 +69,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
       <div className="hero-copy">
         <span className="eyebrow">New Season · 2026 Collection</span>
         <h1>Jewellery &amp; watches that stay as bright as you</h1>
-        <p className="hero-text">Anti-tarnish, waterproof demi-fine jewellery and statement watches — for her, for him, for every day.</p>
+        <p className="hero-text">Anti-tarnish, waterproof demi-fine jewellery and statement watches — made for her, made for every day.</p>
         <div className="hero-search">
           <input
             type="search"

@@ -24,9 +24,7 @@ const categoryMeta = [
   { title: 'Pendants',        cat: 'Pendants',        subtitle: 'Evil eye, initial & solitaire',   to: '/collections/pendants' },
   { title: 'Rings',           cat: 'Rings',           subtitle: 'Adjustable & statement',          to: '/collections/rings' },
   { title: 'Bracelets',       cat: 'Bracelets',       subtitle: 'Chain, cuff & charm',             to: '/collections/bracelets' },
-  { title: "Men's Jewellery", cat: "Men's Chains",    subtitle: 'Chains, rings & kadas',           to: '/collections/men' },
   { title: "Women's Watches", cat: "Women's Watches", subtitle: 'Bracelet, mesh & leather',        to: '/collections/womens-watches' },
-  { title: "Men's Watches",   cat: "Men's Watches",   subtitle: 'Chronograph & minimal',           to: '/collections/mens-watches' },
 ];
 
 
@@ -41,7 +39,7 @@ const whyUs = [
 const testimonials = [
   { name: 'Priya R.', location: 'Chennai', rating: 5, text: 'My gold hoops still look brand new after weeks of daily wear — even in the shower. Delivery was quick and the packaging was lovely.', product: 'Gold Huggie Hoops' },
   { name: 'Meena S.', location: 'Mumbai', rating: 5, text: 'Loved my Kundan necklace set! The quality is amazing for the price. Wore it to my cousin\'s wedding and got so many compliments.', product: 'Kundan Necklace Set' },
-  { name: 'Ananya K.', location: 'Hyderabad', rating: 5, text: 'Bought a couple watch set as an anniversary gift — it looks premium and came beautifully boxed. Will definitely order again.', product: 'His & Hers Watch Set' },
+  { name: 'Ananya K.', location: 'Hyderabad', rating: 5, text: 'My rose gold watch looks so premium and came beautifully boxed. I get compliments every time I wear it!', product: 'Rose Gold Mesh Watch' },
 ];
 
 const faqs = [
@@ -53,12 +51,12 @@ const faqs = [
   { q: 'How do I find my ring or bracelet size?', a: 'Most of our rings are adjustable. For other sizes, visit our Size Guide page or WhatsApp us for help choosing the right fit.' },
 ];
 
-const filterTabs = ['All', 'Earrings', 'Necklaces', 'Pendants', 'Rings', 'Bracelets', "Men's Chains", "Women's Watches", "Men's Watches"];
+const filterTabs = ['All', 'Earrings', 'Necklaces', 'Pendants', 'Rings', 'Bracelets', "Women's Watches"];
 
 export default function Home({ cart, wishlist }: HomeProps) {
   useSeoMeta(
     'Nikskart – Anti-Tarnish Jewellery & Watches Online',
-    'Shop anti-tarnish, waterproof jewellery and watches at Nikskart — earrings, necklaces, rings, bracelets, men’s chains and watches. Easy 15-day returns.'
+    'Shop anti-tarnish, waterproof jewellery and watches at Nikskart — earrings, necklaces, rings, bracelets and watches. Easy 15-day returns.'
   );
   const [search, setSearch] = useState('');
   const [searchParams] = useSearchParams();
@@ -147,7 +145,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
         <div className="section-header">
           <div>
             <h2>Shop by Category</h2>
-            <p>Jewellery &amp; watches for her and him</p>
+            <p>Jewellery &amp; watches for her</p>
           </div>
         </div>
         <div className="category-cards">
