@@ -3,7 +3,7 @@ import { useSeoMeta } from '../hooks/useSeoMeta';
 
 export default function Contact() {
   useSeoMeta(
-    'Contact Us – Nikskart | Ethnic Fashion Store',
+    'Contact Us – Nikskart | Jewellery & Watches',
     'Get in touch with Nikskart for orders, returns or any queries. Call or WhatsApp us at +91 88857 00227.'
   );
 

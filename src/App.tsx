@@ -83,6 +83,13 @@ function MobileBottomNav({ cartCount }: { cartCount: number }) {
   );
 }
 
+// Jump to the top of the page whenever the route changes
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
+
 function App() {
   usePageTracking();
   const cart    = useCart();
@@ -92,6 +99,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      <ScrollToTop />
       <Navbar
         cartCount={cart.totalCount}
         wishlistCount={wishlist.count}
