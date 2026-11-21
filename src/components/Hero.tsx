@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768;
 
-const getHeroImages = () => [
-  `https://images.pexels.com/photos/13325931/pexels-photo-13325931.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
-  `https://images.pexels.com/photos/13292666/pexels-photo-13292666.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
-  `https://images.pexels.com/photos/20943477/pexels-photo-20943477.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
-  `https://images.pexels.com/photos/179909/pexels-photo-179909.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
-];
+const heroImg = (id: number) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 900 : 1600}`;
+
+// Banner slides: Kundan choker look, hoops + pearl layers, women's watch, gold pendant
+const getHeroImages = () => [17298688, 9649265, 179909, 6153885].map(heroImg);
+// focal point for each slide so the jewellery stays in frame
+const heroFocus = ['center 62%', 'center 55%', 'center 60%', 'center 70%'];
 
 interface HeroProps {
   search: string;
@@ -17,7 +18,7 @@ interface HeroProps {
 export default function Hero({ search, setSearch }: HeroProps) {
   const [active, setActive] = useState(0);
   const heroImages = useRef(getHeroImages());
-  const loaded = useRef<Set<number>>(new Set([0]));
+  const loaded = useRef<Set<number>>(new Set([0, 1]));
   const [, forceUpdate] = useState(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
@@ -61,7 +62,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
         <div
           key={i}
           className={`hero-slide-bg${i === active ? ' active' : ''}`}
-          style={loaded.current.has(i) ? { backgroundImage: `url(${img})` } : undefined}
+          style={loaded.current.has(i) ? { backgroundImage: `url(${img})`, backgroundPosition: heroFocus[i] } : undefined}
         />
       ))}
       <div className="hero-bg-overlay" />
