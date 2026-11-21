@@ -6376,3 +6376,88 @@ button, a { touch-action: manipulation; }
   .brand-bar { flex-direction: row; align-items: center; height: 4.25rem; padding: 0; }
 }
 @media (max-width: 1000px) { .hamburger-btn { display: flex !important; } }
+
+/* ================================================================
+   About page
+   ================================================================ */
+.ab-page { background: #fff; }
+.ab-eyebrow { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #c9a46e; margin-bottom: 0.75rem; }
+.ab-page h1, .ab-page h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #0a0a0a; line-height: 1.15; }
+.ab-page h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0 0 1rem; }
+
+.ab-hero { position: relative; min-height: 460px; background-size: cover; background-position: center 35%; display: flex; align-items: center; }
+.ab-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(10,8,5,0.82) 0%, rgba(10,8,5,0.55) 45%, rgba(10,8,5,0.15) 100%); }
+.ab-hero-inner { position: relative; max-width: 620px; padding: 4rem 3rem; color: #fff; }
+.ab-hero h1 { color: #fff; font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin: 0 0 1rem; }
+.ab-hero p { color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.7; margin: 0; }
+
+.ab-story { display: grid; grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; }
+.ab-story-img { min-height: 480px; border-radius: 6px; background-size: cover; background-position: center; box-shadow: 0 24px 48px rgba(0,0,0,0.12); }
+.ab-story-text p { color: #555; line-height: 1.8; margin: 0 0 1rem; }
+.ab-mission { margin-top: 1.75rem; padding: 1.25rem 1.5rem; border-left: 3px solid #c9a46e; background: #faf6f0; }
+.ab-mission strong { display: block; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: #a07d45; margin-bottom: 0.4rem; }
+.ab-mission p { margin: 0; color: #333; }
+
+.ab-stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #0b0906; color: #fff; }
+.ab-stats div { text-align: center; padding: 2.5rem 1rem; border-right: 1px solid rgba(201,164,110,0.2); }
+.ab-stats div:last-child { border-right: 0; }
+.ab-stats strong { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; color: #d1ad72; margin-bottom: 0.35rem; }
+.ab-stats span { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.75); }
+
+.ab-section { max-width: 1200px; margin: 0 auto; padding: 5rem 3rem; }
+.ab-head { text-align: center; margin-bottom: 2.75rem; }
+.ab-offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.ab-offer { display: block; border: 1px solid #eee; border-radius: 6px; overflow: hidden; color: inherit; text-decoration: none; transition: transform 0.25s, box-shadow 0.25s; }
+.ab-offer:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(0,0,0,0.1); }
+.ab-offer-img { aspect-ratio: 4 / 3; background-size: cover; background-position: center 40%; }
+.ab-offer-body { padding: 1.4rem 1.5rem 1.6rem; }
+.ab-offer-body h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; margin: 0 0 0.5rem; color: #0a0a0a; }
+.ab-offer-body p { color: #666; line-height: 1.6; margin: 0 0 1rem; font-size: 0.92rem; }
+.ab-offer-link { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #a07d45; }
+
+.ab-promise-wrap { max-width: none; background: #faf8f5; }
+.ab-promises { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.ab-promise { background: #fff; border: 1px solid #efe7dc; border-radius: 6px; padding: 1.75rem 1.5rem; text-align: center; }
+.ab-promise-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #0b0906; color: #d1ad72; font-size: 1.35rem; margin-bottom: 0.9rem; }
+.ab-promise h3 { font-size: 1rem; margin: 0 0 0.4rem; color: #0a0a0a; }
+.ab-promise p { color: #666; font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+.ab-cta { text-align: center; padding: 4.5rem 2rem; background: linear-gradient(135deg, #0b0906 0%, #2a2015 100%); }
+.ab-cta h2 { color: #fff; }
+.ab-cta p { color: rgba(255,255,255,0.75); margin: 0 0 1.75rem; }
+.ab-cta a[href^="tel"] { color: #d1ad72; }
+.ab-cta-btns { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+.ab-btn { display: inline-block; padding: 0.9rem 1.8rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, color 0.2s; }
+.ab-btn-gold { background: #c9a46e; color: #0a0a0a; }
+.ab-btn-gold:hover { background: #d9b884; }
+.ab-btn-outline { border: 1px solid #c9a46e; color: #d1ad72; }
+.ab-btn-outline:hover { background: #c9a46e; color: #0a0a0a; }
+
+@media (max-width: 900px) {
+  .ab-story { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 1.25rem; }
+  .ab-story-img { min-height: 320px; }
+  .ab-stats { grid-template-columns: repeat(2, 1fr); }
+  .ab-stats div:nth-child(2) { border-right: 0; }
+  .ab-stats div:nth-child(-n+2) { border-bottom: 1px solid rgba(201,164,110,0.2); }
+  .ab-section { padding: 3.5rem 1.25rem; }
+  .ab-offers, .ab-promises { grid-template-columns: 1fr; }
+  .ab-hero-inner { padding: 3rem 1.25rem; }
+}
+@media (min-width: 600px) and (max-width: 900px) { .ab-promises { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Brand icons: gold line icons on a black circle ── */
+.why-icon {
+  display: inline-grid; place-items: center;
+  width: 58px; height: 58px; border-radius: 50%;
+  background: #0b0906; color: #d1ad72;
+  border: 1px solid rgba(201,164,110,0.45);
+  font-size: 0; margin-bottom: 1rem;
+}
+.ab-promise-icon { border: 1px solid rgba(201,164,110,0.45); font-size: 0; }
+
+/* ── Product cards: shorter images ── */
+.product-image-link img { height: auto; aspect-ratio: 4 / 5; }
+
+/* ── Header Bag button: a bit smaller ── */
+.navbar-actions .cart-button, .mobile-nav-actions .cart-button { padding: 0.45rem 0.85rem; font-size: 0.7rem; gap: 0.35rem; }
+.navbar-actions .cart-button .cart-count, .mobile-nav-actions .cart-button .cart-count { min-width: 18px; height: 18px; font-size: 0.62rem; }

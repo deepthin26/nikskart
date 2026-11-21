@@ -7,6 +7,7 @@ import ProductGrid from '../components/ProductGrid';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
 import { isStoreProduct } from '../data/categories';
+import BrandIcon, { BrandIconName } from '../components/BrandIcon';
 
 interface HomeProps {
   cart: {
@@ -29,10 +30,10 @@ const categoryMeta = [
 
 
 const whyUs = [
-  { icon: '💧', title: 'Anti-Tarnish & Waterproof', desc: 'Shower-proof, sweat-proof, skin-safe pieces made to keep their shine every single day.' },
-  { icon: '✨', title: 'Curated Collections', desc: 'Handpicked for quality, design and wearability. No fillers — only pieces we\'d wear ourselves.' },
-  { icon: '↩', title: '15-Day Easy Returns', desc: 'Changed your mind? No worries. Hassle-free returns across India within 15 days of delivery.' },
-  { icon: '🔒', title: 'Secure Payments', desc: 'Pay safely via UPI, Credit/Debit Card or Net Banking — powered by Razorpay with 100% encryption.' },
+  { icon: 'drop' as BrandIconName, title: 'Anti-Tarnish & Waterproof', desc: 'Shower-proof, sweat-proof, skin-safe pieces made to keep their shine every single day.' },
+  { icon: 'gem' as BrandIconName, title: 'Curated Collections', desc: 'Handpicked for quality, design and wearability. No fillers — only pieces we\'d wear ourselves.' },
+  { icon: 'return' as BrandIconName, title: '15-Day Easy Returns', desc: 'Changed your mind? No worries. Hassle-free returns across India within 15 days of delivery.' },
+  { icon: 'lock' as BrandIconName, title: 'Secure Payments', desc: 'Pay safely via UPI, Credit/Debit Card or Net Banking — powered by Razorpay with 100% encryption.' },
 ];
 
 const testimonials = [
@@ -263,7 +264,7 @@ export default function Home({ cart, wishlist }: HomeProps) {
         <div className="why-grid">
           {whyUs.map((w) => (
             <div key={w.title} className="why-card">
-              <span className="why-icon">{w.icon}</span>
+              <span className="why-icon"><BrandIcon name={w.icon} size={28} /></span>
               <h3>{w.title}</h3>
               <p>{w.desc}</p>
             </div>
