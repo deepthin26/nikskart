@@ -41,11 +41,11 @@ export default function Footer() {
             </svg>
             <div className="brand-text">
               <strong>Nikskart</strong>
-              <span style={{ fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a46e', fontWeight: 600 }}>Ethnic Fashion</span>
+              <span style={{ fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a46e', fontWeight: 600 }}>Jewellery &amp; Watches</span>
             </div>
           </div>
           <p className="footer-tagline">
-            India's curated destination for women's ethnic wear and fine jewellery — sarees, kurtis, lehengas and handcrafted accessories.
+            Anti-tarnish, waterproof demi-fine jewellery and watches for women and men — earrings, necklaces, rings, bracelets, chains and timepieces.
           </p>
         </div>
 
@@ -53,11 +53,12 @@ export default function Footer() {
         <div className="footer-col">
           <h4 className="footer-col-heading">Shop</h4>
           <ul className="footer-links">
-            <li><Link to="/">New Arrivals</Link></li>
-            <li><Link to="/sarees">Sarees</Link></li>
-            <li><Link to="/kurtis">Kurtis</Link></li>
-            <li><Link to="/artificial-jewellery">Artificial Jewellery</Link></li>
-            <li><Link to="/">Festive Picks</Link></li>
+            <li><Link to="/collections/new-arrivals">New Arrivals</Link></li>
+            <li><Link to="/collections/women">Women's Jewellery</Link></li>
+            <li><Link to="/collections/men">Men's Jewellery</Link></li>
+            <li><Link to="/collections/watches">Watches</Link></li>
+            <li><Link to="/collections/anti-tarnish">Anti-Tarnish</Link></li>
+            <li><Link to="/collections/gifting">Gifting</Link></li>
           </ul>
         </div>
 

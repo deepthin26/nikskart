@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CATEGORY_LIST, GROUPS, categoryPath } from '../data/categories';
 
 interface NavbarProps {
   cartCount: number;
@@ -12,23 +13,31 @@ interface NavbarProps {
   onLogout: () => void;
 }
 
-const womenCategories = [
-  { label: 'Sarees', to: '/sarees' },
-  { label: 'Kurtis', to: '/kurtis' },
-  { label: 'Artificial Jewellery', to: '/artificial-jewellery' },
+// Dropdown menus: Women / Men / Watches (categories come from src/data/categories.ts)
+const menus = GROUPS.map((g) => ({
+  key: g.key,
+  label: g.label,
+  allTo: categoryPath(g.slug),
+  items: CATEGORY_LIST.filter((c) => c.group === g.key).map((c) => ({ label: c.label, to: categoryPath(c.slug) })),
+}));
+
+const quickLinks = [
+  { label: 'Anti-Tarnish', to: categoryPath('anti-tarnish') },
+  { label: 'Best Sellers', to: categoryPath('best-sellers') },
+  { label: 'Gifting',      to: categoryPath('gifting') },
 ];
 
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
-  const [womenOpen, setWomenOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileWomenOpen, setMobileWomenOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLElement>(null);
 
   // Close desktop dropdown when tapping outside on mobile
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setWomenOpen(false);
+        setOpenMenu(null);
       }
     };
     document.addEventListener('mousedown', handler);
@@ -47,8 +56,8 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
 
   const closeAll = () => {
     setMobileOpen(false);
-    setMobileWomenOpen(false);
-    setWomenOpen(false);
+    setMobileMenuOpen(null);
+    setOpenMenu(null);
   };
 
   return (
@@ -69,43 +78,49 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             </svg>
             <div className="brand-text">
               <strong>Nikskart</strong>
-              <span className="brand-tagline">Ethnic Fashion</span>
+              <span className="brand-tagline">Jewellery &amp; Watches</span>
             </div>
           </Link>
 
           {/* ── Desktop nav ── */}
-          <nav className="nav-links">
+          <nav className="nav-links" ref={dropdownRef}>
             <Link to="/">Home</Link>
 
-            <div
-              className="nav-dropdown"
-              ref={dropdownRef}
-              onMouseEnter={() => setWomenOpen(true)}
-              onMouseLeave={() => setWomenOpen(false)}
-            >
-              <button
-                className="nav-dropdown-trigger"
-                onClick={() => setWomenOpen((v) => !v)}
-                aria-expanded={womenOpen}
-                aria-haspopup="true"
+            {menus.map((m) => (
+              <div
+                key={m.key}
+                className="nav-dropdown"
+                onMouseEnter={() => setOpenMenu(m.key)}
+                onMouseLeave={() => setOpenMenu(null)}
               >
-                Women <span className={`dropdown-chevron${womenOpen ? ' open' : ''}`}>▾</span>
-              </button>
-              {womenOpen && (
-                <div className="dropdown-menu">
-                  {womenCategories.map((cat) => (
-                    <Link key={cat.to} to={cat.to} onClick={() => setWomenOpen(false)}>
-                      {cat.label}
+                <button
+                  className="nav-dropdown-trigger"
+                  onClick={() => setOpenMenu((v) => (v === m.key ? null : m.key))}
+                  aria-expanded={openMenu === m.key}
+                  aria-haspopup="true"
+                >
+                  {m.label} <span className={`dropdown-chevron${openMenu === m.key ? ' open' : ''}`}>▾</span>
+                </button>
+                {openMenu === m.key && (
+                  <div className="dropdown-menu">
+                    <Link to={m.allTo} className="dropdown-all" onClick={() => setOpenMenu(null)}>
+                      Shop all {m.label}
                     </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+                    {m.items.map((cat) => (
+                      <Link key={cat.to} to={cat.to} onClick={() => setOpenMenu(null)}>
+                        {cat.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
 
-            <Link to="/cart">Cart</Link>
+            {quickLinks.map((q) => (
+              <Link key={q.to} to={q.to}>{q.label}</Link>
+            ))}
             {user.authenticated && <Link to="/orders">My Orders</Link>}
             {user.authenticated && <Link to="/account">My Account</Link>}
-            <Link to="/checkout">Checkout</Link>
             {user.authenticated && <Link to="/admin">Admin</Link>}
           </nav>
 
@@ -159,23 +174,30 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             <div className="mobile-nav-body">
               <Link to="/" className="mobile-nav-link" onClick={closeAll}>Home</Link>
 
-              {/* Women accordion */}
-              <button
-                className="mobile-nav-link mobile-nav-accordion"
-                onClick={() => setMobileWomenOpen((v) => !v)}
-              >
-                Women
-                <span className={`dropdown-chevron${mobileWomenOpen ? ' open' : ''}`}>▾</span>
-              </button>
-              {mobileWomenOpen && (
-                <div className="mobile-nav-sub">
-                  {womenCategories.map((cat) => (
-                    <Link key={cat.to} to={cat.to} className="mobile-nav-sub-link" onClick={closeAll}>
-                      {cat.label}
-                    </Link>
-                  ))}
+              {menus.map((m) => (
+                <div key={m.key}>
+                  <button
+                    className="mobile-nav-link mobile-nav-accordion"
+                    onClick={() => setMobileMenuOpen((v) => (v === m.key ? null : m.key))}
+                  >
+                    {m.label}
+                    <span className={`dropdown-chevron${mobileMenuOpen === m.key ? ' open' : ''}`}>▾</span>
+                  </button>
+                  {mobileMenuOpen === m.key && (
+                    <div className="mobile-nav-sub">
+                      <Link to={m.allTo} className="mobile-nav-sub-link" onClick={closeAll}>Shop all {m.label}</Link>
+                      {m.items.map((cat) => (
+                        <Link key={cat.to} to={cat.to} className="mobile-nav-sub-link" onClick={closeAll}>
+                          {cat.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
+              {quickLinks.map((q) => (
+                <Link key={q.to} to={q.to} className="mobile-nav-link" onClick={closeAll}>{q.label}</Link>
+              ))}
 
               <Link to="/wishlist" className="mobile-nav-link" onClick={closeAll}>
                 Wishlist{wishlistCount > 0 && <span className="cart-count">{wishlistCount}</span>}

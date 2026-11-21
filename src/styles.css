@@ -6211,3 +6211,19 @@ button, a { touch-action: manipulation; }
   .jlf-form    { padding: 1.5rem 1.1rem; }
   .jlf-row     { grid-template-columns: 1fr; gap: 1.1rem; }
 }
+
+/* ── Jewellery & watches menu additions ── */
+.dropdown-menu a.dropdown-all {
+  font-weight: 700;
+  color: #c9a46e;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+@media (max-width: 1200px) {
+  .nav-links a, .nav-dropdown-trigger { padding-left: 0.6rem; padding-right: 0.6rem; font-size: 0.72rem; }
+}
+@media (max-width: 480px) {
+  .category-cards { grid-template-columns: 1fr 1fr; }
+}
+.product-category-tabs { flex-wrap: wrap; }

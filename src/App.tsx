@@ -24,6 +24,7 @@ const Sarees               = lazy(() => import('./pages/Sarees'));
 const Kurtis               = lazy(() => import('./pages/Kurtis'));
 const ArtificialJewellery  = lazy(() => import('./pages/ArtificialJewellery'));
 const JewelleryCollection  = lazy(() => import('./pages/JewelleryCollection'));
+const Collection           = lazy(() => import('./pages/Collection'));
 const About                = lazy(() => import('./pages/About'));
 const ShippingPolicy       = lazy(() => import('./pages/ShippingPolicy'));
 const Returns              = lazy(() => import('./pages/Returns'));
@@ -58,8 +59,8 @@ function MobileBottomNav({ cartCount }: { cartCount: number }) {
   const { pathname } = useLocation();
   const nav = [
     { to: '/',        icon: '🏠', label: 'Home' },
-    { to: '/sarees',  icon: '🥻', label: 'Sarees' },
-    { to: '/kurtis',  icon: '👗', label: 'Kurtis' },
+    { to: '/collections/women',   icon: '💍', label: 'Jewellery' },
+    { to: '/collections/watches', icon: '⌚', label: 'Watches' },
     { to: '/cart',    icon: '🛍', label: 'Cart', badge: cartCount },
     { to: '/account', icon: '👤', label: 'Account' },
   ];
@@ -116,6 +117,7 @@ function App() {
           <Route path="/sarees" element={<Sarees cart={cart} wishlist={wishlist} />} />
           <Route path="/kurtis" element={<Kurtis cart={cart} wishlist={wishlist} />} />
           <Route path="/artificial-jewellery" element={<ArtificialJewellery cart={cart} wishlist={wishlist} />} />
+          <Route path="/collections/:slug" element={<Collection cart={cart} wishlist={wishlist} />} />
           <Route path="/jewellery-collection" element={<JewelleryCollection cart={cart} wishlist={wishlist} />} />
           <Route path="/about" element={<About />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />

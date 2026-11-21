@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768;
 
 const getHeroImages = () => [
-  isMobile() ? '/images/home-banner-mobile.webp' : '/images/home-banner.webp',
-  `https://images.unsplash.com/photo-1534600976687-5adbb1c0d034?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
-  `https://images.unsplash.com/photo-1614251055880-b72b89ff2db3?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
-  `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=${isMobile() ? 750 : 1200}&q=75`,
+  `https://images.pexels.com/photos/13325931/pexels-photo-13325931.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
+  `https://images.pexels.com/photos/13292666/pexels-photo-13292666.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
+  `https://images.pexels.com/photos/20943477/pexels-photo-20943477.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
+  `https://images.pexels.com/photos/1697214/pexels-photo-1697214.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 750 : 1200}`,
 ];
 
 interface HeroProps {
@@ -68,19 +68,19 @@ export default function Hero({ search, setSearch }: HeroProps) {
 
       <div className="hero-copy">
         <span className="eyebrow">New Season · 2026 Collection</span>
-        <h1>Timeless festive fashion for every occasion</h1>
-        <p className="hero-text">Shop premium sarees, kurtis, lehengas and fine jewellery — curated exclusively for women.</p>
+        <h1>Jewellery &amp; watches that stay as bright as you</h1>
+        <p className="hero-text">Anti-tarnish, waterproof demi-fine jewellery and statement watches — for her, for him, for every day.</p>
         <div className="hero-search">
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search for sarees, kurtis, ethnic sets..."
+            placeholder="Search earrings, chains, watches..."
           />
           <button className="hero-search-btn" type="button">Search</button>
         </div>
         <div className="hero-highlights">
-          <span className="highlight-pill">Festival Ready</span>
+          <span className="highlight-pill">Anti-Tarnish</span>
           <span className="highlight-pill">Easy Returns</span>
         </div>
       </div>

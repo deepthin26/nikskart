@@ -241,3 +241,53 @@ export const products: Product[] = [
     badge: 'New'
   }
 ];
+
+// ─────────────────────────────────────────────────────────────
+//  SAMPLE jewellery & watch products (placeholders).
+//  Photos are free stock images from Pexels (pexels.com/license).
+//  A sample is shown only while that category has NO products in
+//  Supabase — once you add real products for a category from the
+//  Admin dashboard, the samples for that category disappear.
+// ─────────────────────────────────────────────────────────────
+const px = (id: number) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=600`;
+const s = (
+  id: string, slug: string, name: string, category: string, price: number, discount: string,
+  img: number, rating: number, description: string, badge?: string,
+): Product => ({ id, slug, name, category, price, discount, image: px(img), rating, description, badge });
+
+const AT = 'Anti-tarnish, waterproof and sweat-proof — made with 18K gold plated stainless steel that is hypoallergenic and nickel-free, so it is safe for sensitive skin and perfect for everyday wear.';
+const WT = 'Stainless steel case with precise quartz movement and everyday water resistance. Arrives in a Nikskart gift box — ready to gift.';
+
+export const sampleProducts: Product[] = [
+  // Earrings
+  s('s1', 'aurora-gold-huggie-hoops', 'Aurora Gold Huggie Hoops', 'Earrings', 699, '53% off', 13595793, 4.8, `Chunky everyday huggie hoops with a high-shine finish. ${AT}`, 'Best Seller'),
+  s('s2', 'diamond-sparkle-drop-earrings', 'Sparkle Drop Earrings', 'Earrings', 899, '50% off', 20943477, 4.7, `Elegant drop earrings set with sparkling zircon stones. ${AT}`, 'New'),
+  s('s3', 'pearl-fish-danglers', 'Pearl Fish Danglers', 'Earrings', 799, '47% off', 34469732, 4.6, `Playful gold danglers finished with lustrous faux pearls. ${AT}`),
+  // Necklaces
+  s('s4', 'gold-statement-necklace', 'Gold Statement Necklace', 'Necklaces', 1399, '50% off', 13325931, 4.8, `A bold, polished statement necklace that elevates any outfit. ${AT}`, 'Best Seller'),
+  s('s5', 'pearl-layered-necklace', 'Pearl Layered Necklace', 'Necklaces', 1199, '45% off', 23495721, 4.7, `Layered chains with pearl accents for an effortless stacked look. ${AT}`, 'New'),
+  // Pendants
+  s('s6', 'flower-pendant-necklace', 'Flower Pendant Necklace', 'Pendants', 799, '50% off', 13292666, 4.8, `Dainty flower pendant on a fine gold chain — a perfect gift. ${AT}`, 'Best Seller'),
+  s('s7', 'gemstone-solitaire-pendant', 'Gemstone Solitaire Pendant', 'Pendants', 1099, '45% off', 7407595, 4.6, `A solitaire-style gemstone pendant framed with sparkling stones. ${AT}`),
+  // Rings
+  s('s8', 'colour-stone-cocktail-ring', 'Colour Stone Cocktail Ring', 'Rings', 699, '50% off', 32382386, 4.7, `Adjustable cocktail ring with vibrant colour stones. ${AT}`, 'New'),
+  s('s9', 'classic-gold-band-ring', 'Classic Gold Band Ring', 'Rings', 499, '50% off', 8469153, 4.6, `A minimal stackable band for everyday shine. ${AT}`),
+  // Bracelets
+  s('s10', 'gold-link-bracelet', 'Gold Link Bracelet', 'Bracelets', 999, '50% off', 12194316, 4.8, `Polished chunky link bracelet with a secure clasp. ${AT}`, 'Best Seller'),
+  s('s11', 'stacking-bracelet-set', 'Stacking Bracelet Set', 'Bracelets', 1299, '48% off', 8184263, 4.7, `A set of mix-and-match bracelets for the perfect wrist stack. ${AT}`),
+  // Anklets, Mangalsutra, Sets
+  s('s12', 'dainty-gold-anklet', 'Dainty Gold Anklet', 'Anklets', 499, '50% off', 8183933, 4.5, `A delicate anklet with a subtle sparkle. ${AT}`, 'New'),
+  s('s13', 'modern-beaded-mangalsutra', 'Modern Beaded Mangalsutra', 'Mangalsutra', 1299, '50% off', 20768279, 4.7, `A lightweight, modern mangalsutra designed for daily wear. ${AT}`),
+  s('s14', 'necklace-earring-set', 'Necklace & Earring Set', 'Jewellery Sets', 1799, '50% off', 20858959, 4.8, `A coordinated necklace and earring set, boxed and ready to gift. ${AT}`, 'Best Seller'),
+  // Men
+  s('s15', 'mens-cuban-link-chain', 'Cuban Link Chain', "Men's Chains", 1499, '50% off', 19869445, 4.7, `A bold Cuban link chain for men. ${AT}`, 'Best Seller'),
+  s('s16', 'mens-signet-ring', 'Classic Signet Ring', "Men's Rings", 899, '50% off', 8469153, 4.5, `A timeless brushed signet ring. ${AT}`, 'New'),
+  s('s17', 'mens-steel-kada', 'Steel Kada Bracelet', "Men's Bracelets", 999, '50% off', 12194316, 4.6, `A solid stainless steel kada with a polished finish. ${AT}`),
+  s('s18', 'mens-minimal-pendant', 'Minimal Bar Pendant', "Men's Pendants", 849, '50% off', 7407595, 4.5, `A sleek minimal pendant on a sturdy chain. ${AT}`),
+  // Watches
+  s('s19', 'womens-classic-white-dial-watch', 'Classic White Dial Watch', "Women's Watches", 1999, '50% off', 1697214, 4.7, `A clean white-dial watch with an elegant profile. ${WT}`, 'New'),
+  s('s20', 'womens-silver-bracelet-watch', 'Silver Bracelet Watch', "Women's Watches", 2499, '50% off', 1134041, 4.8, `A polished silver-tone bracelet watch for work and evenings. ${WT}`, 'Best Seller'),
+  s('s21', 'mens-steel-chronograph-watch', 'Steel Chronograph Watch', "Men's Watches", 3499, '50% off', 190819, 4.8, `A stainless steel chronograph with a black dial and link bracelet. ${WT}`, 'Best Seller'),
+  s('s22', 'mens-minimal-silver-watch', 'Minimal Silver Watch', "Men's Watches", 2299, '50% off', 1134041, 4.6, `A minimal silver watch that goes with everything. ${WT}`),
+  s('s23', 'his-and-hers-watch-set', 'His & Hers Watch Set', 'Couple Watches', 4499, '50% off', 1697214, 4.8, `A matching pair of watches in a premium gift box. ${WT}`, 'Gift Set'),
+];

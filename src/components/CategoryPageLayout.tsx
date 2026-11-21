@@ -24,6 +24,10 @@ interface CategoryPageLayoutProps {
   schemaDescription: string;
   categoryIntro: string;
   relatedCategories: RelatedCategory[];
+  /** Optional custom product filter (used by collections like Best Sellers). Defaults to matching `category`. */
+  filter?: (p: Product) => boolean;
+  /** URL path for SEO schema, e.g. "collections/earrings". */
+  path?: string;
   cart: { addItem: (p: Product) => void };
   wishlist: { toggleItem: (p: Product) => void; hasItem: (id: string) => boolean };
 }
@@ -45,7 +49,7 @@ const priceFilterLabels: Record<PriceFilter, string> = {
 
 export default function CategoryPageLayout({
   category, seoTitle, seoDescription, heroTitle, heroSubtitle,
-  heroGradient, breadcrumbLabel, schemaDescription, categoryIntro, relatedCategories, cart, wishlist,
+  heroGradient, breadcrumbLabel, schemaDescription, categoryIntro, relatedCategories, filter, path, cart, wishlist,
 }: CategoryPageLayoutProps) {
   useSeoMeta(seoTitle, seoDescription);
   const { products } = useProducts();
@@ -54,7 +58,7 @@ export default function CategoryPageLayout({
   const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
 
   const categoryProducts = useMemo(() => {
-    let filtered = products.filter((p: Product) => p.category === category);
+    let filtered = products.filter(filter ?? ((p: Product) => p.category === category));
     if (search.trim()) {
       const q = search.toLowerCase();
       filtered = filtered.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
@@ -67,12 +71,12 @@ export default function CategoryPageLayout({
     if (sort === 'price-desc') return [...filtered].sort((a, b) => b.price - a.price);
     if (sort === 'rating') return [...filtered].sort((a, b) => b.rating - a.rating);
     return filtered;
-  }, [products, category, sort, search, priceFilter]);
+  }, [products, category, filter, sort, search, priceFilter]);
 
   useEffect(() => {
     const base = 'https://www.nikskart.com';
-    const catPath = breadcrumbLabel === 'Sarees' ? 'sarees'
-      : breadcrumbLabel === 'Kurtis' ? 'kurtis' : 'artificial-jewellery';
+    const catPath = path ?? (breadcrumbLabel === 'Sarees' ? 'sarees'
+      : breadcrumbLabel === 'Kurtis' ? 'kurtis' : 'artificial-jewellery');
     const schema = {
       '@context': 'https://schema.org',
       '@graph': [

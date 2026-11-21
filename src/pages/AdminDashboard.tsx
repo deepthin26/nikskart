@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiUrl } from '../lib/api';
 import { supabase } from '../lib/supabase';
+import { CATEGORY_LIST } from '../data/categories';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 
 interface Customer {
@@ -47,8 +48,9 @@ interface ProductRow {
   rating: number;
 }
 
-const CATEGORIES = ['Sarees', 'Kurtis', 'Artificial Jewellery'] as const;
-type Category = typeof CATEGORIES[number];
+// Jewellery & watches categories (from src/data/categories.ts). Sarees/Kurtis kept at the end so old products can still be managed.
+const CATEGORIES: string[] = [...CATEGORY_LIST.map((c) => c.category), 'Sarees', 'Kurtis'];
+type Category = string;
 
 export default function AdminDashboard() {
   useSeoMeta('Admin – Nikskart', 'Admin dashboard', true);
@@ -65,7 +67,7 @@ export default function AdminDashboard() {
   const [error, setError]       = useState('');
 
   // product category sub-tab
-  const [productCategory, setProductCategory] = useState<Category>('Sarees');
+  const [productCategory, setProductCategory] = useState<Category>(CATEGORIES[0]);
 
   // product form state (add)
   const [form, setForm] = useState({ name: '', price: '', discount: '', badge: '', description: '', rating: '4.5' });
@@ -444,7 +446,7 @@ export default function AdminDashboard() {
 
               <div className="product-form-fields">
                 <label>Product Name *
-                  <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={`e.g. ${productCategory === 'Sarees' ? 'Banarasi Silk Saree' : productCategory === 'Kurtis' ? 'Handblock Print Kurti' : 'Kundan Necklace Set'}`} />
+                  <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={`e.g. Gold ${productCategory} – product name`} />
                 </label>
                 <label>Price (₹) *
                   <input type="number" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} placeholder="e.g. 2499" />
