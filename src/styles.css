@@ -6227,3 +6227,27 @@ button, a { touch-action: manipulation; }
   .category-cards { grid-template-columns: 1fr 1fr; }
 }
 .product-category-tabs { flex-wrap: wrap; }
+
+/* ── Keep desktop menu and logo tagline on a single line ── */
+.brand { flex-shrink: 0; }
+.brand-tagline { white-space: nowrap; }
+.nav-links { flex-wrap: nowrap; white-space: nowrap; min-width: 0; align-items: center; }
+.nav-links a, .nav-dropdown-trigger { white-space: nowrap; flex-shrink: 0; }
+.navbar-actions { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 1100px) {
+  .nav-links a, .nav-dropdown-trigger { padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.7rem; letter-spacing: 0.05em; }
+}
+.promo-strip { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 768px) { .promo-strip { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Trendy wordmark ── */
+.brand strong, .footer-brand .brand-text strong {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.06em;
+  line-height: 0.95;
+}
+.brand-tagline { font-size: 0.55rem; letter-spacing: 0.3em; margin-top: 3px; }
+@media (max-width: 768px) { .brand strong { font-size: 1.5rem; } }

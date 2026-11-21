@@ -33,7 +33,6 @@ export const GROUPS: { key: CategoryDef['group']; label: string; slug: string; s
   { key: 'watches', label: "Women's Watches", slug: 'watches', subtitle: 'Elegant watches for her' },
 ];
 
-const WATCH_CATS = CATEGORY_LIST.filter((c) => c.group === 'watches').map((c) => c.category);
 const JEWELLERY_CATS = CATEGORY_LIST.filter((c) => c.group !== 'watches').map((c) => c.category);
 
 /** All categories shown on the storefront (sarees/kurtis are no longer listed). */
@@ -58,8 +57,6 @@ export const COLLECTIONS: CollectionDef[] = [
     filter: (p) => isStoreProduct(p) && (badgeIs(p, 'Best Seller', 'Bestseller', 'Top Rated') || p.rating >= 4.8) },
   { slug: 'new-arrivals', label: 'New Arrivals', subtitle: 'Fresh this season',
     filter: (p) => isStoreProduct(p) && badgeIs(p, 'New', 'New Arrival', 'Trending') },
-  { slug: 'gifting', label: 'Gifting', subtitle: 'Ready-to-gift picks',
-    filter: (p) => ['Pendants', 'Jewellery Sets', 'Bracelets', ...WATCH_CATS].includes(p.category)  },
   { slug: 'under-999', label: 'Under ₹999', subtitle: 'Everyday luxe for less',
     filter: (p) => isStoreProduct(p) && p.price < 1000 },
 ];

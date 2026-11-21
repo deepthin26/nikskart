@@ -41,7 +41,7 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
       </button>
       <div className="product-card-body">
         <div className="product-card-top">
-          <span className="badge small">{product.badge}</span>
+          {product.badge ? <span className="badge small">{product.badge}</span> : <span />}
           <span className="price">₹{product.price}</span>
         </div>
         <Link to={`/product/${product.slug}`} className="product-title">

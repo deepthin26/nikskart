@@ -194,26 +194,26 @@ export const products: Product[] = [
   },
   {
     id: '16',
-    slug: 'polki-diamond-maang-tikka',
-    name: 'Polki Diamond Maang Tikka',
+    slug: 'gold-chandbali-earrings',
+    name: 'Gold Chandbali Earrings',
     category: 'Artificial Jewellery',
     price: 2199,
     discount: '18% off',
-    image: 'https://images.unsplash.com/photo-1611085583191-a3b181a88552?auto=format&fit=crop&w=600&q=75',
+    image: 'https://images.pexels.com/photos/15785528/pexels-photo-15785528.jpeg?auto=compress&cs=tinysrgb&w=600',
     rating: 4.9,
-    description: 'Elegant Polki-inspired maang tikka featuring clusters of uncut stones in a gold-plated setting with delicate pearl drops and a long adjustable chain. This bridal maang tikka elevates any ethnic look, pairing perfectly with Kundan necklace sets and silk sarees for weddings and receptions. The adjustable chain fits all head sizes comfortably.',
+    description: 'Statement gold-plated chandbali earrings with a graceful crescent silhouette and fine detailing. Lightweight enough for all-day wear, they add instant glamour to festive, party and wedding looks. Hypoallergenic and nickel-free for sensitive skin.',
     badge: 'Premium'
   },
   {
     id: '17',
-    slug: 'oxidised-silver-jhumkas',
-    name: 'Oxidised Silver Jhumkas',
+    slug: 'gold-drop-jhumkas',
+    name: 'Gold Drop Jhumkas',
     category: 'Artificial Jewellery',
     price: 749,
     discount: '30% off',
-    image: 'https://images.unsplash.com/photo-1630018548696-e22d66d62cde?auto=format&fit=crop&w=600&q=75',
+    image: 'https://images.pexels.com/photos/14825057/pexels-photo-14825057.jpeg?auto=compress&cs=tinysrgb&w=600',
     rating: 4.6,
-    description: 'Handmade oxidised silver jhumka earrings in a traditional bell shape with intricate floral and paisley patterns. These lightweight jhumkas are perfect for everyday ethnic wear, college, office and casual outings. The anti-tarnish oxidised finish ensures lasting wear through daily use. Pairs beautifully with cotton kurtis, salwar sets and casual chiffon sarees.',
+    description: 'Classic gold-plated jhumka earrings in a traditional bell shape with delicate detailing. Lightweight and comfortable for everyday wear, office and festive outings. Anti-tarnish finish keeps them shining with daily use.',
     badge: 'Top Rated'
   },
   {
@@ -268,7 +268,7 @@ export const sampleProducts: Product[] = [
   s('s5', 'pearl-layered-necklace', 'Pearl Layered Necklace', 'Necklaces', 1199, '45% off', 23495721, 4.7, `Layered chains with pearl accents for an effortless stacked look. ${AT}`, 'New'),
   // Pendants
   s('s6', 'flower-pendant-necklace', 'Flower Pendant Necklace', 'Pendants', 799, '50% off', 13292666, 4.8, `Dainty flower pendant on a fine gold chain — a perfect gift. ${AT}`, 'Best Seller'),
-  s('s7', 'gemstone-solitaire-pendant', 'Gemstone Solitaire Pendant', 'Pendants', 1099, '45% off', 7407595, 4.6, `A solitaire-style gemstone pendant framed with sparkling stones. ${AT}`),
+  s('s7', 'gemstone-solitaire-pendant', 'Gemstone Solitaire Pendant', 'Pendants', 1099, '45% off', 6431174, 4.6, `A solitaire-style gemstone pendant framed with sparkling stones. ${AT}`),
   // Rings
   s('s8', 'colour-stone-cocktail-ring', 'Colour Stone Cocktail Ring', 'Rings', 699, '50% off', 32382386, 4.7, `Adjustable cocktail ring with vibrant colour stones. ${AT}`, 'New'),
   s('s9', 'classic-gold-band-ring', 'Classic Gold Band Ring', 'Rings', 499, '50% off', 8469153, 4.6, `A minimal stackable band for everyday shine. ${AT}`),
