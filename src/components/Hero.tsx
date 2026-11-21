@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768;
 
 const heroImg = (id: number) =>
-  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 900 : 1600}`;
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${isMobile() ? 640 : 1280}`;
 
 // Banner slides: Kundan choker look, hoops + pearl layers, women's watch, gold pendant
 const getHeroImages = () => [17298688, 9649265, 179909, 6153885].map(heroImg);
