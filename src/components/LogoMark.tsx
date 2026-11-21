@@ -1,19 +1,26 @@
-// Nikskart logo mark: a gold sparkle inside a fine gold ring on black.
+// Nikskart logo mark: a gold "N" whose right stroke is crowned by a faceted
+// diamond (like a solitaire ring), with a small sparkle — inside a fine gold ring.
 export default function LogoMark({ size = 42, className = '' }: { size?: number; className?: string }) {
   const id = `nkGold${size}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <linearGradient id={id} x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#f1dcae" />
+        <linearGradient id={id} x1="8" y1="6" x2="32" y2="34" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#f3dfb3" />
           <stop offset="0.5" stopColor="#c9a46e" />
           <stop offset="1" stopColor="#9c7a45" />
         </linearGradient>
       </defs>
+      {/* badge */}
       <circle cx="20" cy="20" r="19.25" fill="#0a0a0a" />
-      <circle cx="20" cy="20" r="16" stroke={`url(#${id})`} strokeWidth="0.9" />
-      <path d="M20 8.5C20.9 15.6 24.4 19.1 31.5 20C24.4 20.9 20.9 24.4 20 31.5C19.1 24.4 15.6 20.9 8.5 20C15.6 19.1 19.1 15.6 20 8.5Z" fill={`url(#${id})`} />
-      <path d="M28.6 9.4C28.8 10.9 29.6 11.7 31.1 11.9C29.6 12.1 28.8 12.9 28.6 14.4C28.4 12.9 27.6 12.1 26.1 11.9C27.6 11.7 28.4 10.9 28.6 9.4Z" fill="#f1dcae" />
+      <circle cx="20" cy="20" r="16.2" stroke={`url(#${id})`} strokeWidth="0.8" />
+      {/* N: left stem, diagonal, right stem */}
+      <path d="M11.6 29.5V12.2h2.4L25.6 26.6V17.2h2.4v12.3h-2.3L14 15.1v14.4z" fill={`url(#${id})`} />
+      {/* solitaire diamond on the right stem */}
+      <path d="M23.6 12.9l1.5-2.2h3.4l1.5 2.2-3.2 3.6z" fill={`url(#${id})`} />
+      <path d="M23.6 12.9h6.4M25.1 10.7l1.7 5.8 1.7-5.8M26.8 10.7v2.2" stroke="#0a0a0a" strokeWidth="0.45" strokeLinejoin="round" />
+      {/* sparkle */}
+      <path d="M31.6 6.9c.15 1.15.75 1.75 1.9 1.9-1.15.15-1.75.75-1.9 1.9-.15-1.15-.75-1.75-1.9-1.9 1.15-.15 1.75-.75 1.9-1.9z" fill="#f3dfb3" />
     </svg>
   );
 }
