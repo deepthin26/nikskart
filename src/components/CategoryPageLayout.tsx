@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../data/products';
@@ -54,7 +54,9 @@ export default function CategoryPageLayout({
   useSeoMeta(seoTitle, seoDescription);
   const { products } = useProducts();
   const [sort, setSort] = useState<SortOption>('default');
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') ?? '');
+  useEffect(() => { setSearch(searchParams.get('q') ?? ''); }, [searchParams]);
   const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
 
   const categoryProducts = useMemo(() => {

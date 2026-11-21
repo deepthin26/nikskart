@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import BrandIcon from './BrandIcon';
 import LogoMark, { Wordmark } from './LogoMark';
 import { CATEGORY_LIST, GROUPS, categoryPath } from '../data/categories';
 
@@ -30,6 +31,17 @@ const quickLinks = [
 
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+  const firstName = (user.name || 'there').split(' ')[0];
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    setSearchOpen(false);
+    setMobileOpen(false);
+    navigate(q ? `/collections/all?q=${encodeURIComponent(q)}` : '/collections/all');
+  };
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLElement>(null);
@@ -88,7 +100,7 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
               >
                 <button
                   className="nav-dropdown-trigger"
-                  onClick={() => setOpenMenu((v) => (v === m.key ? null : m.key))}
+                  onClick={() => setOpenMenu(m.key)}
                   aria-expanded={openMenu === m.key}
                   aria-haspopup="true"
                 >
@@ -116,6 +128,9 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
 
           {/* ── Desktop actions ── */}
           <div className="navbar-actions">
+            <button className="icon-btn-nav" onClick={() => setSearchOpen((v) => !v)} aria-label="Search" title="Search">
+              <BrandIcon name="search" size={21} />
+            </button>
             {user.authenticated ? (
               <>
                 <div
@@ -124,15 +139,17 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
                   onMouseLeave={() => setOpenMenu(null)}
                 >
                   <button
-                    className="nav-dropdown-trigger account-trigger"
-                    onClick={() => setOpenMenu((v) => (v === 'account' ? null : 'account'))}
+                    className="nav-dropdown-trigger account-trigger icon-btn-nav"
+                    title={`Hi, ${firstName}`}
+                    onClick={() => setOpenMenu('account')}
                     aria-expanded={openMenu === 'account'}
                     aria-haspopup="true"
                   >
-                    Hi, {(user.name || 'there').split(' ')[0]} <span className={`dropdown-chevron${openMenu === 'account' ? ' open' : ''}`}>▾</span>
+                    <BrandIcon name="user" size={21} />
                   </button>
                   {openMenu === 'account' && (
                     <div className="dropdown-menu account-menu">
+                      <span className="account-hello">Hi, {firstName}</span>
                       <Link to="/orders" onClick={() => setOpenMenu(null)}>My Orders</Link>
                       <Link to="/account" onClick={() => setOpenMenu(null)}>My Account</Link>
                       <Link to="/admin" onClick={() => setOpenMenu(null)}>Admin</Link>
@@ -142,20 +159,28 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
                 </div>
               </>
             ) : (
-              <Link className="nav-login" to="/login">Login</Link>
+              <Link className="icon-btn-nav" to="/login" aria-label="Login" title="Login">
+                <BrandIcon name="user" size={21} />
+              </Link>
             )}
-            <Link className="wishlist-button" to="/wishlist">
-              Wishlist <span className="cart-count">{wishlistCount}</span>
+            <Link className="icon-btn-nav" to="/wishlist" aria-label="Wishlist" title="Wishlist">
+              <BrandIcon name="heart" size={21} />
+              {wishlistCount > 0 && <span className="icon-badge">{wishlistCount}</span>}
             </Link>
-            <Link className="cart-button" to="/cart">
-              Bag <span className="cart-count">{cartCount}</span>
+            <Link className="icon-btn-nav" to="/cart" aria-label="Bag" title="Bag">
+              <BrandIcon name="bag" size={21} />
+              {cartCount > 0 && <span className="icon-badge">{cartCount}</span>}
             </Link>
           </div>
 
           {/* ── Mobile: Bag + Hamburger ── */}
           <div className="mobile-nav-actions">
-            <Link className="cart-button" to="/cart" onClick={closeAll}>
-              Bag <span className="cart-count">{cartCount}</span>
+            <button className="icon-btn-nav" onClick={() => setSearchOpen((v) => !v)} aria-label="Search">
+              <BrandIcon name="search" size={22} />
+            </button>
+            <Link className="icon-btn-nav" to="/cart" onClick={closeAll} aria-label="Bag">
+              <BrandIcon name="bag" size={22} />
+              {cartCount > 0 && <span className="icon-badge">{cartCount}</span>}
             </Link>
             <button
               className="hamburger-btn"
@@ -169,6 +194,23 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             </button>
           </div>
         </div>
+        {searchOpen && (
+          <form className="header-search" onSubmit={submitSearch}>
+            <BrandIcon name="search" size={18} />
+            <input
+              autoFocus
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search earrings, necklaces, watches..."
+              aria-label="Search products"
+            />
+            <button type="submit">Search</button>
+            <button type="button" className="header-search-close" onClick={() => setSearchOpen(false)} aria-label="Close search">
+              <BrandIcon name="close" size={18} />
+            </button>
+          </form>
+        )}
       </header>
 
       {/* ── Mobile drawer ── */}

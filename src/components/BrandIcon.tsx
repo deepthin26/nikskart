@@ -3,7 +3,7 @@
 export type BrandIconName =
   | 'drop' | 'sparkle' | 'return' | 'lock' | 'leaf' | 'gift' | 'gem' | 'shield'
   | 'home' | 'watch' | 'bag' | 'user' | 'phone' | 'chat' | 'mail' | 'clock'
-  | 'card' | 'bank' | 'upi' | 'truck' | 'box' | 'check' | 'close' | 'star' | 'heart';
+  | 'card' | 'bank' | 'upi' | 'truck' | 'box' | 'check' | 'close' | 'star' | 'heart' | 'search';
 
 const paths: Record<BrandIconName, JSX.Element> = {
   drop: <path d="M12 3.5c3.2 4 5.5 7.1 5.5 10a5.5 5.5 0 0 1-11 0c0-2.9 2.3-6 5.5-10z" />,
@@ -35,6 +35,7 @@ const paths: Record<BrandIconName, JSX.Element> = {
   check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
   close: <path d="M6 6l12 12M18 6 6 18" />,
   star: <path d="m12 3.8 2.5 5.2 5.7.8-4.1 4 1 5.6L12 16.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" />,
+  search: (<><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></>),
   heart: <path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 2.8C19.5 15.4 12 20 12 20z" />,
 };
 
