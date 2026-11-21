@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LogoMark, { Wordmark } from './LogoMark';
+import BrandIcon from './BrandIcon';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -72,7 +73,7 @@ export default function Footer() {
             <li><Link to="/contact">Contact Us</Link></li>
             <li><Link to="/privacy-policy">Privacy Policy</Link></li>
             <li><Link to="/terms">Terms of Use</Link></li>
-            <li><a href="tel:+918885700227">📞 +91 88857 00227</a></li>
+            <li><a href="tel:+918885700227" className="footer-phone"><BrandIcon name="phone" size={15} /> +91 88857 00227</a></li>
             <li><a href="https://nikskart.com">nikskart.com</a></li>
           </ul>
         </div>
@@ -82,15 +83,15 @@ export default function Footer() {
       <div className="footer-trust">
 
         <div className="footer-trust-item">
-          <span className="footer-trust-icon">↩</span>
+          <span className="footer-trust-icon"><BrandIcon name="return" size={18} /></span>
           <span>15-day easy returns</span>
         </div>
         <div className="footer-trust-item">
-          <span className="footer-trust-icon">🔒</span>
+          <span className="footer-trust-icon"><BrandIcon name="lock" size={18} /></span>
           <span>Secure payments</span>
         </div>
         <div className="footer-trust-item">
-          <span className="footer-trust-icon">🛍</span>
+          <span className="footer-trust-icon"><BrandIcon name="shield" size={18} /></span>
           <span>100% authentic products</span>
         </div>
       </div>

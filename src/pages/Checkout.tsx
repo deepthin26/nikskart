@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import type { Address } from '../hooks/useAuth';
 import { apiUrl } from '../lib/api';
+import BrandIcon from '../components/BrandIcon';
 import { trackInitiateCheckout, trackPurchase } from '../hooks/useAnalytics';
 
 declare global {
@@ -362,9 +363,9 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
             <h2>Payment</h2>
             <div className="payment-methods">
               {([
-                { id: 'upi', label: 'UPI', sub: 'GPay, PhonePe, Paytm', icon: '📲' },
-                { id: 'card', label: 'Credit / Debit Card', sub: 'Visa, Mastercard, RuPay', icon: '💳' },
-                { id: 'netbanking', label: 'Net Banking', sub: 'All major banks', icon: '🏦' },
+                { id: 'upi', label: 'UPI', sub: 'GPay, PhonePe, Paytm', icon: 'upi' },
+                { id: 'card', label: 'Credit / Debit Card', sub: 'Visa, Mastercard, RuPay', icon: 'card' },
+                { id: 'netbanking', label: 'Net Banking', sub: 'All major banks', icon: 'bank' },
               ] as const).map((m) => (
                 <label
                   key={m.id}
@@ -378,7 +379,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
                     checked={paymentMethod === m.id}
                     onChange={() => setPaymentMethod(m.id)}
                   />
-                  <span className="pm-icon">{m.icon}</span>
+                  <span className="pm-icon"><BrandIcon name={m.icon} size={22} /></span>
                   <div>
                     <strong>{m.label}</strong>
                     <span className="pm-sub">{m.sub}</span>
@@ -387,7 +388,7 @@ export default function Checkout({ cart, user, addAddress, selectAddress, addOrd
               ))}
             </div>
             <p style={{ color: '#aaa', fontSize: '0.8rem', marginTop: '0.75rem' }}>
-              🔒 Secured by Razorpay · 256-bit SSL encryption
+              <BrandIcon name="lock" size={13} className="inline-icon" /> Secured by Razorpay · 256-bit SSL encryption
             </p>
           </div>
 

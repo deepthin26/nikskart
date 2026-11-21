@@ -3,11 +3,11 @@ import type { Order } from '../hooks/useOrders';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 
 const STATUS_COLOR: Record<string, { bg: string; color: string; label: string }> = {
-  Processing:         { bg: '#fef3c7', color: '#92400e', label: '⏳ Processing' },
-  Shipped:            { bg: '#dbeafe', color: '#1e40af', label: '🚚 Shipped' },
-  'Out for Delivery': { bg: '#ede9fe', color: '#5b21b6', label: '📦 Out for Delivery' },
-  Delivered:          { bg: '#dcfce7', color: '#15803d', label: '✅ Delivered' },
-  Cancelled:          { bg: '#fee2e2', color: '#991b1b', label: '❌ Cancelled' },
+  Processing:         { bg: '#fef3c7', color: '#92400e', label: 'Processing' },
+  Shipped:            { bg: '#dbeafe', color: '#1e40af', label: 'Shipped' },
+  'Out for Delivery': { bg: '#ede9fe', color: '#5b21b6', label: 'Out for Delivery' },
+  Delivered:          { bg: '#dcfce7', color: '#15803d', label: 'Delivered' },
+  Cancelled:          { bg: '#fee2e2', color: '#991b1b', label: 'Cancelled' },
 };
 
 interface OrdersProps {

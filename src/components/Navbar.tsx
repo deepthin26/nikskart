@@ -23,10 +23,9 @@ const menus = GROUPS.map((g) => ({
 }));
 
 const quickLinks = [
+  { label: 'All Products', to: categoryPath('all') },
   { label: 'Anti-Tarnish', to: categoryPath('anti-tarnish') },
   { label: 'Best Sellers', to: categoryPath('best-sellers') },
-  { label: 'About Us',     to: '/about' },
-  { label: 'Contact Us',   to: '/contact' },
 ];
 
 export default function Navbar({ cartCount, wishlistCount, user, onLogout }: NavbarProps) {

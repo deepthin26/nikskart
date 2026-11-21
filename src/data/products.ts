@@ -260,7 +260,8 @@ const WT = 'Stainless steel case with precise quartz movement and everyday water
 
 export const sampleProducts: Product[] = [
   // Earrings
-  s('s1', 'aurora-gold-huggie-hoops', 'Aurora Gold Huggie Hoops', 'Earrings', 699, '53% off', 13595793, 4.8, `Chunky everyday huggie hoops with a high-shine finish. ${AT}`, 'Best Seller'),
+  s('s1', 'aurora-gold-huggie-hoops', 'Aurora Gold Huggie Hoops', 'Earrings', 699, '53% off', 18597841, 4.8, `Chunky everyday huggie hoops with a high-shine finish. ${AT}`, 'Best Seller'),
+  s('s25', 'diamond-solitaire-studs', 'Diamond Solitaire Studs', 'Earrings', 799, '50% off', 2735970, 4.8, `Classic solitaire stud earrings with a brilliant-cut stone in a secure prong setting. ${AT}`, 'New'),
   s('s2', 'diamond-sparkle-drop-earrings', 'Sparkle Drop Earrings', 'Earrings', 899, '50% off', 20943477, 4.7, `Elegant drop earrings set with sparkling zircon stones. ${AT}`, 'New'),
   s('s3', 'pearl-fish-danglers', 'Pearl Fish Danglers', 'Earrings', 799, '47% off', 34469732, 4.6, `Playful gold danglers finished with lustrous faux pearls. ${AT}`),
   // Necklaces

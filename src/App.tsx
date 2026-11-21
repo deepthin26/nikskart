@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
 import { useOrders } from './hooks/useOrders';
+import BrandIcon, { BrandIconName } from './components/BrandIcon';
 import { useWishlist } from './hooks/useWishlist';
 
 const ProductDetail   = lazy(() => import('./pages/ProductDetail'));
@@ -58,11 +59,11 @@ function BackToTop() {
 function MobileBottomNav({ cartCount }: { cartCount: number }) {
   const { pathname } = useLocation();
   const nav = [
-    { to: '/',        icon: '🏠', label: 'Home' },
-    { to: '/collections/women',   icon: '💍', label: 'Jewellery' },
-    { to: '/collections/womens-watches', icon: '⌚', label: 'Watches' },
-    { to: '/cart',    icon: '🛍', label: 'Cart', badge: cartCount },
-    { to: '/account', icon: '👤', label: 'Account' },
+    { to: '/',        icon: 'home' as BrandIconName, label: 'Home' },
+    { to: '/collections/women',   icon: 'gem' as BrandIconName, label: 'Jewellery' },
+    { to: '/collections/womens-watches', icon: 'watch' as BrandIconName, label: 'Watches' },
+    { to: '/cart',    icon: 'bag' as BrandIconName, label: 'Cart', badge: cartCount },
+    { to: '/account', icon: 'user' as BrandIconName, label: 'Account' },
   ];
   return (
     <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
@@ -73,7 +74,7 @@ function MobileBottomNav({ cartCount }: { cartCount: number }) {
           className={`mbn-item${pathname === item.to ? ' active' : ''}`}
         >
           <span className="mbn-icon">
-            {item.icon}
+            <BrandIcon name={item.icon} size={22} />
             {item.badge ? <span className="mbn-badge">{item.badge}</span> : null}
           </span>
           <span className="mbn-label">{item.label}</span>

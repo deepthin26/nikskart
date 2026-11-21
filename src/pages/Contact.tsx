@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BrandIcon from '../components/BrandIcon';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 
 export default function Contact() {
@@ -33,7 +34,7 @@ export default function Contact() {
         {/* Left — cards */}
         <div className="contact-info">
           <div className="contact-card">
-            <div className="contact-card-icon">📞</div>
+            <div className="contact-card-icon"><BrandIcon name="phone" size={22} /></div>
             <div>
               <h3>Call Us</h3>
               <p>Monday – Saturday, 10 AM – 7 PM</p>
@@ -42,7 +43,7 @@ export default function Contact() {
           </div>
 
           <div className="contact-card">
-            <div className="contact-card-icon">💬</div>
+            <div className="contact-card-icon"><BrandIcon name="chat" size={22} /></div>
             <div>
               <h3>WhatsApp</h3>
               <p>Quick replies, order updates & support</p>
@@ -58,7 +59,7 @@ export default function Contact() {
           </div>
 
           <div className="contact-card">
-            <div className="contact-card-icon">📧</div>
+            <div className="contact-card-icon"><BrandIcon name="mail" size={22} /></div>
             <div>
               <h3>Email</h3>
               <p>We respond within 24 hours</p>
@@ -67,7 +68,7 @@ export default function Contact() {
           </div>
 
           <div className="contact-card">
-            <div className="contact-card-icon">🕐</div>
+            <div className="contact-card-icon"><BrandIcon name="clock" size={22} /></div>
             <div>
               <h3>Business Hours</h3>
               <p>Monday – Friday: 10 AM – 7 PM</p>
@@ -84,7 +85,7 @@ export default function Contact() {
 
           {sent ? (
             <div className="contact-success">
-              <span className="contact-success-icon">✓</span>
+              <span className="contact-success-icon"><BrandIcon name="check" size={26} /></span>
               <h3>Message sent!</h3>
               <p>We've opened WhatsApp for you. Expect a reply within a few hours.</p>
               <button className="primary-button" onClick={() => setSent(false)}>Send Another</button>

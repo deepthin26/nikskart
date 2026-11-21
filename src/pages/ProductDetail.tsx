@@ -4,6 +4,7 @@ import { Product } from '../data/products';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
 import { trackViewItem } from '../hooks/useAnalytics';
+import BrandIcon from '../components/BrandIcon';
 import { getProductReviews } from '../data/reviews';
 
 interface ProductDetailProps {
@@ -240,14 +241,14 @@ export default function ProductDetail({ cart, wishlist }: ProductDetailProps) {
           {/* Delivery strip */}
           <div className="pd-delivery-strip">
             <div className="pd-delivery-item">
-              <span className="pd-delivery-icon">↩</span>
+              <span className="pd-delivery-icon"><BrandIcon name="return" size={20} /></span>
               <div>
                 <strong>15-Day Returns</strong>
                 <span>Hassle-free returns</span>
               </div>
             </div>
             <div className="pd-delivery-item">
-              <span className="pd-delivery-icon">🔒</span>
+              <span className="pd-delivery-icon"><BrandIcon name="lock" size={20} /></span>
               <div>
                 <strong>Secure Payment</strong>
                 <span>UPI, Card, Net Banking</span>

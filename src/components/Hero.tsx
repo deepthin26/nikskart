@@ -71,23 +71,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
         <span className="eyebrow">New Season · 2026 Collection</span>
         <h1>Jewellery &amp; watches that stay as bright as you</h1>
         <p className="hero-text">Anti-tarnish, waterproof demi-fine jewellery and statement watches — made for her, made for every day.</p>
-        <div className="hero-search">
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search earrings, chains, watches..."
-          />
-          <button className="hero-search-btn" type="button">Search</button>
-        </div>
-        <div className="hero-highlights">
-          <span className="highlight-pill">Anti-Tarnish</span>
-          <span className="highlight-pill">Easy Returns</span>
-        </div>
       </div>
-
-      <button className="hero-arrow hero-prev" onClick={prev} aria-label="Previous slide">&#8249;</button>
-      <button className="hero-arrow hero-next" onClick={next} aria-label="Next slide">&#8250;</button>
 
       <div className="hero-dots">
         {heroImages.current.map((_, i) => (

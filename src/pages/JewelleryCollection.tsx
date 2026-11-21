@@ -4,6 +4,7 @@ import { useSeoMeta } from '../hooks/useSeoMeta';
 import { Product } from '../data/products';
 import { useProducts } from '../hooks/useProducts';
 import { useToast } from '../context/ToastContext';
+import BrandIcon, { BrandIconName } from '../components/BrandIcon';
 import { trackAddToCart } from '../hooks/useAnalytics';
 
 const OCCASIONS = ['Wedding / Bridal', 'Festival / Pooja', 'Reception / Party', 'Daily Wear', 'Corporate Event', 'Gift for Someone', 'Other'];
@@ -144,10 +145,10 @@ const stats = [
 ];
 
 const benefits = [
-  { icon: '✦', title: '24K Gold Plating', desc: 'Premium finish on all brass-base pieces — rich shine that mimics real gold.' },
-  { icon: '✦', title: 'Lightweight Comfort', desc: 'Designed for all-day wear, from morning mandap to midnight celebrations.' },
-  { icon: '↩', title: '15-Day Returns', desc: 'Return any piece within 15 days — no questions asked, full refund.' },
-  { icon: '🚚', title: 'Free Shipping', desc: 'Every order delivered free across India within 5–7 business days.' },
+  { icon: 'sparkle' as BrandIconName, title: '24K Gold Plating', desc: 'Premium finish on all brass-base pieces — rich shine that mimics real gold.' },
+  { icon: 'leaf' as BrandIconName, title: 'Lightweight Comfort', desc: 'Designed for all-day wear, from morning mandap to midnight celebrations.' },
+  { icon: 'return' as BrandIconName, title: '15-Day Returns', desc: 'Return any piece within 15 days — no questions asked, full refund.' },
+  { icon: 'truck' as BrandIconName, title: 'Free Shipping', desc: 'Every order delivered free across India within 5–7 business days.' },
 ];
 
 const reviews = [
@@ -264,7 +265,7 @@ export default function JewelleryCollection({ cart, wishlist }: JewelleryCollect
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                💬 Free Styling Advice
+                <BrandIcon name="chat" size={16} className="inline-icon" /> Free Styling Advice
               </a>
             </div>
           </div>
@@ -283,11 +284,11 @@ export default function JewelleryCollection({ cart, wishlist }: JewelleryCollect
               height="420"
             />
             <div className="jlp-hero-pill jlp-hero-pill-top">
-              <span className="jlp-pill-icon">⭐</span>
+              <span className="jlp-pill-icon"><BrandIcon name="star" size={16} /></span>
               <span>4.8 / 5 Rating</span>
             </div>
             <div className="jlp-hero-pill jlp-hero-pill-bottom">
-              <span className="jlp-pill-icon">✦</span>
+              <span className="jlp-pill-icon"><BrandIcon name="sparkle" size={16} /></span>
               <span>24K Gold Plated</span>
             </div>
           </div>
@@ -307,13 +308,13 @@ export default function JewelleryCollection({ cart, wishlist }: JewelleryCollect
       {/* ── Trust strip ── */}
       <div className="jlp-trust-strip">
         {[
-          { icon: '✦', text: '24K Gold-Plated Finish' },
-          { icon: '↩', text: '15-Day Hassle-Free Returns' },
-          { icon: '🚚', text: 'Free Shipping Across India' },
-          { icon: '🔒', text: 'Secure UPI & Card Payment' },
+          { icon: 'sparkle' as BrandIconName, text: '24K Gold-Plated Finish' },
+          { icon: 'return' as BrandIconName, text: '15-Day Hassle-Free Returns' },
+          { icon: 'truck' as BrandIconName, text: 'Free Shipping Across India' },
+          { icon: 'lock' as BrandIconName, text: 'Secure UPI & Card Payment' },
         ].map((t) => (
           <div key={t.text} className="jlp-trust-item">
-            <span className="jlp-trust-icon">{t.icon}</span>
+            <span className="jlp-trust-icon"><BrandIcon name={t.icon} size={18} /></span>
             <span>{t.text}</span>
           </div>
         ))}
@@ -429,7 +430,7 @@ export default function JewelleryCollection({ cart, wishlist }: JewelleryCollect
         <div className="jlp-benefits">
           {benefits.map((b) => (
             <div key={b.title} className="jlp-benefit-card">
-              <span className="jlp-benefit-icon">{b.icon}</span>
+              <span className="jlp-benefit-icon"><BrandIcon name={b.icon} size={24} /></span>
               <h3 className="jlp-benefit-title">{b.title}</h3>
               <p className="jlp-benefit-desc">{b.desc}</p>
             </div>

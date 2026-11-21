@@ -49,6 +49,8 @@ export interface CollectionDef {
 
 /** Curated collections, like the reference sites' top nav. */
 export const COLLECTIONS: CollectionDef[] = [
+  { slug: 'all', label: 'All Products', subtitle: 'Jewellery & watches — the full collection',
+    filter: (p) => isStoreProduct(p) },
   { slug: 'anti-tarnish', label: 'Anti-Tarnish', subtitle: 'Waterproof · Sweatproof · Skin-safe',
     filter: (p) => JEWELLERY_CATS.includes(p.category) && p.category !== 'Artificial Jewellery' },
   { slug: 'best-sellers', label: 'Best Sellers', subtitle: 'Our most-loved pieces',

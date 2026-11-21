@@ -143,28 +143,28 @@ export default function Home({ cart, wishlist }: HomeProps) {
       {/* Service strip */}
       <div className="promo-strip">
         <div className="promo-strip-item">
-          <span className="promo-strip-icon">✦</span>
+          <span className="promo-strip-icon"><BrandIcon name="sparkle" size={20} /></span>
           <div>
             <strong>Anti-Tarnish</strong>
             <span>Waterproof &amp; sweat-proof</span>
           </div>
         </div>
         <div className="promo-strip-item">
-          <span className="promo-strip-icon">♡</span>
+          <span className="promo-strip-icon"><BrandIcon name="leaf" size={20} /></span>
           <div>
             <strong>Skin Safe</strong>
             <span>Hypoallergenic, nickel-free</span>
           </div>
         </div>
         <div className="promo-strip-item">
-          <span className="promo-strip-icon">↩</span>
+          <span className="promo-strip-icon"><BrandIcon name="return" size={20} /></span>
           <div>
             <strong>Easy Returns</strong>
             <span>15-day hassle-free returns</span>
           </div>
         </div>
         <div className="promo-strip-item">
-          <span className="promo-strip-icon">🛡</span>
+          <span className="promo-strip-icon"><BrandIcon name="lock" size={20} /></span>
           <div>
             <strong>Secure Payments</strong>
             <span>UPI, cards & net banking</span>
