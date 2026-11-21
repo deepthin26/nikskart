@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import { Product } from '../data/products';
@@ -101,9 +101,29 @@ export default function Home({ cart, wishlist }: HomeProps) {
   }, []);
 
   const bestSellers = useMemo(() =>
-    [...products].sort((a, b) => b.rating - a.rating).slice(0, 8),
+    [...products].sort((a, b) => b.rating - a.rating).slice(0, 10),
     [products]
   );
+
+  // Best Sellers carousel: auto-slides, pauses on hover/touch, loops at the end
+  const bsRef = useRef<HTMLDivElement>(null);
+  const [bsPaused, setBsPaused] = useState(false);
+  const slideBs = (dir: 1 | -1) => {
+    const el = bsRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('.bs-card');
+    const step = card ? card.offsetWidth + 16 : 220;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+    const atStart = el.scrollLeft <= 4;
+    if (dir === 1 && atEnd) el.scrollTo({ left: 0, behavior: 'smooth' });
+    else if (dir === -1 && atStart) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
+    else el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
+  useEffect(() => {
+    if (bsPaused) return;
+    const t = setInterval(() => slideBs(1), 3500);
+    return () => clearInterval(t);
+  }, [bsPaused, bestSellers.length]);
 
   const filtered = useMemo(
     () =>
@@ -190,17 +210,27 @@ export default function Home({ cart, wishlist }: HomeProps) {
             <h2>Best Sellers</h2>
             <p>Our most-loved pieces, rated by real customers</p>
           </div>
+          <div className="bs-arrows">
+            <button className="bs-arrow" onClick={() => slideBs(-1)} aria-label="Previous best sellers">‹</button>
+            <button className="bs-arrow" onClick={() => slideBs(1)} aria-label="Next best sellers">›</button>
+          </div>
         </div>
-        <div className="bs-strip">
-          {bestSellers.map((product, i) => (
+        <div
+          className="bs-strip bs-carousel"
+          ref={bsRef}
+          onMouseEnter={() => setBsPaused(true)}
+          onMouseLeave={() => setBsPaused(false)}
+          onTouchStart={() => setBsPaused(true)}
+          onTouchEnd={() => setTimeout(() => setBsPaused(false), 4000)}
+        >
+          {bestSellers.map((product) => (
             <article
               key={product.id}
               className="bs-card"
               onClick={() => navigate(`/product/${product.slug}`)}
             >
-              <div className="bs-rank">#{i + 1}</div>
               <div className="bs-img-wrap">
-                <img src={product.image} alt={`${product.name} – ${product.category} | Nikskart`} loading="lazy" decoding="async" width="300" height="375" />
+                <img src={product.image} alt={`${product.name} – ${product.category} | Nikskart`} loading="eager" decoding="async" width="300" height="375" />
               </div>
               <div className="bs-info">
                 <span className="bs-cat">{product.category}</span>
