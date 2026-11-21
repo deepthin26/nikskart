@@ -113,17 +113,34 @@ export default function Navbar({ cartCount, wishlistCount, user, onLogout }: Nav
             {quickLinks.map((q) => (
               <Link key={q.to} to={q.to}>{q.label}</Link>
             ))}
-            {user.authenticated && <Link to="/orders">My Orders</Link>}
-            {user.authenticated && <Link to="/account">My Account</Link>}
-            {user.authenticated && <Link to="/admin">Admin</Link>}
           </nav>
 
           {/* ── Desktop actions ── */}
           <div className="navbar-actions">
             {user.authenticated ? (
               <>
-                <span className="user-pill">Hi, {user.name}</span>
-                <button className="nav-logout" onClick={onLogout}>Logout</button>
+                <div
+                  className="nav-dropdown account-dropdown"
+                  onMouseEnter={() => setOpenMenu('account')}
+                  onMouseLeave={() => setOpenMenu(null)}
+                >
+                  <button
+                    className="nav-dropdown-trigger account-trigger"
+                    onClick={() => setOpenMenu((v) => (v === 'account' ? null : 'account'))}
+                    aria-expanded={openMenu === 'account'}
+                    aria-haspopup="true"
+                  >
+                    Hi, {(user.name || 'there').split(' ')[0]} <span className={`dropdown-chevron${openMenu === 'account' ? ' open' : ''}`}>▾</span>
+                  </button>
+                  {openMenu === 'account' && (
+                    <div className="dropdown-menu account-menu">
+                      <Link to="/orders" onClick={() => setOpenMenu(null)}>My Orders</Link>
+                      <Link to="/account" onClick={() => setOpenMenu(null)}>My Account</Link>
+                      <Link to="/admin" onClick={() => setOpenMenu(null)}>Admin</Link>
+                      <button className="account-logout" onClick={() => { setOpenMenu(null); onLogout(); }}>Logout</button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <Link className="nav-login" to="/login">Login</Link>

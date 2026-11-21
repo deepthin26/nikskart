@@ -6345,3 +6345,34 @@ button, a { touch-action: manipulation; }
   .home-hero .hero-copy { max-width: 46%; }
 }
 @media (min-width: 900px) { .home-hero .hero-copy h1 { font-size: clamp(2.3rem, 3.4vw, 3.2rem); } }
+
+/* ── Header: everything on one line, account items in a dropdown ── */
+.brand-bar { flex-wrap: nowrap; }
+.navbar-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: nowrap; }
+.navbar-actions > * { white-space: nowrap; }
+.account-dropdown { position: relative; }
+.account-trigger { height: auto; padding: 0.5rem 0.6rem; text-transform: uppercase; }
+.account-menu { left: auto; right: 0; min-width: 170px; }
+.account-menu .account-logout {
+  background: transparent; border: 0; text-align: left; cursor: pointer;
+  color: #b4473a; font: inherit; font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.04em; padding: 0.75rem 1.1rem;
+}
+.account-menu .account-logout:hover { background: #faf6f0; }
+.nav-links { flex-shrink: 1; overflow: hidden; }
+@media (max-width: 1240px) {
+  .nav-links a, .nav-dropdown-trigger { padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.7rem; letter-spacing: 0.04em; }
+  .navbar-actions { gap: 0.4rem; }
+  .navbar-actions .nav-login, .account-trigger, .wishlist-button { font-size: 0.72rem; }
+}
+@media (max-width: 1100px) {
+  .nav-links a[href="/about"] { display: none; }
+  .brand .brand-text .nk-wordmark { font-size: 1.55rem; }
+}
+/* use the compact mobile header (logo · bag · menu) below 1000px */
+@media (max-width: 1000px) {
+  .nav-links, .navbar-actions { display: none !important; }
+  .mobile-nav-actions { display: flex !important; }
+  .brand-bar { flex-direction: row; align-items: center; height: 4.25rem; padding: 0; }
+}
+@media (max-width: 1000px) { .hamburger-btn { display: flex !important; } }
