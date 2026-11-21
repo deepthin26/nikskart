@@ -20,11 +20,10 @@ interface HomeProps {
 
 const categoryMeta = [
   { title: 'Earrings',        cat: 'Earrings',        subtitle: 'Studs, hoops & danglers',         to: '/collections/earrings' },
-  { title: 'Necklaces',       cat: 'Necklaces',       subtitle: 'Chains, chokers & layered',       to: '/collections/necklaces' },
+  { title: 'Watches',         cat: "Women's Watches", subtitle: 'Bracelet, mesh & leather',        to: '/collections/womens-watches' },
   { title: 'Pendants',        cat: 'Pendants',        subtitle: 'Evil eye, initial & solitaire',   to: '/collections/pendants' },
   { title: 'Rings',           cat: 'Rings',           subtitle: 'Adjustable & statement',          to: '/collections/rings' },
   { title: 'Bracelets',       cat: 'Bracelets',       subtitle: 'Chain, cuff & charm',             to: '/collections/bracelets' },
-  { title: "Women's Watches", cat: "Women's Watches", subtitle: 'Bracelet, mesh & leather',        to: '/collections/womens-watches' },
 ];
 
 
