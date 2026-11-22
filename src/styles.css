@@ -6616,3 +6616,10 @@ button, a { touch-action: manipulation; }
   .product-grid, .jlp-product-grid { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
   .product-grid .product-image-link img { aspect-ratio: 1 / 1; }
 }
+
+/* ── Phones: Shop by Category one tile per row ── */
+@media (max-width: 600px) {
+  .category-cards { grid-template-columns: 1fr !important; gap: 1rem !important; }
+  .category-card { aspect-ratio: 4 / 3 !important; }
+  .category-card-bg { object-position: center 35%; }
+}
