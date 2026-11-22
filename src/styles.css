@@ -6623,3 +6623,12 @@ button, a { touch-action: manipulation; }
   .category-card { aspect-ratio: 4 / 3 !important; }
   .category-card-bg { object-position: center 35%; }
 }
+
+/* ── Mobile footer subscribe: equal side spacing, nothing overflowing ── */
+@media (max-width: 768px) {
+  .footer-newsletter { padding-left: 20px !important; padding-right: 20px !important; }
+  .footer-newsletter-inner { align-items: stretch; }
+  .footer-newsletter-form { width: 100%; min-width: 0 !important; max-width: 100%; box-sizing: border-box; }
+  .footer-newsletter-form input { min-width: 0; width: auto; box-sizing: border-box; }
+  .footer-newsletter-form button { flex-shrink: 0; padding: 0.85rem 1.1rem; box-sizing: border-box; }
+}
