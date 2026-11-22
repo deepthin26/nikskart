@@ -27,7 +27,13 @@ export default function ProductCard({ product, addItem, toggleWishlist, isWishli
   return (
     <article className="product-card">
       <Link to={`/product/${product.slug}`} className="product-image-link">
-        <img src={product.image} alt={`${product.name} – Buy ${product.category} online | Nikskart`} loading="lazy" decoding="async" width="400" height="500" />
+        <img
+          src={product.image}
+          srcSet={product.image.includes('w=400') ? `${product.image} 400w, ${product.image.replace('w=400', 'w=720')} 720w` : undefined}
+          sizes="(max-width: 600px) 92vw, 260px"
+          alt={`${product.name} – Buy ${product.category} online | Nikskart`}
+          loading="lazy" decoding="async" width="400" height="500"
+        />
         <div className="product-image-overlay">
           <span className="product-overlay-btn">View Details</span>
         </div>
